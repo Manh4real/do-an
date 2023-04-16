@@ -1,0 +1,24 @@
+.shop-by-price-ctn[open] {
+  position: relative;
+  padding-bottom: 30px;
+  /* height: 225px; */
+  transition: all 0.1s ease-out;
+}
+.shop-by-price-ctn {
+  height: max-content;
+}
+.shop-by-price-ctn.expanded[open] {
+  height: 280px;
+}
+.shop-by-price-ctn.expanded:not([open]) > div {
+  visibility: hidden;
+  display: none;
+}
+.shop-by-price-ctn .additional-prices {
+  opacity: 0;
+  visibility: hidden;
+}
+.shop-by-price-ctn.expanded .additional-prices {
+  opacity: 1;
+  visibility: visible;
+}

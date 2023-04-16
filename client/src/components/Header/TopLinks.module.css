@@ -1,0 +1,11 @@
+.top-links {
+  gap: 0px !important;
+}
+.top-links span {
+  padding: 0 10px;
+  pointer-events: none;
+  user-select: none;
+}
+.top-links a {
+  padding: 2px 3px;
+}

@@ -1,0 +1,23 @@
+.top-menu-link {
+  transition-delay: 0.2s;
+  transition-duration: 0.2s;
+  position: relative;
+  outline: none;
+  user-select: none;
+}
+.top-menu-link::after {
+  content: "";
+  position: absolute;
+  bottom: 1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--pri-black);
+  z-index: 3;
+  opacity: 0;
+  transition: all 0.1s linear;
+  pointer-events: none;
+}
+.top-menu-link.active::after {
+  opacity: 1;
+}

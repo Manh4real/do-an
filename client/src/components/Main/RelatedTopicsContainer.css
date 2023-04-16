@@ -1,0 +1,33 @@
+.related-topics-ctn {
+  padding: 30px 50px;
+}
+.related-topics-ctn .title {
+  font-size: 18px;
+  line-height: 3;
+}
+.related-topics-ctn .topics {
+  display: flex;
+  flex-wrap: wrap;
+}
+.related-topics-ctn a {
+  padding: 10px 24px;
+  border-radius: 30px;
+  margin-right: 2.5px;
+  margin-left: 2.5px;
+  margin-bottom: 10px;
+  font-size: 0.75em;
+  box-shadow: rgb(204 204 204) 0px 1px 0px 0px inset,
+    rgb(204 204 204) -1px 0px 0px 0px inset,
+    rgb(204 204 204) 0px -1px 0px 0px inset,
+    rgb(204 204 204) 1px 0px 0px 0px inset;
+}
+
+@media screen and (max-width: 450px) {
+  .related-topics-ctn {
+    padding-inline: 20px;
+  }
+  .related-topics-ctn a {
+    padding: 5px 15px;
+    font-size: 10px;
+  }
+}

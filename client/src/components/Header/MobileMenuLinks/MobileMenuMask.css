@@ -1,0 +1,11 @@
+.mobile-mask {
+  position: fixed;
+  inset: 0;
+  display: none;
+  background: #0003;
+  backdrop-filter: blur(5px);
+  z-index: 5;
+}
+.mobile-mask.active {
+  display: block;
+}

@@ -1,0 +1,59 @@
+.suggestion-container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  padding: 0 30px;
+  transform-origin: top center;
+  background: var(--white);
+  display: flex;
+  justify-content: center;
+  transform: scaleY(0);
+  visibility: hidden;
+  transition: all 0.3s ease-out;
+  z-index: 2;
+}
+.suggestion-container.active {
+  transform: scaleY(1);
+  visibility: visible;
+}
+
+.suggestion-container > div {
+  width: 58%;
+  padding: 30px 10px;
+  opacity: 0;
+  transform: translateY(-5px);
+}
+.suggestion-container.active > div {
+  transition-delay: 0.5s;
+  transition-duration: 0.3s;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.suggestion-container .title {
+  color: var(--darker-grey);
+  font-size: 16px;
+  padding-bottom: 10px;
+  user-select: none;
+}
+.suggestion-container .title h4 {
+  font-weight: 400;
+  color: var(--darker-grey);
+}
+.suggestion-container a {
+  color: var(--pri-black);
+  font-size: 18px;
+
+  line-height: 2;
+  width: 100%;
+}
+.suggestion-container a:hover {
+  color: var(--medium-grey);
+}
+
+@media screen and (max-width: 960px) {
+  .suggestion-container > div {
+    width: 65%;
+  }
+}

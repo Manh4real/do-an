@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+:root {
+  --white: #fff;
+  --pri-black: #111;
+  --darker-grey: #757575;
+  --grey: #8d8d8d;
+  --lighter-grey: #f5f5f5;
+  --medium-grey: #4d4d4d;
+  --bg-grey: #e5e5e5;
+  --pri-orange: #fa5400;
+  --shadow-cl: rgb(204, 204, 204);
+
+  --pri-font: "Barlow Condensed", sans-serif;
+  --normal-font: "Helvetica Neue", Helvetica, sans-serif;
+
+  --grey-shadow: var(--shadow-cl) 0px 1px 0px 0px inset,
+    var(--shadow-cl) -1px 0px 0px 0px inset,
+    var(--shadow-cl) 0px -1px 0px 0px inset,
+    var(--shadow-cl) 1px 0px 0px 0px inset;
+  --hovered-grey-shadow: var(--shadow-cl) 0px 1.5px 0px 0px inset,
+    var(--shadow-cl) -1.5px 0px 0px 0px inset,
+    var(--shadow-cl) 0px -1.5px 0px 0px inset,
+    var(--shadow-cl) 1.5px 0px 0px 0px inset;
+  --block-shadow: rgb(229, 229, 229) 0px 0px 0px 0px inset,
+    rgb(229, 229, 229) 0px 0px 0px 0px inset,
+    rgb(229, 229, 229) 0px -1px 0px 0px inset,
+    rgb(229, 229, 229) 0px 0px 0px 0px inset;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  color: #111;
+  line-height: 1.6;
+}
+
+*::-webkit-scrollbar {
+  height: 10px;
+  width: 5px;
+}
+*::-webkit-scrollbar-thumb {
+  border-radius: 30px;
+  background: grey;
+  opacity: 0;
+  visibility: hidden;
+}
+*:hover::-webkit-scrollbar-thumb {
+  opacity: 1;
+  visibility: visible;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body {
+  font-size: 15px;
+  /* background: var(--lighter-grey); */
+  background: var(--white);
+}
+a {
+  text-decoration: none;
+  color: var(--pri-black);
+  font-weight: 500;
+  display: inline-block;
+}
+label {
+  display: inline-block;
+  padding-left: 8px;
+}
+ul {
+  list-style: none;
+}
+li {
+  margin-bottom: 10px;
+}
+button {
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  background: #fff;
+  transition: all 0.2s linear;
+}
+input {
+  background: transparent;
+}
+input::placeholder {
+  user-select: none;
+}
+select {
+  background: transparent;
+}
+img {
+  user-select: none;
+  object-fit: contain;
+}
+summary {
+  display: block;
+  cursor: pointer;
+  list-style: none;
+  list-style-type: none;
+}
+summary::-webkit-details-marker {
+  appearance: none;
+  display: none;
+}
+label {
+  cursor: pointer;
+}
+
+/* Mutual styles */
+@media screen and (max-width: 900px) {
+  *:not(input) {
+    user-select: none;
+  }
+}

@@ -1,0 +1,18 @@
+.expanding-btn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 25px 0 8px 0 !important;
+  background: #fff;
+  width: 100%;
+  /* height: 100px; */
+  cursor: pointer;
+  transition: all 0.1s ease-out;
+  user-select: none;
+}
+
+.expanding-btn button {
+  height: 100%;
+  text-align: left;
+  padding-left: 20px;
+}

@@ -1,0 +1,34 @@
+.lc-cp.flex-start {
+  gap: 20px;
+}
+.lc-cp .flex-center {
+  gap: 8px;
+  align-items: baseline;
+}
+.location {
+  color: #fff;
+}
+.bottom-menu.flex-end {
+  gap: 20px;
+}
+.bottom-menu a,
+.bottom-menu ul li > span {
+  white-space: nowrap;
+  font-size: 12px;
+  padding-inline: 5px;
+}
+.bottom-menu ul li > span {
+  cursor: pointer;
+  color:#7e7e7e;
+}
+.bottom-menu ul li > span:hover {
+  color:#fff;
+}
+
+.footer__guides .footer__guides-nav {
+  display: none;
+}
+.footer__guides:hover .footer__guides-nav,
+.footer__guides:focus .footer__guides-nav {
+  display: block;
+}
