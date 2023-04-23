@@ -28,9 +28,18 @@ const GlobalStyles = styled.div`
       rgb(229, 229, 229) 0px -1px 0px 0px inset,
       rgb(229, 229, 229) 1px 0px 0px 0px inset;
   }
+  .black-border {
+    box-shadow: rgb(0, 0, 0) 0px 1px 0px 0px inset,
+      rgb(0, 0, 0) -1px 0px 0px 0px inset, rgb(0, 0, 0) 0px -1px 0px 0px inset,
+      rgb(0, 0, 0) 1px 0px 0px 0px inset;
+  }
   .cta {
     background: #111;
     color: #fff;
+  }
+  .disabled {
+    opacity: 0.5;
+    pointer-events: none !important;
   }
   .bd-rd-50p {
     border-radius: 50%;
@@ -63,11 +72,21 @@ const GlobalStyles = styled.div`
   .inline-block {
     display: inline-block;
   }
+  .d-hidden {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+  }
   .xsmall-font {
     font-size: 10px;
   }
   .small-font {
     font-size: 12px;
+    color: inherit;
   }
   .regular-font {
     font-size: 16px;
@@ -128,6 +147,9 @@ const GlobalStyles = styled.div`
     font-family: "Anton", sans-serif;
     font-weight: 400;
     letter-spacing: 0.5px;
+  }
+  .bold {
+    font-weight: bold;
   }
   .uppercase-text {
     text-transform: uppercase;
@@ -198,6 +220,11 @@ const GlobalStyles = styled.div`
     justify-content: center;
     align-items: center;
   }
+  .flex-inline-center {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
   .flex-end {
     display: flex;
     justify-content: flex-end;
@@ -223,6 +250,12 @@ const GlobalStyles = styled.div`
   }
   .flex-1 {
     flex: 1;
+  }
+  .w-40px {
+    width: 40px;
+  }
+  .h-40px {
+    height: 40px;
   }
   .w-100 {
     width: 100%;
@@ -287,6 +320,12 @@ const GlobalStyles = styled.div`
   }
   .p-10 {
     padding: 10px !important;
+  }
+  .p-3 {
+    padding: 3px;
+  }
+  .px-5 {
+    padding: 5px;
   }
   .overflow-hidden {
     overflow: hidden;

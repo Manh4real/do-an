@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
+import { getSizes } from "services/misc";
 
 function SizeInputs({
   selectedSizeId,
@@ -8,14 +9,20 @@ function SizeInputs({
   handleError,
   handleSizeChange,
 }) {
-  const handleChange = (id) => {
+  const [sizes, setSizes] = useState({});
+
+  const handleChange = (size) => {
     handleError();
-    handleSizeChange(id);
+    handleSizeChange(size);
   };
 
-  const sizes = Number.isNaN(parseFloat(availableSizes[0]))
-    ? SIZES.cloth
-    : SIZES.shoes;
+  useEffect(() => {
+    getSizes().then((data) => {
+      setSizes(data);
+    });
+  }, []);
+
+  const currentSizes = sizes[availableSizes[0].size_type_id] || [];
 
   return (
     <div
@@ -24,11 +31,11 @@ function SizeInputs({
       })}
     >
       <div className="sizes-ctn">
-        {sizes.map((s) => (
+        {currentSizes.map((size) => (
           <SizeInput
-            key={s}
+            key={size.color_id + size.size_id}
             sizes={availableSizes}
-            s={s}
+            size={size}
             selectedSizeId={selectedSizeId}
             checkWith={handleChange}
           />
@@ -40,9 +47,9 @@ function SizeInputs({
   );
 }
 
-const SizeInput = ({ sizes, s, selectedSizeId, checkWith }) => {
+const SizeInput = ({ sizes, size, selectedSizeId, checkWith }) => {
   const handleChange = () => {
-    checkWith(s);
+    checkWith(size);
   };
 
   return (
@@ -50,15 +57,15 @@ const SizeInput = ({ sizes, s, selectedSizeId, checkWith }) => {
       <input
         type="radio"
         name="size"
-        id={"size-" + s}
-        data-size={s}
-        value={s}
-        disabled={!sizes.includes(s)}
+        id={"size-" + size.size_id}
+        data-size={size.size_id}
+        value={size.size_id}
+        disabled={!sizes.some((s) => s.size_id === size.size_id)}
         onChange={handleChange}
-        checked={selectedSizeId === s}
+        checked={selectedSizeId === size.size_id}
       />
-      <label className="sz regular-font" htmlFor={"size-" + s}>
-        {s}
+      <label className="sz regular-font" htmlFor={"size-" + size.size_id}>
+        {size.size}
       </label>
     </div>
   );
@@ -70,33 +77,28 @@ const AlertMessage = () => {
   );
 };
 
-export const SIZES = {
-  cloth: ["XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL"],
-  shoes: [
-    "4",
-    "4.5",
-    "5",
-    "5.5",
-    "6",
-    "6.5",
-    "7",
-    "7.5",
-    "8",
-    "8.5",
-    "9",
-    "9.5",
-    "10",
-    "10.5",
-    "11",
-    "11.5",
-    "12",
-    "12.5",
-    "13",
-    "13.5",
-    "14",
-    "14.5",
-    "15",
-  ],
-};
+// export const SIZES = {
+//   cloth: ["XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL"],
+//   shoes: [
+//     "4",
+//     "4.5",
+//     "5",
+//     "5.5",
+//     "6",
+//     "6.5",
+//     "7",
+//     "7.5",
+//     "8",
+//     "8.5",
+//     "9",
+//     "9.5",
+//     "10",
+//     "10.5",
+//     "11",
+//     "11.5",
+//     "12",
+//     "12.5",
+//   ],
+// };
 
 export default SizeInputs;

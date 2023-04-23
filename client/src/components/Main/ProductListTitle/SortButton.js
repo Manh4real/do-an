@@ -14,7 +14,7 @@ function SortButton() {
 
   useEffect(() => {
     const sort = searchParams.get("sort");
-    if (!sort) return;
+    // if (!sort) return;
 
     switch (sort) {
       case "priceAsc":
@@ -30,8 +30,9 @@ function SortButton() {
         setSelect("Featured");
         break;
       default:
-        // setSelect("");
-        throw new Error("Error in Sort by");
+        setSelect("");
+        break;
+      // throw new Error("Error in Sort by");
     }
   }, [searchParams]);
 

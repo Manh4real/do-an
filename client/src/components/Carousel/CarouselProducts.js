@@ -1,6 +1,8 @@
 import React from "react";
 
 import { useDownloadImage } from "hooks";
+import { formatCurrency } from "helpers";
+import { Star } from "components/Icons";
 
 const CarouselProducts = React.forwardRef((products, ref) => {
   return (
@@ -32,10 +34,19 @@ export const CarouselProduct = ({ item: p }) => {
           <div className="pd-title-i regular-font">
             <div className="pd-name flex-spbw flex-wrap capitalized-text">
               {p.product_name}
-              <div className="price">${p.price}</div>
+              <div className="price">
+                {formatCurrency(p.price)}
+                <span className="small-font"> &nbsp;VND</span>
+              </div>
             </div>
             <div className="pd-type">{p.target}</div>
-            <div className="pd-type regular-font mt-15">{p.brand_name}</div>
+            <div className="pd-type regular-font mt-15 flex-spbw">
+              {p.brand_name}
+              <span className="black-border flex-inline-center w-40px h-40px">
+                {Math.floor(p.average_rating)}
+                <Star width={12} height={12} />
+              </span>
+            </div>
           </div>
         </a>
       </div>

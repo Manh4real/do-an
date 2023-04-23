@@ -18,6 +18,7 @@ import {
 import { addToBag } from "features/bag/bagSlice";
 import StyledInfo from "./StyledInfo";
 import useRedirect from "hooks/useRedirect";
+import { formatCurrency } from "helpers";
 
 function Info({ colors, product, handleChangeSelectedColorId }) {
   const dispatch = useDispatch();
@@ -35,6 +36,8 @@ function Info({ colors, product, handleChangeSelectedColorId }) {
   const redirect = useRedirect();
 
   const handleAdd = () => {
+    if (remainingProducts === 0) return;
+
     if (!item.size) {
       setError(true);
       return;
@@ -48,7 +51,7 @@ function Info({ colors, product, handleChangeSelectedColorId }) {
     setError(false);
   };
   const handleColorChange = (colorId) => {
-    setItem((prev) => ({ ...prev, colorId }));
+    setItem((prev) => ({ ...prev, size: null, colorId }));
     handleChangeSelectedColorId(colorId);
   };
   const handleSizeChange = (size) => {
@@ -71,7 +74,8 @@ function Info({ colors, product, handleChangeSelectedColorId }) {
       addFavorite({
         productId: product.product_id,
         colorId: item.colorId,
-        size: item.size,
+        size: item.size.size,
+        sizeId: item.size.size_id,
       })
     )
       .unwrap()
@@ -93,7 +97,19 @@ function Info({ colors, product, handleChangeSelectedColorId }) {
     });
   };
 
-  const remainingCount = product.quantity;
+  const remainingCount = product.stock[colorTypeId].reduce(
+    (acc, s) => acc + s.quantity,
+    0
+  );
+  // remaining products of color of size
+  const remainingProducts = product.stock[colorTypeId].find(
+    (stock) => stock.size_id === item.size?.size_id
+  )?.quantity;
+  const sizes = product.stock[colorTypeId].map((s) => ({
+    size: s.size,
+    size_id: s.size_id,
+    size_type_id: s.size_type_id,
+  }));
 
   return (
     <StyledInfo>
@@ -103,8 +119,16 @@ function Info({ colors, product, handleChangeSelectedColorId }) {
       <div className="medium-font">{product.brand_name}</div>
 
       <div className="price">
-        ${product.price}
-        {product.oldPrice ? <del>${product.oldPrice}</del> : ""}
+        {formatCurrency(product.price)}
+        <span className="small-font"> VND</span>
+        {product.oldPrice ? (
+          <del>
+            {formatCurrency(product.oldPrice)}
+            <span className="small-font"> VND</span>
+          </del>
+        ) : (
+          ""
+        )}
       </div>
 
       <Colors imageColors={colors} handleColorChange={handleColorChange} />
@@ -121,14 +145,20 @@ function Info({ colors, product, handleChangeSelectedColorId }) {
       {remainingCount > 0 && (
         <React.Fragment>
           <Sizes
-            selectedSizeId={item.size}
+            selectedSizeId={item.size?.size_id}
             error={{ isError: error, handleError }}
-            sizes={product.sizes || []}
+            sizes={sizes || []}
+            remainingProducts={remainingProducts}
             handleSizeChange={handleSizeChange}
           />
 
           <div className="btns">
-            <button className="add-to-bag-btn hover-w-fade" onClick={handleAdd}>
+            <button
+              className={clsx("add-to-bag-btn", "hover-w-fade", {
+                disabled: remainingProducts === 0,
+              })}
+              onClick={handleAdd}
+            >
               Add to Bag
             </button>
             <button className="favorite-btn" onClick={handleAddFavorite}>

@@ -21,7 +21,11 @@ import { getProductsByIds } from "services/products";
     id: 1,
     added: {
       baggedId: "X8Eh23FAvQQ__wzBqCiIl",
-      size: "6",
+      size: {
+        size_id: "6",
+        size: "6",
+        size_type_id: 1
+      },
       colorId: 6,
       quantity: 1
     }
@@ -76,11 +80,15 @@ const bagSlice = createSlice({
           (p) =>
             p.product_id === productId &&
             p.added.colorId === colorId &&
-            p.added.size === size
+            p.added.size.size_id === size.size_id
         );
 
         if (addedProduct) {
-          const remainingQty = addedProduct.quantity;
+          const remainingQty =
+            addedProduct.stock[colorId].find(
+              (stock) => stock.size_id === size.size_id
+            )?.quantity || 0;
+          console.log("Stock: ", remainingQty);
 
           if (addedProduct.added.quantity < remainingQty)
             addedProduct.added.quantity++;
@@ -124,9 +132,10 @@ const bagSlice = createSlice({
       modifyBagAtLocalStorage(action.payload);
     },
     clearBag(state) {
+      clearBagFromLocalStorage();
       state.data = [];
 
-      clearBagFromLocalStorage();
+      return state;
     },
   },
   extraReducers: (builder) => {

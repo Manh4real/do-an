@@ -8,25 +8,12 @@ import ProductImages from "./ProductImages";
 import { withEffect } from "./withEffect";
 
 import { getDownloadImage } from "features/firebase";
+import { formatCurrency } from "helpers";
+import { Star } from "components/Icons";
 
-const Product = ({
-  product,
-  img,
-  isHovered,
-  handleImageChange,
-  handleEnter,
-  handleLeave,
-}) => {
-  const {
-    color_num,
-    images,
-    category,
-    product_name,
-    target,
-    price,
-    on_sale,
-    old_price,
-  } = product;
+const Product = ({ product, img, handleImageChange }) => {
+  const { images, category, product_name, target, price, on_sale, old_price } =
+    product;
 
   const fullColorImages = useMemo(() => {
     const c = {};
@@ -98,14 +85,24 @@ const Product = ({
             </div>
             <div className={styles["pd-tgObj"]}>{target}</div>
             <div className={styles.colorNum}>
-              {color_num}&nbsp;
-              {color_num <= 1 ? "color" : "colors"}
+              {colorNum}&nbsp;
+              {colorNum <= 1 ? "color" : "colors"}
             </div>
             <div className={styles.price}>
-              <span>{price}$</span>
+              <span className="black-border flex-inline-center w-40px h-40px">
+                {Math.floor(product.average_rating)}
+                <Star width={12} height={12} />
+              </span>
+              <span className="ml-10">
+                {formatCurrency(price)}
+                <span className="small-font"> &nbsp;VND</span>
+              </span>
               {on_sale && (
                 <>
-                  <del>{old_price}$</del>
+                  <del>
+                    {formatCurrency(old_price)}
+                    <span className="small-font"> &nbsp;VND</span>
+                  </del>
                   <div className={styles["sale-pct"]}>
                     {Math.round(100 - (price * 100) / old_price)}% off
                   </div>

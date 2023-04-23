@@ -9,6 +9,7 @@ import StyledPFCarousel from "./StyledPFCarousel";
 import { useSelector } from "react-redux";
 import { selectFavorites } from "features/user/userSlice";
 import { useDownloadImage } from "hooks";
+import { formatCurrency } from "helpers";
 
 const PFCarousel = React.forwardRef(
   ({ noScroll, handleSlideLeft, handleSlideRight }, ref) => {
@@ -66,7 +67,10 @@ const PFItem = ({ product }) => {
         </div>
         <div className="profile__carousel-title regular-font flex-spbw w-100">
           <span>{product.product_name}</span>
-          <span>${product.price}</span>
+          <span>
+            {formatCurrency(product.price)}
+            <span className="small-font"> &nbsp;VND</span>
+          </span>
         </div>
         <div className="grey-font regular-font">{product.target}</div>
       </a>

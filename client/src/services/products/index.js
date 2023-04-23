@@ -9,16 +9,6 @@ export const useGetProductById = (productId) => {
   const [finalProduct, setFinalProduct] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // const product = useMemo(() => {
-  // 	let p = null;
-
-  // 	if(data) {
-  // 		p = {...data.data.product, images: {...data.data.product.images}};
-  // 	}
-
-  // 	return p;
-  // }, [data]);
-
   useEffect(() => {
     setLoading(true);
     getProductById(productId)
@@ -72,8 +62,6 @@ export const useGetProductById = (productId) => {
         setLoading(false);
       });
   }, [finalProduct]);
-
-  // console.log(finalProduct);
 
   return {
     product: finalProduct,

@@ -1,3 +1,4 @@
+import { formatCurrency } from "helpers";
 import { useDownloadImage } from "hooks";
 import React, { useState, useEffect } from "react";
 
@@ -35,12 +36,15 @@ const CheckoutProduct = ({ product }) => {
         <div className="otherInfo">
           Style #: DH0927-002
           <br />
-          Size: {product.added.size}
+          Size: {product.added.size.size}
           <br />
-          Color: {colorName}
+          Color: <span className="capitalized-text">{colorName}</span>
           <br />
-          Qty: {product.added.quantity} @ ${product.price.toFixed(2)}
-          <br />${(product.price * product.added.quantity).toFixed(2)}
+          Qty: {product.added.quantity} @ {formatCurrency(product.price)}
+          <span className="small-font"> VND</span>
+          <br />
+          {formatCurrency(product.price * product.added.quantity)}
+          <span className="small-font"> VND</span>
           <br />
         </div>
       </div>

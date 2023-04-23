@@ -23,10 +23,10 @@ function Steps() {
         .then((data) => {
           console.log(data);
 
-          alert("Placed order successfully!");
-          navigate("/shop", { replace: true });
-
           clearBag();
+          alert("Placed order successfully!");
+
+          navigate("/shop", { replace: true });
         })
         .catch((err) => {
           console.log(err);

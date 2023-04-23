@@ -14,6 +14,7 @@ import PromoCodeInput from "./PromoCodeInput";
 
 // Redux-related
 import { useBag } from "App";
+import { formatCurrency } from "helpers";
 
 function Cart() {
   const bag = useBag();
@@ -33,7 +34,7 @@ function Cart() {
 
   const subtotal = bag.reduce((t, p) => t + p.price * p.added.quantity, 0);
   const tax = 0;
-  const shipping = subtotal ? 8 : 0;
+  const shipping = subtotal ? 30000 : 0;
   const total = subtotal + tax + shipping;
   const isEmpty = bag.length === 0;
 
@@ -57,19 +58,37 @@ function Cart() {
           <PromoCodeInput />
           <div className="flex-spbw bag__summary-row w-100">
             <div className=" title">Subtotal</div>
-            <div className=" price">${subtotal.toFixed(2)}</div>
+            <div className=" price">
+              {formatCurrency(subtotal)}
+              <span className="small-font"> VND</span>
+            </div>
           </div>
           <div className="flex-spbw bag__summary-row w-100">
             <div className=" title">Estimated Shipping & Handling</div>
-            <div className=" price">${shipping.toFixed(2)}</div>
+            <div className=" price">
+              {formatCurrency(shipping)}
+              <span className="small-font"> VND</span>
+            </div>
           </div>
           <div className="flex-spbw bag__summary-row w-100">
             <div className=" title">Estimated Tax</div>
-            <div className=" price">{tax ? tax : "—"}</div>
+            <div className=" price">
+              {tax ? (
+                <>
+                  {formatCurrency(tax)}
+                  <span className="small-font"> VND</span>
+                </>
+              ) : (
+                "—"
+              )}
+            </div>
           </div>
           <div className="flex-spbw bag__summary-row w-100 bordered-top-bottom">
             <div className=" title ">Total</div>
-            <div className=" price bold-font">${total.toFixed(2)}</div>
+            <div className=" price bold-font">
+              {formatCurrency(total)}
+              <span className="small-font bold-font"> VND</span>
+            </div>
           </div>
         </div>
         <div className="bag__summary-btns">

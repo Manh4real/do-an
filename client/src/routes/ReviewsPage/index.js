@@ -112,7 +112,7 @@ function ReviewsPage() {
             <img src={imageUrl} alt="" width={50} />
             <div>
               <p>{product.product_name}</p>
-              <p>${product.price}</p>
+              <p>VND {product.price}</p>
             </div>
           </Link>
         </header>

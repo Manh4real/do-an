@@ -6,7 +6,7 @@ export function getAccessTokenFromLocalStorage() {
   return a && JSON.parse(a);
 }
 export function clearBagFromLocalStorage() {
-  localStorage.setItem("bag", JSON.stringify(null));
+  localStorage.setItem("bag", JSON.stringify([]));
 }
 
 export function getBagFromLocalStorage() {
@@ -107,3 +107,12 @@ export function compressImage(
     );
   };
 }
+
+export const formatCurrency = (value) => {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  })
+    .format(value)
+    .slice(0, -2);
+};

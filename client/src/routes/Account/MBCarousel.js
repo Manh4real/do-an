@@ -24,7 +24,11 @@ const MBCarousel = React.forwardRef(
             <div className="profile__carousel-item mb-carousel__item">
               <a href="/">
                 <div className="mb-carousel__item-image">
-                  <img src="/images/member-benefits-1.jpg" width="320" alt="" />
+                  <img
+                    src="/images/nike-just-do-it (3).jpg"
+                    width="320"
+                    alt=""
+                  />
                 </div>
                 <div className="profile__carousel-title bigger-font">
                   Member-only Products
@@ -44,7 +48,11 @@ const MBCarousel = React.forwardRef(
             <div className="profile__carousel-item mb-carousel__item">
               <a href="/">
                 <div className="mb-carousel__item-image">
-                  <img src="/images/member-benefits-1.jpg" width="320" alt="" />
+                  <img
+                    src="/images/member-home-carousel.jpg"
+                    width="320"
+                    alt=""
+                  />
                 </div>
                 <div className="profile__carousel-title bigger-font">
                   Free Running & Training Apps
@@ -54,17 +62,25 @@ const MBCarousel = React.forwardRef(
             <div className="profile__carousel-item mb-carousel__item">
               <a href="/">
                 <div className="mb-carousel__item-image">
-                  <img src="/images/member-benefits-1.jpg" width="320" alt="" />
+                  <img
+                    src="/images/member-home-carousel (1).jpg"
+                    width="320"
+                    alt=""
+                  />
                 </div>
                 <div className="profile__carousel-title bigger-font">
-                  Nike Partnerships & Events
+                  Partnerships & Events
                 </div>
               </a>
             </div>
             <div className="profile__carousel-item mb-carousel__item">
               <a href="/">
                 <div className="mb-carousel__item-image">
-                  <img src="/images/member-benefits-1.jpg" width="320" alt="" />
+                  <img
+                    src="/images/member-home-carousel (2).jpg"
+                    width="320"
+                    alt=""
+                  />
                 </div>
                 <div className="profile__carousel-title bigger-font">
                   Free Shipping With Every Order

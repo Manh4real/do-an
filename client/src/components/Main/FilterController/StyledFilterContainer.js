@@ -134,6 +134,16 @@ const StyledFilterContainer = styled.div`
       background-size: 2px 1.5px;
     }
   }
+
+  input[name="rating"] + label {
+    border: 1px solid transparent;
+    padding-block: 5px;
+    margin-bottom: 3px;
+  }
+  input[name="rating"]:checked + label {
+    border-color: var(--pri-black);
+  }
+
   @media screen and (max-width: 1450px) {
     .filter-container.is--tablet {
       visibility: hidden;

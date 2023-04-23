@@ -51,6 +51,9 @@ function Reviews({ productId }) {
       {reviews.map((review, i) => (
         <Review key={i} review={review} />
       ))}
+      {reviews.length === 0 && (
+        <p className="mb-25">Have your say. Be the first to review.</p>
+      )}
       {reviews.length > 1 && (
         <Link
           to={"/reviews/" + productId}

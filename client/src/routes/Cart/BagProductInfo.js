@@ -16,6 +16,7 @@ import { modifyFromBag, removeFromBag } from "features/bag/bagSlice";
 import { useDownloadImage } from "hooks";
 import BagProductColor from "./BagProductColor";
 import useRedirect from "hooks/useRedirect";
+import { formatCurrency } from "helpers";
 
 function BagProductInfo({ product }) {
   const dispatch = useDispatch();
@@ -102,12 +103,14 @@ function BagProductInfo({ product }) {
                   <BagSelect
                     label="size"
                     value={product.added.size}
+                    product={product}
                     options={product.sizes}
                     handleChange={handleChange}
                   />
                   <BagSelect
                     label="quantity"
                     value={quantity}
+                    product={product}
                     options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
                     handleChange={handleChange}
                   />
@@ -128,7 +131,8 @@ function BagProductInfo({ product }) {
             </div>
           </div>
           <div className="bag__pd-price">
-            ${(product.price * quantity).toFixed(2)}
+            {formatCurrency(product.price * quantity)}
+            <span className="small-font"> VND</span>
           </div>
         </div>
       </div>

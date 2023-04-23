@@ -12,6 +12,7 @@ import { DetailsTag } from "components/DetailsTag";
 import { CloseIcon } from "components/Icons";
 
 import StyledFilterContainer from "./StyledFilterContainer";
+import ReviewFilter from "./RatingDetails";
 // const MOBILE_WIDTH = 900;
 
 function FilterContainer({ isShowFilter, isTablet, handleToggleFilter }) {
@@ -48,6 +49,7 @@ function FilterContainer({ isShowFilter, isTablet, handleToggleFilter }) {
         <ClothingDetails handleClick={handleClick} />
         <FilterByStore />
         <GenderDetails handleClick={handleFilterChange} />
+        <ReviewFilter />
         <PriceDetails />
 
         <button

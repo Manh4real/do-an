@@ -62,9 +62,16 @@ function FilterController(props) {
       const gender = searchParams.get("gender");
       const minPrice = searchParams.get("minPrice");
       const maxPrice = searchParams.get("maxPrice");
+      const ratings = searchParams.getAll("rating");
 
-      if (!gender && !productType && minPrice === null && maxPrice === null)
-        return list;
+      if (
+        !gender &&
+        !productType &&
+        minPrice === null &&
+        maxPrice === null &&
+        ratings.length === 0
+      )
+        return getSortedProducts(list);
 
       function isOfFilter(product) {
         let c = true;
@@ -74,6 +81,10 @@ function FilterController(props) {
         }
 
         if (gender) c = gender.trim() === product["gender"].trim() && c;
+        if (ratings.length > 0)
+          c =
+            c &&
+            ratings.includes(Math.floor(product.average_rating).toString());
 
         let checkPrice = true;
 

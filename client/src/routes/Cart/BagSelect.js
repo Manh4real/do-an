@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import { MAXIMUM_QUANTITY } from "../../constants";
+// import { MAXIMUM_QUANTITY } from "../../constants";
 
-const BagSelect = ({ label, value: val, options, handleChange }) => {
+const BagSelect = ({ product, label, value: val, options, handleChange }) => {
   const [value, setValue] = useState(val);
 
   // useEffect(() => {
@@ -15,8 +15,13 @@ const BagSelect = ({ label, value: val, options, handleChange }) => {
     if (label === "quantity") {
       v = +v;
 
-      if (v > MAXIMUM_QUANTITY) {
-        alert("Exceeded required quantity!\n(Max: 5)");
+      const availableQty =
+        product.stock[product.added.colorId]?.find(
+          (stock) => stock.size_id === product.added.size.size_id
+        )?.quantity || 0;
+
+      if (v > availableQty) {
+        alert(`Exceeded required quantity!\n(Max: ${availableQty})`);
         return;
       }
     }

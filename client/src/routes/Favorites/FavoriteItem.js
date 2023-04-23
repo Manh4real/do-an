@@ -3,6 +3,7 @@ import React from "react";
 import FavoriteButton from "./FavoriteButton";
 
 import { useDownloadImage } from "hooks";
+import { formatCurrency } from "helpers";
 
 const FavoriteItem = ({ item }) => {
   const imageName = item.images[item.added.colorId][0].url;
@@ -35,11 +36,12 @@ const FavoriteItem = ({ item }) => {
             {item.target}
           </div>
           <div className="favorite-item__type grey-font font-14">
-            Size: {item.added.size}
+            Size: {item.added.size.size}
           </div>
         </div>
         <div className="favorite-item__price medium-font">
-          ${item.price.toFixed(2)}
+          {formatCurrency(item.price)}
+          <span className="small-font"> &nbsp;VND</span>
         </div>
       </div>
 

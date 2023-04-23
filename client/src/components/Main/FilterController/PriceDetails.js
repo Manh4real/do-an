@@ -15,6 +15,24 @@ function PriceDetails() {
   });
   const [error, setError] = useState("");
 
+  const handleChange = (e, type) => {
+    const value = e.target.value;
+
+    const number = Number.parseFloat(value);
+
+    if (value !== "" && Number.isNaN(number)) {
+      return;
+    }
+    if (value < 0) return;
+
+    setError("");
+    setPriceRange((prev) => {
+      return {
+        ...prev,
+        [type]: value === "" ? "" : Number.parseFloat(value),
+      };
+    });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -33,7 +51,6 @@ function PriceDetails() {
 
           setSearchParams({ ...Object.fromEntries(searchParams), ...range });
         }
-        console.log(range);
       } else {
         setError("");
         searchParams.delete("minPrice");
@@ -57,54 +74,30 @@ function PriceDetails() {
         <div className="flex-center gap-15">
           <div className="flex-1">
             <p>From</p>
-            <input
-              type="text"
-              value={priceRange.from}
-              onChange={(e) => {
-                const value = e.target.value;
-
-                const number = Number.parseFloat(value);
-
-                if (value !== "" && Number.isNaN(number)) {
-                  return;
-                }
-                if (value < 0) return;
-
-                setError("");
-                setPriceRange((prev) => {
-                  return {
-                    ...prev,
-                    from: value === "" ? "" : Number.parseFloat(value),
-                  };
-                });
-              }}
-            />
+            <div className="flex-start">
+              <input
+                type="text"
+                value={priceRange.from}
+                onChange={(e) => {
+                  handleChange(e, "from");
+                }}
+              />
+              <span className="small-font">VND</span>
+            </div>
           </div>
           <span className="line mt-25"></span>
           <div className="flex-1">
             <p>To</p>
-            <input
-              type="text"
-              value={priceRange.to}
-              onChange={(e) => {
-                const value = e.target.value;
-
-                const number = Number.parseFloat(value);
-
-                if (value !== "" && Number.isNaN(number)) {
-                  return;
-                }
-                if (value < 0) return;
-
-                setError("");
-                setPriceRange((prev) => {
-                  return {
-                    ...prev,
-                    to: value === "" ? "" : Number.parseFloat(value),
-                  };
-                });
-              }}
-            />
+            <div className="flex-start">
+              <input
+                type="text"
+                value={priceRange.to}
+                onChange={(e) => {
+                  handleChange(e, "to");
+                }}
+              />
+              <span className="small-font">VND</span>
+            </div>
           </div>
         </div>
         {error && <p className="red-font">{error}</p>}

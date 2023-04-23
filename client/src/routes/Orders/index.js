@@ -70,7 +70,7 @@ function Orders() {
                 </div>
                 <div>
                   <span className="ml-auto bold-font order-total-price">
-                    Total Price: ${totalPrice.toFixed(2)}
+                    Total Price: VND{totalPrice}
                   </span>
                 </div>
               </div>

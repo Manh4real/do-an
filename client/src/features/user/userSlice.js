@@ -213,6 +213,7 @@ export const addFavorite = createAsyncThunk(
       productId: payload.productId,
       colorId: payload.colorId,
       size: payload.size,
+      sizeId: payload.sizeId,
     };
 
     try {

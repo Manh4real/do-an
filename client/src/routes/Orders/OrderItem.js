@@ -77,7 +77,7 @@ function OrderItem({ orderItem }) {
               &times; {orderItem.quantity}
             </div>
             <span className="bigger-font green-font">
-              ${Number(orderItem.product.price).toFixed(2)}
+              VND {Number(orderItem.product.price)}
             </span>
           </div>
         </div>

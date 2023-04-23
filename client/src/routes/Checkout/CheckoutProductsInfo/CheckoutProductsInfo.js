@@ -9,12 +9,13 @@ import { useDispatch } from "react-redux";
 import { updateProductsInfo } from "features/checkout/checkoutSlice";
 
 import { THREE_DAYS_TIME } from "../../../constants";
+import { formatCurrency } from "helpers";
 
 function CheckoutProductsInfo() {
   const bag = useBag();
 
   const subtotal = bag.reduce((a, p) => a + p.price * p.added.quantity, 0);
-  const shipping = 8;
+  const shipping = 30000;
   const tax = 0;
   const arrivedDate = stringifyDate(
     new Date(Date.now() + THREE_DAYS_TIME),
@@ -25,7 +26,7 @@ function CheckoutProductsInfo() {
 
   useEffect(() => {
     const subtotal = bag.reduce((a, p) => a + p.price * p.added.quantity, 0);
-    const shipping = 8;
+    const shipping = 30000;
     const tax = 0;
 
     dispatch(
@@ -50,20 +51,36 @@ function CheckoutProductsInfo() {
         <div className="checkout__prices">
           <div className="row flex-spbw">
             <span>Subtotal</span>
-            <span>${subtotal.toFixed(2)}</span>
+            <span>
+              {formatCurrency(subtotal)}
+              <span className="small-font"> VND</span>
+            </span>
           </div>
           <div className="row flex-spbw">
             <span>Estimated Shipping</span>
-            <span>${shipping.toFixed(2)}</span>
+            <span>
+              {formatCurrency(shipping)}
+              <span className="small-font"> VND</span>
+            </span>
           </div>
           <div className="row flex-spbw">
             <span>Estimated Tax</span>
-            <span>{tax ? "$" + tax.toFixed(2) : "—"}</span>
+            <span>
+              {tax ? (
+                <>
+                  {formatCurrency(tax)}
+                  <span className="small-font"> VND</span>
+                </>
+              ) : (
+                "—"
+              )}
+            </span>
           </div>
           <div className="row flex-spbw checkout__total-row">
             <span className="checkout__total regular-font">Total</span>
             <span className="checkout__total-price">
-              ${(subtotal + shipping + tax).toFixed(2)}
+              {formatCurrency(subtotal + shipping + tax)}
+              <span className="small-font"> VND</span>
             </span>
           </div>
         </div>

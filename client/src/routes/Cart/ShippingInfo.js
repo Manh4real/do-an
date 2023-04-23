@@ -7,14 +7,15 @@ import { THREE_DAYS_TIME } from "../../constants";
 const ShippingInfo = () => {
   const [date, setDate] = useState("");
 
-  const [postalCode, setPostalCode] = useState("");
+  const [geolocation, setGeolocation] = useState("");
 
   useEffect(() => {
     const controller = new AbortController();
 
     getUserGeolocation(null, { signal: controller.signal })
       .then((data) => {
-        setPostalCode(data.geolocation.postal);
+        console.log(data.geolocation);
+        setGeolocation(data.geolocation);
       })
       .catch((err) => {
         console.log(err);
@@ -38,8 +39,11 @@ const ShippingInfo = () => {
       <h4>Shipping</h4>
       <p>
         Arrives by {date} to&nbsp;
-        <button className="underlined regular-font hover-w-hl-udl">
-          {postalCode}
+        <button
+          title={geolocation.city}
+          className="underlined regular-font hover-w-hl-udl"
+        >
+          {geolocation.postal}
         </button>
       </p>
     </div>
