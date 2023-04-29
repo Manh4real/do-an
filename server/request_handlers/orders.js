@@ -261,6 +261,11 @@ module.exports = {
       res.sendStatus(500);
     }
   },
+  async searchOrdersHandler(req, res) {
+    res.status(200).json({
+      message: "Nothing here",
+    });
+  },
   async getOrderByIdHandler(req, res) {
     try {
       // const { role } = req.user;

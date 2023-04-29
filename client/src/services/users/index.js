@@ -131,3 +131,23 @@ export const getMyOrders = async (options = {}) => {
     console.log(err);
   }
 };
+
+export const changePassword = async (body, options = {}) => {
+  const token = getAccessTokenFromLocalStorage();
+
+  const response = await api.post(
+    "/users/change_password",
+    {
+      newPassword: body.newPassword,
+      oldPassword: body.oldPassword,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      ...options,
+    }
+  );
+
+  return response;
+};

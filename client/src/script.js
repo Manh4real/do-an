@@ -1,9 +1,18 @@
-import { SIGN_UP, SIGN_IN, SHIP, PICKUP, REVIEW, PROFILE } from "./constants";
+import {
+  SIGN_UP,
+  SIGN_IN,
+  SHIP,
+  PICKUP,
+  REVIEW,
+  PROFILE,
+  CHANGE_PASSWORD,
+} from "./constants";
 
 const patterns = {
   email:
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+  oldPassword: /^[.\s\S]{8,}$/,
   phone:
     /^((\+0?1\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4})|((\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4})$/,
   postalCode: /[0-9]+/,
@@ -27,6 +36,7 @@ class Validation {
     this.validateCountry = this.validateCountry.bind(this);
     this.validateBirthday = this.validateBirthday.bind(this);
     this.validatePassword = this.validatePassword.bind(this);
+    this.validateOldPassword = this.validateOldPassword.bind(this);
     this.validatePhone = this.validatePhone.bind(this);
     this.validateCheckbox = this.validateCheckbox.bind(this);
     this.validateRadios = this.validateRadios.bind(this);
@@ -116,6 +126,13 @@ class Validation {
       "At least 8 characters includes letters and numbers!"
     );
   }
+  validateOldPassword(password) {
+    return this.validate(
+      password,
+      "oldPassword",
+      "Password must be at least 8 characters!"
+    );
+  }
   validatePhone(phone) {
     return this.validate(
       phone,
@@ -203,9 +220,11 @@ class Validation {
           this.firstName?.isValid &&
           this.lastName?.isValid &&
           this.email?.isValid &&
-          this.password?.isValid &&
           this.avatar?.isValid
+          // this.password?.isValid &&
         );
+      case CHANGE_PASSWORD:
+        return this.password?.isValid && this.oldPassword?.isValid;
       default:
         return new Error("Validation...");
     }
@@ -264,11 +283,16 @@ class Validation {
         return {
           avatar: this.avatar?.avatar,
           email: this.email?.email,
-          password: this.password?.password,
+          // password: this.password?.password,
           name: {
             firstName: this.firstName?.firstName,
             lastName: this.lastName?.lastName,
           },
+        };
+      case CHANGE_PASSWORD:
+        return {
+          password: this.password?.password,
+          oldPassword: this.oldPassword?.isValid,
         };
       default:
         throw new Error("Validation's getAll");

@@ -9,7 +9,7 @@ import { withSubmit } from "hoc";
 import FirstNameInput from "./FirstNameInput";
 import LastNameInput from "./LastNameInput";
 import EmailInput from "./EmailInput";
-import PasswordInput from "./PasswordInput";
+// import PasswordInput from "./PasswordInput";
 
 function EditProfileForm({
   processing,
@@ -107,7 +107,7 @@ function EditProfileForm({
           <p className="form-info"></p>
         </div>
       </div>
-      <div className="form-group">
+      {/* <div className="form-group">
         <label htmlFor="password">Password</label>
         <div className="form-control-container">
           <PasswordInput
@@ -120,7 +120,7 @@ function EditProfileForm({
 
           <p className="form-info"></p>
         </div>
-      </div>
+      </div> */}
       <button disabled={!isAllValid} type="submit">
         {processing ? "PROCESSING..." : "SAVE"}
       </button>

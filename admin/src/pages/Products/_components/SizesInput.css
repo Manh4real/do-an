@@ -1,0 +1,8 @@
+input[name="size"] {
+  display: none;
+}
+input[name="size"]:checked ~ label {
+  --tw-bg-opacity: 1;
+  --tw-text-opacity: 1;
+  border: 2px solid rgb(63 131 248 / var(--tw-bg-opacity));
+}

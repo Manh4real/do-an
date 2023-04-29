@@ -17,6 +17,7 @@ import {
 import { useSelector } from "react-redux";
 import Spinner from "components/Spinner";
 import EditProfile from "./EditProfile";
+import ChangePassword from "./ChangePassword";
 
 function Account() {
   const isLoggedIn = useIsLoggedIn();
@@ -55,13 +56,20 @@ const AccountPageContent = () => {
       <div className="profile__header flex-start gap-25">
         <AccountAvatar url={user.avatar} />
         <div>
-          <div className="profile__user-fullName larger-font">
+          <div className="profile__user-fullName larger-font flex-spbw">
             {user.name.firstName} {user.name.lastName}
             <EditProfile />
           </div>
           <div className="profile__registration-date capitalized-text grey-font regular-font">
             Member Since {dateString}
           </div>
+        </div>
+        <div
+          style={{
+            height: "100%",
+          }}
+        >
+          <ChangePassword />
         </div>
       </div>
       <MBCarousel />

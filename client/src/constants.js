@@ -9,5 +9,6 @@ export const REVIEW = "review";
 export const SHIP = "ship";
 export const PICKUP = "pickup-method";
 export const PROFILE = "profile";
+export const CHANGE_PASSWORD = "change-password";
 
 export const DEFAULT_AVATAR = "default-avatar.png";

@@ -38,6 +38,8 @@ const {
   updateCurrentUserHandler,
   updateUserHandler,
   deleteUserHandler,
+  searchUsersHandler,
+  changePasswordHandler,
 } = require("./request_handlers/users");
 
 const {
@@ -66,7 +68,11 @@ const {
   updateOrderHandler,
   deleteOrderHandler,
 } = require("./request_handlers/orders");
-const { getStockByProductIdHandler } = require("./request_handlers/stock");
+const {
+  getStockByProductIdHandler,
+  getStocksHandler,
+  updateStockHandler,
+} = require("./request_handlers/stock");
 const { getStatisticHandler } = require("./request_handlers/statistic");
 
 const app = express();
@@ -126,6 +132,7 @@ app.put("/api/v1/me", authenticateToken, updateCurrentUserHandler);
 app.get("/api/v1/users/avatar", authenticateToken, getUserAvatarHandler);
 
 app.get("/api/v1/users", authenticateToken, getUsersHandler);
+app.get("/api/v1/users/search", authenticateToken, searchUsersHandler);
 
 // create new user
 app.post("/api/v1/users", authenticateToken, createNewUserHandler);
@@ -133,6 +140,12 @@ app.post("/api/v1/users", authenticateToken, createNewUserHandler);
 app.put("/api/v1/users/:id", authenticateToken, updateUserHandler);
 // delete user
 app.post("/api/v1/delete/users/:id", authenticateToken, deleteUserHandler);
+// user change password
+app.post(
+  "/api/v1/users/change_password",
+  authenticateToken,
+  changePasswordHandler
+);
 
 // FAVORITES
 app.get("/api/v1/favorites", authenticateToken, getCurrentUserFavoritesHandler);
@@ -196,7 +209,8 @@ app.post(
 
 // STOCK
 app.get("/api/v1/stock/:product_id", getStockByProductIdHandler);
-
+app.get("/api/v1/stocks", authenticateToken, getStocksHandler);
+app.put("/api/v1/stocks/:stock_id", authenticateToken, updateStockHandler);
 // STATISTICS
 app.get("/api/v1/statistics", authenticateToken, getStatisticHandler);
 

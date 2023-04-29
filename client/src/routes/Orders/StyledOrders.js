@@ -14,6 +14,24 @@ const StyledOrders = styled.div`
   .title {
     line-height: 1;
   }
+  .header__tabs {
+    button {
+      border-bottom: 2.5px solid rgb(244, 244, 244);
+      line-height: 2;
+    }
+    button.active {
+      background: var(--pri-black);
+      color: var(--white);
+      border-color: transparent;
+    }
+    button:hover {
+      ${"" /* background-color: var(--lighter-grey); */}
+      border-bottom-color: var(--pri-black);
+    }
+    button + button {
+      border-left-color: transparent;
+    }
+  }
   .order-title {
     grid-column: 2 / -2;
     padding: 20px;

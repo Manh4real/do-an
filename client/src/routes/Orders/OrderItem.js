@@ -1,4 +1,5 @@
 import { getDownloadImage } from "features/firebase";
+import { formatCurrency } from "helpers";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { stringifyDate } from "script";
@@ -77,7 +78,7 @@ function OrderItem({ orderItem }) {
               &times; {orderItem.quantity}
             </div>
             <span className="bigger-font green-font">
-              VND {Number(orderItem.product.price)}
+              VND {formatCurrency(Number(orderItem.product.price))}
             </span>
           </div>
         </div>

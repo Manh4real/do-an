@@ -10,10 +10,14 @@ import OrderItem from "./OrderItem";
 import { RelatedProductsCarousel } from "components/Carousel";
 import Spinner from "components/Spinner";
 import { Link } from "react-router-dom";
+import { formatCurrency } from "helpers";
+
+import HeaderTabs from "./HeaderTabs";
 
 function Orders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState([]);
+  const [activeStatus, setActiveStatus] = useState("");
 
   const isLoggedIn = useIsLoggedIn();
 
@@ -44,47 +48,68 @@ function Orders() {
     );
   }
 
+  const filteredOrders = Object.entries(orders)
+    .filter(
+      ([, orderItems]) =>
+        orderItems[0]?.order_status_id === activeStatus.order_status_id
+    )
+    .sort(([orderId1], [orderId2]) => orderId2 - orderId1);
+
   return (
     <StyledOrders>
       <header className="title larger-font grid-col-span-all">
-        Order ({Object.keys(orders).length})
+        Orders ({Object.keys(orders).length})
+        <HeaderTabs
+          activeStatus={activeStatus}
+          setActiveStatus={setActiveStatus}
+        />
       </header>
-      {Object.entries(orders)
-        .sort(([orderId1], [orderId2]) => orderId2 - orderId1)
-        .map(([orderId, orderItems], i) => {
-          const orderedDate = orderItems[0].created_at;
-          const totalPrice = orderItems.reduce(
-            (acc, orderItem) =>
-              acc + orderItem.quantity * orderItem.product.price,
-            0
-          );
+      {filteredOrders.map(([orderId, orderItems], i) => {
+        const orderedDate = orderItems[0].created_at;
+        const totalPrice = orderItems.reduce(
+          (acc, orderItem) =>
+            acc + orderItem.quantity * orderItem.product.price,
+          0
+        );
 
-          return (
-            <React.Fragment key={i}>
-              <div className="flex-spbw mt-25 medium-font order-title mt-25 grey-bg">
-                <div>
-                  <span className="grey-font underlined">#{orderId}</span>
-                  <span className="ml-10">
-                    Placed order on {stringifyDate(new Date(orderedDate))}
-                  </span>
-                </div>
-                <div>
-                  <span className="ml-auto bold-font order-total-price">
-                    Total Price: VND{totalPrice}
-                  </span>
-                </div>
+        return (
+          <React.Fragment key={i}>
+            <div className="flex-spbw mt-25 medium-font order-title mt-25 grey-bg">
+              <div>
+                <span className="grey-font underlined">#{orderId}</span>
+                <span className="ml-10">
+                  Placed order on {stringifyDate(new Date(orderedDate))}
+                </span>
               </div>
+              <div>
+                <span className="ml-auto bold-font order-total-price">
+                  Total Price: VND {formatCurrency(totalPrice)}
+                </span>
+              </div>
+            </div>
 
-              {orderItems.map((orderItem, i) => {
-                return <OrderItem key={i} orderItem={orderItem} />;
-              })}
-            </React.Fragment>
-          );
-        })}
+            {orderItems.map((orderItem, i) => {
+              return <OrderItem key={i} orderItem={orderItem} />;
+            })}
+          </React.Fragment>
+        );
+      })}
+      {filteredOrders.length === 0 && (
+        <div
+          className="grid-col-span-all flex-center text-center large-font"
+          style={{
+            minHeight: "45vh",
+            gridColumn: "2 / -2",
+          }}
+        >
+          <p>No orders yet.</p>
+        </div>
+      )}
       {Object.keys(orders).length === 0 && (
         <div
-          className="grid-col-span-all text-center large-font"
+          className="grid-col-span-all flex-center text-center large-font"
           style={{
+            minHeight: "45vh",
             gridColumn: "2 / -2",
           }}
         >
@@ -96,6 +121,7 @@ function Orders() {
       )}
       {Object.keys(orders).length > 0 && (
         <div className="grid-col-span-all mt-50">
+          {console.log("???")}
           <RelatedProductsCarousel
             title={"Related Products"}
             objectIDs={Object.entries(orders).map(
