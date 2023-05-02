@@ -41,7 +41,7 @@ const MBCarousel = React.forwardRef(
                   <img src="/images/member-benefits-1.jpg" width="320" alt="" />
                 </div>
                 <div className="profile__carousel-title bigger-font">
-                  Product Advice From Nike Experts
+                  Product Advice From 4TW Experts
                 </div>
               </a>
             </div>
@@ -103,7 +103,7 @@ const MBCarousel = React.forwardRef(
                   <img src="/images/member-benefits-1.jpg" width="320" alt="" />
                 </div>
                 <div className="profile__carousel-title bigger-font">
-                  Special Benefits in Nike Stores
+                  Special Benefits in 4TW Stores
                 </div>
               </a>
             </div>

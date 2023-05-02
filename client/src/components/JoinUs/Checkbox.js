@@ -28,7 +28,7 @@ function Checkbox({ checked, validateCheckbox }) {
           id="keep-me-signed-in-checkbox"
         />
         <label htmlFor="keep-me-signed-in-checkbox">
-          Sign up for emails to get updates from Nike on products, offers, and
+          Sign up for emails to get updates from 4TW on products, offers, and
           your Member benefits
         </label>
       </div>

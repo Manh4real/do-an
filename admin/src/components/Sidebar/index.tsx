@@ -8,6 +8,7 @@ import {
   Logo,
   OrderIcon,
   ProductIcon,
+  ReviewIcon,
   UsersIcon,
 } from "../../Icons";
 import AccountSection from "./AccountSection";
@@ -63,6 +64,14 @@ function Sidebar() {
                 <OrderIcon />
                 <span className="block text-ellipsis overflow-hidden">
                   Orders Management
+                </span>
+              </NavLink>
+            </li>
+            <li className="mb-2">
+              <NavLink className={getNavLinkClasses} to="/reviews">
+                <ReviewIcon />
+                <span className="block text-ellipsis overflow-hidden">
+                  Reviews Management
                 </span>
               </NavLink>
             </li>

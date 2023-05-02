@@ -29,7 +29,7 @@ function Checkbox({ checked, validateKeepSignIn }) {
       </div>
       <div>
         <a href="/" className="grey-font fg-pw">
-          Forgotten your password?
+          Forgot your password?
         </a>
       </div>
     </div>

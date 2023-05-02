@@ -139,7 +139,7 @@ function BottomMenu() {
                       <a href="/">Yoga </a>
                     </li>
                     <li>
-                      <a href="/">NikeLab </a>
+                      <a href="/">4TWLab </a>
                     </li>
                     <li>
                       <a href="/">Plus Size </a>

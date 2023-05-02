@@ -28,7 +28,7 @@ function BirthdayInput({ validateBirthday }) {
         />
         {validateBirthday && validateBirthday(input)}
       </div>
-      <p>Get a Nike Member Reward every year on your Birthday.</p>
+      <p>Get a 4TW Member Reward every year on your Birthday.</p>
     </React.Fragment>
   );
 }

@@ -1,4 +1,4 @@
-import api from "api";
+import api from "../../api";
 
 import { getAccessTokenFromLocalStorage } from "helpers";
 
@@ -10,8 +10,6 @@ export const getUserFavorites = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-
-    console.log(result);
 
     return result;
   } catch (err) {
@@ -133,21 +131,26 @@ export const getMyOrders = async (options = {}) => {
 };
 
 export const changePassword = async (body, options = {}) => {
-  const token = getAccessTokenFromLocalStorage();
+  try {
+    const token = getAccessTokenFromLocalStorage();
 
-  const response = await api.post(
-    "/users/change_password",
-    {
-      newPassword: body.newPassword,
-      oldPassword: body.oldPassword,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await api.post(
+      "/users/change_password",
+      {
+        newPassword: body.newPassword,
+        oldPassword: body.oldPassword,
       },
-      ...options,
-    }
-  );
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        ...options,
+      }
+    );
 
-  return response;
+    return response;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };

@@ -56,7 +56,7 @@ function Footer() {
           </li>
           <li>
             <a href="/" className="bold-font regular-font">
-              NIKE JOURNAL
+              4TW JOURNAL
             </a>
           </li>
           <li>
@@ -95,7 +95,7 @@ function Footer() {
         </Expandable>
       </div>
       <div className="col-3">
-        <Expandable isMobile={isMobile} title="ABOUT NIKE">
+        <Expandable isMobile={isMobile} title="ABOUT 4TW">
           {(expanded) => {
             return (
               <ul className={clsx("expand", { active: expanded })}>

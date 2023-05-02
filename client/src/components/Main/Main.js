@@ -7,17 +7,17 @@ import reducer, { initialState } from "./reducer";
 
 import "./Main.css";
 
-const TABLE_WIDTH = 1450;
+const TABLET_WIDTH = 1450;
 
 function Main() {
   const [showFilter, setShowFilter] = useState(true);
   const [sort, dispatch] = useReducer(reducer, initialState);
 
   // FOR TABLET OR SMALLER DEVICE
-  const [isTablet, setIsTablet] = useState(window.innerWidth <= TABLE_WIDTH);
+  const [isTablet, setIsTablet] = useState(window.innerWidth <= TABLET_WIDTH);
 
   useEffect(() => {
-    const handleResize = () => setIsTablet(window.innerWidth <= TABLE_WIDTH);
+    const handleResize = () => setIsTablet(window.innerWidth <= TABLET_WIDTH);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);

@@ -34,7 +34,7 @@ const SignIn = ({ isShown, onClose, onReplace }) => {
         </div>
         <div className="title sign-in-title">
           YOUR ACCOUNT FOR <br />
-          EVERYTHING NIKE
+          EVERYTHING 4TW
         </div>
         <div className="container sign-in-content-ctn">
           <Form />

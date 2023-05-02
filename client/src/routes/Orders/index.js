@@ -66,11 +66,15 @@ function Orders() {
       </header>
       {filteredOrders.map(([orderId, orderItems], i) => {
         const orderedDate = orderItems[0].created_at;
-        const totalPrice = orderItems.reduce(
-          (acc, orderItem) =>
-            acc + orderItem.quantity * orderItem.product.price,
-          0
-        );
+        const shippingFee = 30000;
+        // const tax = 0;
+        // orderItems[0].total_price ||
+        const totalPrice =
+          orderItems.reduce(
+            (acc, orderItem) =>
+              acc + orderItem.quantity * orderItem.product.price,
+            0
+          ) + shippingFee;
 
         return (
           <React.Fragment key={i}>
@@ -83,8 +87,11 @@ function Orders() {
               </div>
               <div>
                 <span className="ml-auto bold-font order-total-price">
-                  Total Price: VND {formatCurrency(totalPrice)}
+                  Total Price: {formatCurrency(totalPrice)} VND
                 </span>
+                <div className="small-font text-right">
+                  includes shipping fee: {formatCurrency(shippingFee)} VND
+                </div>
               </div>
             </div>
 

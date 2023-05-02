@@ -31,7 +31,7 @@ function Form({ handleSubmit, first, validation, processing }) {
         validateCheckbox={validation.validateCheckbox}
       />
       <p>
-        By creating an account, you agree to Nike's&nbsp;
+        By creating an account, you agree to 4TW's&nbsp;
         <a href="/">Privacy Policy</a> and&nbsp;
         <a href="/">Terms of Use</a>.
       </p>

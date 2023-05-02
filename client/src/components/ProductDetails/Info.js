@@ -9,11 +9,11 @@ import ReviewsDetailsTag from "./Reviews";
 import { ViewProductDetails } from "./ViewProductDetails";
 
 // Redux-related
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
-  selectUserStatus,
   updateFavorites,
   addFavorite,
+  useIsLoggedIn,
 } from "features/user/userSlice";
 import { addToBag } from "features/bag/bagSlice";
 import StyledInfo from "./StyledInfo";
@@ -32,7 +32,7 @@ function Info({ colors, product, handleChangeSelectedColorId }) {
 
   const [error, setError] = useState(false);
 
-  const isLoggedIn = useSelector(selectUserStatus) === "succeeded";
+  const isLoggedIn = useIsLoggedIn();
   const redirect = useRedirect();
 
   const handleAdd = () => {
@@ -202,7 +202,7 @@ function Info({ colors, product, handleChangeSelectedColorId }) {
 
       <div className="misc regular-font">
         <DetailsTag summary="Free Shipping & Returns">
-          Free standard shipping and free 60-day returns for Nike Members.{" "}
+          Free standard shipping and free 60-day returns for 4TW Members.{" "}
           <a
             href="/"
             target="_blank"

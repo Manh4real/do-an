@@ -14,7 +14,7 @@ function SignInPage() {
       </div>
       <div className="sign-in-title bold-font">
         YOUR ACCOUNT FOR <br />
-        EVERYTHING NIKE
+        EVERYTHING 4TW
       </div>
       <Form />
       <p className="bottom-text grey-font">

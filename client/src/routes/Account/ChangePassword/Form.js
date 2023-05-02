@@ -30,14 +30,19 @@ function Form({ handleClose }) {
       oldPassword: formData.oldPassword,
       newPassword: formData.password,
     })
-      .then(() => {
+      .then((response) => {
+        if (response.response.status === 409) {
+          setError(response.response.data?.message || "Something went wrong");
+          return;
+        }
         // console.log(data);
         alert("Changed password successfully.");
         handleClose();
       })
       .catch((err) => {
         setError(err.response.data?.message || "Something went wrong");
-
+      })
+      .finally(() => {
         setLoading(false);
       });
   };

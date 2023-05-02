@@ -96,7 +96,7 @@ export const getProductsByIds = async (
   options = {}
 ) => {
   if (productsIds === "") {
-    console.log("No products in your bag");
+    // console.log("No products in your bag");
     return;
   }
 
@@ -127,17 +127,6 @@ export const getLatestProducts = async (page = 1, options = {}) => {
 
   let products = response.data.data.products;
 
-  // const imagesResult = await api.get("/images?product_id=1");
-  // console.log({imagesResult});
-
-  // products = products.map(product => {
-  //   return {
-  //     ...product,
-  //     sizes: product.sizes.split(",").map(size => parseFloat(size.trim())),
-  //     images: []
-  //   }
-  // })
-
   return products;
 };
 
@@ -153,13 +142,6 @@ export const searchProductsByName = async (query, page = 1, options = {}) => {
   });
 
   const products = response.data.data.products;
-  // const imageResponse = await api.get("/images?products_ids=" + products.map(p => p.product_id).join(","));
-
-  // const newProducts = products.map(product => {
-  //   return {
-  //     ...product
-  //   }
-  // });
 
   return products;
 };

@@ -162,7 +162,8 @@ const StyledCart = styled.div`
     grid-column: 2 / span 3;
 
     .bag__favorite-items {
-      gap: 15px;
+      --gap: 15px;
+      gap: var(--gap);
       flex-wrap: wrap;
       min-height: 100px;
       position: relative;
@@ -177,6 +178,7 @@ const StyledCart = styled.div`
     }
     .item {
       flex: 1;
+      max-width: calc(50% - var(--gap) / 2);
       padding: 25px 0;
       box-shadow: var(--block-shadow);
 

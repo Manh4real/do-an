@@ -35,8 +35,8 @@ const BagSelect = ({ product, label, value: val, options, handleChange }) => {
       <label htmlFor={label + "-input"}>{label}: </label>
       <select value={value} onChange={handleSelect} id={label + "-input"}>
         {options.map((v) => (
-          <option key={v} value={v}>
-            {v}
+          <option key={v} value={v.value || v}>
+            {v.text || v}
           </option>
         ))}
       </select>

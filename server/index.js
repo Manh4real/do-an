@@ -51,6 +51,8 @@ const {
 const {
   getReviewsByProductIDHandler,
   createReviewHandler,
+  getReviewsHandler,
+  deleteReviewHandler,
 } = require("./request_handlers/reviews");
 const { getColorNameByIDHandler } = require("./request_handlers/colors");
 const {
@@ -176,7 +178,9 @@ app.get("/api/v1/styles", getProductStyles);
 // get reviews of a product
 app.get("/api/v1/reviews/:productId", getReviewsByProductIDHandler);
 
+app.get("/api/v1/reviews", authenticateToken, getReviewsHandler);
 app.post("/api/v1/reviews", authenticateToken, createReviewHandler);
+app.delete("/api/v1/reviews", authenticateToken, deleteReviewHandler);
 
 // ORDERS
 app.get("/api/v1/orders", authenticateToken, getCurrentUserOrdersHandler);

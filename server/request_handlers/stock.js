@@ -1,5 +1,6 @@
 const db = require("../db");
 const _ = require("lodash");
+const { getImagesByProductsIDs } = require("../helpers");
 
 module.exports = {
   async getStocksHandler(req, res) {
@@ -108,6 +109,24 @@ module.exports = {
           });
         }
       });
+
+      if (Object.keys(stock).length > 0) {
+        const products_ids = Object.keys(stock);
+        const imageResult = await db.query(
+          getImagesByProductsIDs(products_ids),
+          products_ids
+        );
+
+        Object.keys(stock).forEach((product_id) => {
+          const filteredImages = imageResult.rows.filter(
+            (i) => i.product_id.trim() === product_id.trim()
+          );
+
+          const images = _.groupBy(filteredImages, "product_color_id");
+
+          stock[product_id].images = images;
+        });
+      }
 
       res.status(200).json({
         status: "success",

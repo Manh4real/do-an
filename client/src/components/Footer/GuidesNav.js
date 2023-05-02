@@ -8,7 +8,7 @@ function GuidesNav() {
       <ul>
         <li>
           <a href="/" className="small-font">
-            Nike Adapt
+            Adidas Adapt
           </a>
         </li>
         <li>
@@ -28,22 +28,22 @@ function GuidesNav() {
         </li>
         <li>
           <a href="/" className="small-font">
-            Nike FlyEase
+            Adidas FlyEase
           </a>
         </li>
         <li>
           <a href="/" className="small-font">
-            Nike Flyknit
+            Adidas Flyknit
           </a>
         </li>
         <li>
           <a href="/" className="small-font">
-            Nike Flyleather
+            Adidas Flyleather
           </a>
         </li>
         <li>
           <a href="/" className="small-font">
-            Nike Free
+            Free
           </a>
         </li>
         <li>
@@ -58,12 +58,12 @@ function GuidesNav() {
         </li>
         <li>
           <a href="/" className="small-font">
-            Nike React
+            Adidas React
           </a>
         </li>
         <li>
           <a href="/" className="small-font">
-            Nike Vaporfly
+            Adidas Vaporfly
           </a>
         </li>
         <li>
@@ -73,7 +73,7 @@ function GuidesNav() {
         </li>
         <li>
           <a href="/" className="small-font">
-            Nike ZoomX
+            Adidas ZoomX
           </a>
         </li>
       </ul>

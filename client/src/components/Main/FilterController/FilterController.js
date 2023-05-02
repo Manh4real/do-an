@@ -18,6 +18,7 @@ import { ThinnerArrowIcon } from "components/Icons";
 
 import { getProducts } from "services/products";
 import { reducer } from "./reducer";
+import { compareDate } from "helpers";
 
 const initialState = { gender: undefined, price: undefined };
 
@@ -45,8 +46,10 @@ function FilterController(props) {
           newList.sort((a, b) => b.price - a.price);
           break;
         case "featured":
-        case "newest":
           return list;
+        case "newest":
+          newList.sort((a, b) => compareDate(new Date(a), new Date(b)));
+          break;
         default:
           // return list;
           throw new Error("Can't sort products!");
@@ -153,60 +156,62 @@ function FilterController(props) {
   );
 }
 
-const RegularProductList = React.memo(({ loading, setLoading, setList }) => {
-  const [page, setPage] = useState(1);
-  const [end, setEnd] = useState(false);
-  const previousPageRef = useRef(0); // avoids to re-call api at (1)
+export const RegularProductList = React.memo(
+  ({ loading, setLoading, setList }) => {
+    const [page, setPage] = useState(1);
+    const [end, setEnd] = useState(false);
+    const previousPageRef = useRef(0); // avoids to re-call api at (1)
 
-  useEffect(() => {
-    const controller = new AbortController();
+    useEffect(() => {
+      const controller = new AbortController();
 
-    if (previousPageRef.current !== page) {
-      setLoading(true);
-      // (1)
-      getProducts(page, { signal: controller.signal })
-        .then((products) => {
-          if (products.length < 10) {
-            setEnd(true);
-          }
-          if (page === 1) {
-            setList(products);
-          } else {
-            setList((prev) => [...prev, ...products]);
-          }
-        })
-        .finally(() => {
-          setLoading(false);
-          previousPageRef.current = page;
-        });
-    }
+      if (previousPageRef.current !== page) {
+        setLoading(true);
+        // (1)
+        getProducts(page, { signal: controller.signal })
+          .then((products) => {
+            if (products.length < 10) {
+              setEnd(true);
+            }
+            if (page === 1) {
+              setList(products);
+            } else {
+              setList((prev) => [...prev, ...products]);
+            }
+          })
+          .finally(() => {
+            setLoading(false);
+            previousPageRef.current = page;
+          });
+      }
 
-    return () => {
-      controller.abort();
-    };
-  }, [page, setLoading, setList]);
+      return () => {
+        controller.abort();
+      };
+    }, [page, setLoading, setList]);
 
-  return (
-    <React.Fragment>
-      <ProductList />
-      {!end && !loading && (
-        <button
-          className="font-14 underlined hover-w-fade flex-center"
-          style={{
-            position: "absolute",
-            bottom: 0,
-            right: "33.33%",
-            translate: "-100%",
-          }}
-          onClick={() => {
-            setPage((prev) => prev + 1);
-          }}
-        >
-          Show more <ThinnerArrowIcon w={24} h={24} />
-        </button>
-      )}
-    </React.Fragment>
-  );
-});
+    return (
+      <React.Fragment>
+        <ProductList />
+        {!end && !loading && (
+          <button
+            className="font-14 underlined hover-w-fade flex-center"
+            style={{
+              position: "absolute",
+              bottom: 0,
+              right: "33.33%",
+              translate: "-100%",
+            }}
+            onClick={() => {
+              setPage((prev) => prev + 1);
+            }}
+          >
+            Show more <ThinnerArrowIcon w={24} h={24} />
+          </button>
+        )}
+      </React.Fragment>
+    );
+  }
+);
 
 export default FilterController;

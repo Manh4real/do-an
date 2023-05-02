@@ -116,3 +116,7 @@ export const formatCurrency = (value) => {
     .format(value)
     .slice(0, -2);
 };
+
+export function compareDate(d1, d2) {
+  return d1.getTime() > d2.getTime() ? -1 : 1;
+}

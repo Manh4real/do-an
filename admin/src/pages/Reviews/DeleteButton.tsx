@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 
-import Modal from "../../components/Modal";
 import { TrashBinIcon, WarningIcon } from "../../Icons";
 import { useRefreshContext } from "../../context";
-import { deleteOrder } from "../../services/orders";
+
+import Modal from "../../components/Modal";
+import { deleteReview } from "../../services/reviews";
 
 interface Props {
-  orderId: string;
+  productId: string;
+  userId: string;
 }
-function DeleteButton({ orderId }: Props) {
+
+function DeleteButton({ productId, userId }: Props) {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -24,14 +27,15 @@ function DeleteButton({ orderId }: Props) {
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (e.currentTarget.disabled) return;
 
-    if (orderId) setLoading(true);
-    deleteOrder(orderId)
-      .then((ok) => {
+    if (productId) setLoading(true);
+
+    deleteReview({ product_id: productId, user_id: userId })
+      .then(() => {
         handleClose();
         refreshContext.handleRefresh();
       })
       .catch(() => {
-        alert("Delete Order Error: Something went wrong!");
+        alert("Delete Review Error: Something went wrong!");
       })
       .finally(() => {
         setLoading(false);

@@ -17,6 +17,7 @@ import { useDownloadImage } from "hooks";
 import BagProductColor from "./BagProductColor";
 import useRedirect from "hooks/useRedirect";
 import { formatCurrency } from "helpers";
+import BagSelectSize from "./BagSelectSize";
 
 function BagProductInfo({ product }) {
   const dispatch = useDispatch();
@@ -100,11 +101,14 @@ function BagProductInfo({ product }) {
                 <div className="regular-font">{product.target}</div>
                 <BagProductColor colorId={product.added.colorId} />
                 <div className="flex-start">
-                  <BagSelect
+                  <BagSelectSize
                     label="size"
-                    value={product.added.size}
+                    value={product.added.size.size_id}
                     product={product}
-                    options={product.sizes}
+                    options={product.stock[colorId].map((s) => ({
+                      size_id: s.size_id,
+                      size: s.size,
+                    }))}
                     handleChange={handleChange}
                   />
                   <BagSelect
@@ -131,7 +135,7 @@ function BagProductInfo({ product }) {
             </div>
           </div>
           <div className="bag__pd-price">
-            {formatCurrency(product.price * quantity)}
+            {formatCurrency(product.price)}
             <span className="small-font"> VND</span>
           </div>
         </div>

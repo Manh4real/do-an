@@ -169,6 +169,9 @@ const GlobalStyles = styled.div`
   .text-left {
     text-align: left;
   }
+  .text-right {
+    text-align: right;
+  }
   .text-ellipsis {
     white-space: nowrap;
     overflow: hidden;

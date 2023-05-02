@@ -14,6 +14,7 @@ import Logout from "./pages/Logout";
 import Orders from "./pages/Orders";
 import OrderDetails from "./pages/OrderDetails";
 import Inventory from "./pages/Inventory";
+import Reviews from "./pages/Reviews";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/products" element={<Products />} />
           <Route path="/users" element={<Users />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/reviews" element={<Reviews />} />
           <Route path="/orders/details/:orderId" element={<OrderDetails />} />
           <Route path="/account" element={<Account />} />
           <Route path="/inventory" element={<Inventory />} />

@@ -7,6 +7,9 @@ const api = axios.create({
 export const auth = axios.create({
   baseURL: process.env.REACT_APP_AUTH_ENDPOINT,
 });
+export const payment = axios.create({
+  baseURL: process.env.REACT_APP_PAYMENT_ENDPOINT,
+});
 
 export const geoApi = axios.create({
   baseURL: process.env.REACT_APP_GEOLOCATION_API_ENDPOINT,

@@ -7,6 +7,7 @@ import { useCheckoutInfo } from "features/checkout/checkoutSlice";
 import { orderProducts } from "services/users";
 import { useNavigate } from "react-router-dom";
 import { clearBag } from "features/bag/bagSlice";
+import { useDispatch } from "react-redux";
 
 const CheckoutStepContext = React.createContext({});
 export const useCheckoutStepContext = () => useContext(CheckoutStepContext);
@@ -15,24 +16,24 @@ function Steps() {
   const [step, setStep] = useState(1);
   const checkoutInfo = useCheckoutInfo();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (step === 4) {
       console.log(checkoutInfo);
       orderProducts(checkoutInfo)
         .then((data) => {
-          console.log(data);
+          // console.log(data);
 
-          clearBag();
+          dispatch(clearBag());
           alert("Placed order successfully!");
-
           navigate("/shop", { replace: true });
         })
         .catch((err) => {
           console.log(err);
         });
     }
-  }, [step, checkoutInfo, navigate]);
+  }, [step, checkoutInfo, navigate, dispatch]);
 
   return (
     <CheckoutStepContext.Provider value={{ step, setStep }}>

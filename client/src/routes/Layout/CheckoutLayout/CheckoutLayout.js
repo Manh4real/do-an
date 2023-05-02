@@ -2,7 +2,6 @@ import React from "react";
 import { Outlet, useLocation, Navigate } from "react-router-dom";
 
 import { Bag } from "components/Header/Bag";
-import { Logo } from "components/Icons";
 import SubFooterMenu from "components/Footer/SubFooterMenu";
 
 import StyledCheckoutLayout from "./StyledCheckoutLayout";
@@ -43,9 +42,8 @@ function CheckoutLayout() {
       <div>
         <header className="checkout__header flex-spbw">
           <a href="/">
-            <Logo />
             <svg
-              width="66"
+              width="50"
               height="56"
               viewBox="0 0 66 56"
               fill="none"

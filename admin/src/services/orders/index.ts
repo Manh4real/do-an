@@ -58,7 +58,7 @@ export const deleteOrder = async (orderId: string) => {
     try {
         const token = getAccessTokenFromLocalStorage();
 
-        const response = await api.post("/orders/" + orderId, null, {
+        const response = await api.delete("/orders/" + orderId, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

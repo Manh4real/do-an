@@ -41,13 +41,13 @@ function RecentSales({ recentSales }: Props) {
                   <Avatar imageName={avatar} />
                   <div className="pl-3">
                     <div className="text-base font-semibold">{user_name}</div>
-                    <div className="text-gray-500 font-semibold">
+                    <div className="text-xs text-gray-500 font-semibold">
                       {moment(new Date(created_at)).fromNow()}
                     </div>
                   </div>
                 </th>
 
-                <td className="text-green-400 px-6 py-4 font-bold">
+                <td className="text-green-400 px-6 py-4 font-bold whitespace-nowrap">
                   <Plus2 /> {numberWithCommas(Number(total_price))}
                   <small className="text-xs ml-1 font-medium">VND</small>
                 </td>

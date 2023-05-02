@@ -35,7 +35,7 @@ function SubFooterMenu() {
           {country}
         </a>
         <span className="grey-font xsmall-font">
-          © 2022 Nike, Inc. All Rights Reserved
+          © 2022 4TW, Inc. All Rights Reserved
         </span>
       </div>
       <div className="bottom-menu grid-col-span-2">
@@ -56,7 +56,7 @@ function SubFooterMenu() {
           </li>
           <li>
             <a href="/" className="xsmall-font">
-              Nike Privacy Policy
+              4TW Privacy Policy
             </a>
           </li>
           <li>

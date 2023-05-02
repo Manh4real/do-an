@@ -359,6 +359,7 @@ module.exports = {
       const { user_id } = req.user;
       const { products, receiver, address, email = "", phone } = req.body;
       const estArrivedDate = new Date(Date.now() + THREE_DAYS_TIME);
+      const created_at = new Date(Date.now());
 
       if (products.length === 0) {
         res.status(409).json({
@@ -374,14 +375,23 @@ module.exports = {
             acc + Number(product.price * product.added.quantity),
           0
         ) || 0;
-      const shipping = 8;
+      const shipping = 30000;
       const tax = 0;
       const total_price = subtotal + shipping + tax;
 
       const response = await db.query(
-        `INSERT INTO orders (user_id, receiver, address, phone, email, total_price, est_arrived_date)
-        VALUES ($1, $2, $3, $4, $5, $6, $7) returning *`,
-        [user_id, receiver, address, phone, email, total_price, estArrivedDate]
+        `INSERT INTO orders (user_id, receiver, address, phone, email, total_price, est_arrived_date, created_at)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning *`,
+        [
+          user_id,
+          receiver,
+          address,
+          phone,
+          email,
+          total_price,
+          estArrivedDate,
+          created_at,
+        ]
       );
 
       // update product stock & sales

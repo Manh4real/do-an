@@ -3,8 +3,8 @@ export { default as Header } from "./Header";
 // FAKE-ass DATA
 const LIST = [
   {
-    href: "/shop/new-releases",
-    name: "New Releases",
+    href: "/shop",
+    name: "Shop All",
     categories: {
       id: "ctg1",
       list: [

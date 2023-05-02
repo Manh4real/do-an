@@ -11,7 +11,7 @@ function JoinUsPage() {
       <header>
         <Logo w="45" h="45" style={{ display: "block", margin: "auto" }} />
       </header>
-      <div className="title bold-font large-font">BECOME A NIKE MEMBER</div>
+      <div className="title bold-font large-font">BECOME A 4TW MEMBER</div>
       <Form />
       <p className="bottom-text regular-font grey-font">
         Already a member?&nbsp;

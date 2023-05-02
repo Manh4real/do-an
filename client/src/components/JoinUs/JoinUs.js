@@ -29,7 +29,7 @@ function JoinUs({ isShown, onClose, onReplace }) {
         <div>
           <Logo w="45" h="45" style={{ display: "block", margin: "auto" }} />
         </div>
-        <div className="sign-in-title title">BECOME A NIKE MEMBER</div>
+        <div className="sign-in-title title">BECOME A 4TW MEMBER</div>
         <div className="sign-in-content-ctn container">
           <Form />
           <p className="regular-font">

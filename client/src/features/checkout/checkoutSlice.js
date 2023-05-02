@@ -2,9 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 
 const initialState = {
-  products: [],
-  delivery: {},
-  payment: {},
+  products: null,
+  delivery: null,
+  payment: null,
 };
 
 const checkoutSlice = createSlice({

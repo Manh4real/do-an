@@ -77,7 +77,7 @@ export const signIn = createAsyncThunk(
 
       return user;
     } catch (err) {
-      alert(err.message);
+      alert(err.response.data?.message || err.message);
     }
   }
 );

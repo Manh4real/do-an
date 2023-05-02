@@ -205,7 +205,27 @@ export interface IInventoryProduct {
     size_type_id: string,
 
     colors: { [color_id: string]: IColor },
+    images: {
+        [color_id: string]: IProductImage[]
+    }
 }
 export interface IProductInventory {
     [product_id: string]: IInventoryProduct
+}
+
+export interface IReview {
+    product_id: string,
+    user_id: string,
+    review: string,
+    rating: number,
+    created_at: string,
+    title: string,
+    user_name: string,
+    email: string,
+    product_name: string,
+    avatar: string,
+
+    images: {
+        [color_id: string]: IProductImage[]
+    }
 }

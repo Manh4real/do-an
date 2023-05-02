@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IInventoryProduct } from "../../types";
 import { formatCurrency } from "../../helpers";
 import moment from "moment";
 import { ChevronArrowDown, ChevronArrowRight } from "../../Icons";
 import SubTableInventoryRow from "./SubTableInventoryRow";
+import { getDownloadImage } from "../../features/firebase";
 
 interface Props {
   product: IInventoryProduct;
@@ -11,31 +12,25 @@ interface Props {
 
 function InventoryTableRow({ product }: Props) {
   const [expand, setExpand] = useState(false);
-  //   const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   // first image with first color
-  //   const firstImageName =
-  //     product.images[Object.keys(product.images)[0]]?.[0].url ||
-  //     "default-product-image.png";
+  const firstImageName =
+    product.images[Object.keys(product.images)[0]]?.[0].url ||
+    "default-product-image.png";
 
-  //   useEffect(() => {
-  //     let ignore = false;
-  //     getDownloadImage(firstImageName).then((url) => {
-  //       if (!ignore) {
-  //         url && setImageUrl(url);
-  //       }
-  //     });
+  useEffect(() => {
+    let ignore = false;
+    getDownloadImage(firstImageName).then((url) => {
+      if (!ignore) {
+        url && setImageUrl(url);
+      }
+    });
 
-  //     return () => {
-  //       ignore = true;
-  //     };
-  //   }, [firstImageName]);
-
-  //   const _product = {
-  //     ...product,
-  //     // imageUrl: imageUrl || product.imageUrl,
-  //     image: imageUrl,
-  //   };
+    return () => {
+      ignore = true;
+    };
+  }, [firstImageName]);
 
   return (
     <>
@@ -60,15 +55,15 @@ function InventoryTableRow({ product }: Props) {
         <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
           <div className="inline-flex items-center gap-x-3">
             <div className="flex items-center gap-x-2">
-              {/* {imageUrl ? (
-              <img
-                className="object-cover w-10 h-10 rounded-full"
-                src={imageUrl}
-                alt=""
-              />
-            ) : (
-              <div className="object-cover w-10 h-10 rounded-full bg-gray-50 ring-1 ring-gray-400"></div>
-            )} */}
+              {imageUrl ? (
+                <img
+                  className="object-cover w-10 h-10 rounded-full"
+                  src={imageUrl}
+                  alt=""
+                />
+              ) : (
+                <div className="object-cover w-10 h-10 rounded-full bg-gray-50 ring-1 ring-gray-400"></div>
+              )}
 
               <div>
                 <h2 className="max-w-[150px] text-ellipsis overflow-hidden whitespace-nowrap font-medium text-gray-800">
@@ -94,7 +89,7 @@ function InventoryTableRow({ product }: Props) {
         <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
           <span className="capitalize">
             {Object.entries(product.colors)
-              .map(([color_id, color]) => color.color_name)
+              .map(([, color]) => color.color_name)
               .join(" / ")}
           </span>
         </td>

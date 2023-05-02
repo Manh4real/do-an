@@ -26,7 +26,7 @@ function Form({ handleSubmit, first, validation, processing }) {
         />
 
         <p className="grey-font">
-          By logging in, you agree to Nike's&nbsp;
+          By logging in, you agree to 4TW's&nbsp;
           <a href="/" style={{ textDecoration: "underline" }}>
             Privacy Policy
           </a>
