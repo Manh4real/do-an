@@ -276,7 +276,9 @@ function Products() {
                     {loading && (
                       <tr>
                         <td>
-                          <Spinner />
+                          <div className="m-auto w-max my-3">
+                            <Spinner />
+                          </div>
                         </td>
                       </tr>
                     )}

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { getDownloadImage } from "../../features/firebase";
+import React from "react";
 
 import { IProduct } from "../../types";
 import DeleteButton from "./DeleteButton";
 import EditUserButton from "./EditProductButton";
 import { formatCurrency } from "../../helpers";
 import moment from "moment";
+import { useFetchImage } from "../../hooks";
 
 interface Props {
   nth: number;
@@ -13,25 +13,12 @@ interface Props {
 }
 
 function ProductTableRow({ nth, product }: Props) {
-  const [imageUrl, setImageUrl] = useState("");
-
   // first image with first color
   const firstImageName =
     product.images[Object.keys(product.images)[0]]?.[0].url ||
     "default-product-image.png";
 
-  useEffect(() => {
-    let ignore = false;
-    getDownloadImage(firstImageName).then((url) => {
-      if (!ignore) {
-        url && setImageUrl(url);
-      }
-    });
-
-    return () => {
-      ignore = true;
-    };
-  }, [firstImageName]);
+  const { imageUrl } = useFetchImage(firstImageName);
 
   const _product = {
     ...product,

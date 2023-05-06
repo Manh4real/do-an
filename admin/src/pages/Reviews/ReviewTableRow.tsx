@@ -2,11 +2,9 @@ import React, { useEffect, useState, useMemo } from "react";
 import { IReview } from "../../types";
 import moment from "moment";
 import { Star } from "../../Icons";
-import {
-  getDownloadImage,
-  getDownloadUserAvatar,
-} from "../../features/firebase";
+import { getDownloadUserAvatar } from "../../features/firebase";
 import DeleteButton from "./DeleteButton";
+import { useFetchImage } from "../../hooks";
 
 interface Props {
   nth: number;
@@ -15,25 +13,13 @@ interface Props {
 const MAX_RATING_STARS = 5;
 function ReviewTableRow({ nth, review }: Props) {
   const [userAvatar, setUserAvatar] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
 
   // first image with first color
   const firstImageName =
     review.images[Object.keys(review.images)[0]]?.[0].url ||
     "default-product-image.png";
 
-  useEffect(() => {
-    let ignore = false;
-    getDownloadImage(firstImageName).then((url) => {
-      if (!ignore) {
-        url && setImageUrl(url);
-      }
-    });
-
-    return () => {
-      ignore = true;
-    };
-  }, [firstImageName]);
+  const { imageUrl } = useFetchImage(firstImageName);
 
   useEffect(() => {
     getDownloadUserAvatar(review.avatar).then((url) => {

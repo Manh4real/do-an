@@ -8,19 +8,26 @@ import {
   formatPhoneNumber,
   getStatusClasses,
 } from "../../helpers";
+import Spinner from "../../components/Spinner";
 
 type State = (IOrder & IOrderItem)[];
 function OrderDetails() {
   const [order, setOrder] = useState<State | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const { orderId } = useParams();
 
   useEffect(() => {
     if (orderId) {
-      getOrderById(orderId).then((data) => {
-        // console.log(data);
-        setOrder(data);
-      });
+      setLoading(true);
+      getOrderById(orderId)
+        .then((data) => {
+          // console.log(data);
+          setOrder(data);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }
   }, [orderId]);
 
@@ -29,6 +36,14 @@ function OrderDetails() {
   const orderInfo = order[0];
 
   let statusColorClass = getStatusClasses(orderInfo.order_status_name);
+
+  if (loading) {
+    return (
+      <div className="m-auto w-max mt-16">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="container p-8 mb-10">
@@ -91,7 +106,7 @@ function OrderDetails() {
           </p>
           <small className="text-gray-500">includes</small>
           <p className="text-lg font-medium text-black dark:text-white">
-            Total shipping cost: 20,000
+            Total shipping cost: 30,000
             <span className="text-xs font-medium mx-1">VND</span>
           </p>
           <p className="text-lg font-medium text-black dark:text-white">

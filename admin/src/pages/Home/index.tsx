@@ -82,7 +82,7 @@ function Home() {
 
   return (
     <h1 className="ext-3xl p-8">
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-11 2xl:gap-7.5">
         <CardSales sales={statistics.sales} />
         <CardOrders items={statistics.items} />
         <CardUsers users={statistics.users} />

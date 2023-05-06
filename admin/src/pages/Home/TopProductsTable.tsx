@@ -2,6 +2,7 @@ import React from "react";
 import { TopProduct } from "./types";
 import { numberWithCommas } from "../../helpers";
 import { ArrowUp } from "../../Icons";
+import { useFetchImage } from "../../hooks";
 
 interface Props {
   topProducts: TopProduct[];
@@ -29,34 +30,52 @@ function TopProductsTable({ topProducts }: Props) {
           </tr>
         </thead>
         <tbody>
-          {topProducts.map(
-            ({ price, product_id, product_name, sales, sold }) => (
-              <tr
-                key={product_id}
-                className="font-medium bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-              >
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  {product_name}
-                </th>
-                <td className="px-6 py-4">
-                  {numberWithCommas(price)}{" "}
-                  <small className="text-xs">VND</small>
-                </td>
-                <td className="px-6 py-4">{numberWithCommas(sold)}</td>
-                <td className="px-6 py-4">
-                  {numberWithCommas(sales)}{" "}
-                  <small className="text-xs">VND</small>
-                </td>
-              </tr>
-            )
-          )}
+          {topProducts.map((product, i) => (
+            <TopProductsRow key={i} product={product} />
+          ))}
         </tbody>
       </table>
     </div>
   );
 }
+
+interface TopProductsRowProps {
+  product: TopProduct;
+}
+const TopProductsRow = ({
+  product: { price, product_id, product_name, sales, sold, images },
+}: TopProductsRowProps) => {
+  const imageName = images[Object.keys(images)[0]]?.[0].url;
+  const { imageUrl } = useFetchImage(imageName);
+
+  return (
+    <tr className="font-medium bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+      <th
+        scope="row"
+        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+      >
+        <div className="flex gap-3">
+          {imageUrl ? (
+            <img
+              className="object-cover w-10 h-10 rounded-lg shadow-md"
+              src={imageUrl}
+              alt=""
+            />
+          ) : (
+            <div className="object-cover w-10 h-10 rounded-lg bg-gray-50 ring-1 ring-gray-400"></div>
+          )}
+          {product_name}
+        </div>
+      </th>
+      <td className="px-6 py-4">
+        {numberWithCommas(price)} <small className="text-xs">VND</small>
+      </td>
+      <td className="px-6 py-4">{numberWithCommas(sold)}</td>
+      <td className="px-6 py-4">
+        {numberWithCommas(sales)} <small className="text-xs">VND</small>
+      </td>
+    </tr>
+  );
+};
 
 export default TopProductsTable;

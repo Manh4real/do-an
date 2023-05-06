@@ -25,7 +25,7 @@ function PaymentStep({ nextStep }) {
           <>
             <StripePayment
               items={checkoutInfo.products}
-              userEmail={checkoutInfo.email}
+              userEmail={checkoutInfo.delivery?.email}
               handleNextStep={(paymentInfo) => {
                 setStep(nextStep);
                 handleDone();

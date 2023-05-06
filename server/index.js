@@ -76,6 +76,12 @@ const {
   updateStockHandler,
 } = require("./request_handlers/stock");
 const { getStatisticHandler } = require("./request_handlers/statistic");
+const {
+  insertProvincesHandler,
+  getProvincesHandler,
+  getDistrictsHandler,
+  getWardsHandler,
+} = require("./request_handlers/provinces");
 
 const app = express();
 
@@ -205,6 +211,7 @@ app.get("/api/v1/order_statuses", async (req, res) => {
     });
   } catch (err) {}
 });
+// update order statuses
 app.post(
   "/api/v1/orders/status/:orderId",
   authenticateToken,
@@ -273,6 +280,12 @@ app.get("/api/v1/sizes/multiple", async (req, res) => {
     res.sendStatus(500);
   }
 });
+
+// ADDRESS
+app.post("/api/v1/provinces", insertProvincesHandler);
+app.get("/api/v1/provinces", getProvincesHandler);
+app.get("/api/v1/districts", getDistrictsHandler);
+app.get("/api/v1/wards", getWardsHandler);
 
 const PORT = process.env.PORT || 3005;
 

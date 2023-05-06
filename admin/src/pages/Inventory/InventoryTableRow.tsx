@@ -1,36 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { IInventoryProduct } from "../../types";
 import { formatCurrency } from "../../helpers";
 import moment from "moment";
 import { ChevronArrowDown, ChevronArrowRight } from "../../Icons";
 import SubTableInventoryRow from "./SubTableInventoryRow";
-import { getDownloadImage } from "../../features/firebase";
+import { useFetchImage } from "../../hooks";
 
 interface Props {
+  nth: number;
   product: IInventoryProduct;
 }
 
-function InventoryTableRow({ product }: Props) {
+function InventoryTableRow({ nth, product }: Props) {
   const [expand, setExpand] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
 
   // first image with first color
   const firstImageName =
     product.images[Object.keys(product.images)[0]]?.[0].url ||
     "default-product-image.png";
 
-  useEffect(() => {
-    let ignore = false;
-    getDownloadImage(firstImageName).then((url) => {
-      if (!ignore) {
-        url && setImageUrl(url);
-      }
-    });
-
-    return () => {
-      ignore = true;
-    };
-  }, [firstImageName]);
+  const { imageUrl } = useFetchImage(firstImageName);
 
   return (
     <>
@@ -47,8 +36,13 @@ function InventoryTableRow({ product }: Props) {
         }}
         role="button"
         tabIndex={0}
-        className="cursor-pointer hover:bg-gray-50"
+        className={
+          "cursor-pointer hover:bg-gray-50" + (expand ? " bg-gray-50" : "")
+        }
       >
+        <td className="px-4 py-4 text-sm text-gray-900 font-semibold whitespace-nowrap">
+          {nth}
+        </td>
         <td className="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">
           {product.product_id}
         </td>

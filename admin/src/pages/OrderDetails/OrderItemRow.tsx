@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { IOrder, IOrderItem } from "../../types";
-import { getDownloadImage } from "../../features/firebase";
 import { formatCurrency } from "../../helpers";
+import { useFetchImage } from "../../hooks";
 
 interface Props {
   item: IOrder & IOrderItem;
@@ -9,15 +9,8 @@ interface Props {
 }
 
 function OrderItemRow({ item, nth }: Props) {
-  const [imageUrl, setImageUrl] = useState("");
-
   const imageName = item.product.images[item.color_id][0].url;
-
-  useEffect(() => {
-    getDownloadImage(imageName).then((url) => {
-      setImageUrl(url);
-    });
-  }, [imageName]);
+  const { imageUrl } = useFetchImage(imageName);
 
   return (
     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -25,7 +18,11 @@ function OrderItemRow({ item, nth }: Props) {
         {nth}
       </td>
       <td className="w-24 p-4">
-        <img src={imageUrl || imageName} alt="Apple Watch" />
+        {imageUrl ? (
+          <img src={imageUrl || imageName} alt="Apple Watch" />
+        ) : (
+          <div className="w-14 h-14 bg-gray-200 ring-1 ring-gray-300"></div>
+        )}
       </td>
       <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
         {item.product.product_name}

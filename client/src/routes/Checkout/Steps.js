@@ -23,11 +23,11 @@ function Steps() {
       console.log(checkoutInfo);
       orderProducts(checkoutInfo)
         .then((data) => {
-          // console.log(data);
-
           dispatch(clearBag());
-          alert("Placed order successfully!");
-          navigate("/shop", { replace: true });
+          navigate("/place-order-success", {
+            replace: true,
+            state: { placeOrderSuccess: true },
+          });
         })
         .catch((err) => {
           console.log(err);

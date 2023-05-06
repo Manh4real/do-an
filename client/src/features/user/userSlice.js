@@ -85,36 +85,40 @@ export const signIn = createAsyncThunk(
 export const signUp = createAsyncThunk(
   "user/signUp",
   async function (partialPayload) {
-    const newUser = {
-      email: partialPayload.email,
-      password: partialPayload.password,
-      first_name: partialPayload.name.firstName,
-      last_name: partialPayload.name.lastName,
-      birthday: partialPayload.birthday,
-      country: partialPayload.country,
-      with_email: partialPayload.withEmail,
-      registration_time: Date.now(),
-    };
-    const response = await auth.post("/signup", newUser);
-    const { accessToken } = response.data;
-    const result = await api.get("/me", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    const user = result.data.data.user;
-    setAccessTokenAtLocalStorage(accessToken);
-
     try {
-      const avatarUrl = await getDownloadUserAvatar(user.avatar);
+      const newUser = {
+        email: partialPayload.email,
+        password: partialPayload.password,
+        first_name: partialPayload.name.firstName,
+        last_name: partialPayload.name.lastName,
+        birthday: partialPayload.birthday,
+        country: partialPayload.country,
+        with_email: partialPayload.withEmail,
+        registration_time: Date.now(),
+      };
+      const response = await auth.post("/signup", newUser);
+      const { accessToken } = response.data;
+      const result = await api.get("/me", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
-      user.avatar = avatarUrl;
+      const user = result.data.data.user;
+      setAccessTokenAtLocalStorage(accessToken);
+
+      try {
+        const avatarUrl = await getDownloadUserAvatar(user.avatar);
+
+        user.avatar = avatarUrl;
+      } catch (err) {
+        console.log(err);
+      }
+
+      return user;
     } catch (err) {
-      console.log(err);
+      alert("Email already exists!");
     }
-
-    return user;
   }
 );
 
@@ -363,7 +367,7 @@ const userSlice = createSlice({
         updateInfo(state, action);
       })
       .addCase(signUp.rejected, (state) => {
-        alert("Failed to sign up!");
+        // alert("Failed to sign up!");
         state.status = "error";
       })
       .addCase(fetchFavorites.fulfilled, (state, action) => {

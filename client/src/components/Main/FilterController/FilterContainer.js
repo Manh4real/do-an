@@ -8,7 +8,7 @@ import FilterContext from "./context";
 import PriceDetails from "./PriceDetails";
 import ClothingDetails from "./ClothingDetails";
 import GenderDetails from "./GenderDetails";
-import { DetailsTag } from "components/DetailsTag";
+// import { DetailsTag } from "components/DetailsTag";
 import { CloseIcon } from "components/Icons";
 
 import StyledFilterContainer from "./StyledFilterContainer";
@@ -47,7 +47,7 @@ function FilterContainer({ isShowFilter, isTablet, handleToggleFilter }) {
         })}
       >
         <ClothingDetails handleClick={handleClick} />
-        <FilterByStore />
+        {/* <FilterByStore /> */}
         <GenderDetails handleClick={handleFilterChange} />
         <ReviewFilter />
         <PriceDetails />
@@ -63,16 +63,16 @@ function FilterContainer({ isShowFilter, isTablet, handleToggleFilter }) {
   );
 }
 
-const FilterByStore = () => {
-  return (
-    <DetailsTag
-      summary="Pick Up Today At:"
-      open={true}
-      className="filter-ctg text-left"
-    >
-      <div className="filter-by-store">Filter by Store</div>
-    </DetailsTag>
-  );
-};
+// const FilterByStore = () => {
+//   return (
+//     <DetailsTag
+//       summary="Pick Up Today At:"
+//       open={true}
+//       className="filter-ctg text-left"
+//     >
+//       <div className="filter-by-store">Filter by Store</div>
+//     </DetailsTag>
+//   );
+// };
 
 export default React.memo(FilterContainer);

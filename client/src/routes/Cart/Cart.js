@@ -24,10 +24,10 @@ function Cart() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("cart: ", location);
+    // console.log("cart: ", location);
     const timeID = setTimeout(() => {
       setLoading(false);
-    }, 5000);
+    }, 3000);
 
     return () => clearTimeout(timeID);
   }, [location]);

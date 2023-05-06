@@ -31,8 +31,9 @@ function OrderReviewStep({ nextStep }) {
               Address:
             </label>
             <p>
-              {delivery.address.province.text}, {delivery.address.district.text}
-              , {delivery.address.ward.text}
+              {delivery?.address?.province?.text || ""},{" "}
+              {delivery?.address?.district?.text || ""},{" "}
+              {delivery?.address?.ward?.text || ""}
             </p>
             <p>{delivery.address.additional}</p>
             {/* <p>{delivery.checked["ship-p"]}</p> */}

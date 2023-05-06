@@ -32,6 +32,7 @@ module.exports = {
         `SELECT COUNT(1) as total FROM reviews`
       );
       const total = getTotalResult.rows[0].total || 0;
+      const totalPage = Math.ceil(total / reviews_per_page);
 
       // end - pagination
 
@@ -83,8 +84,8 @@ module.exports = {
           pagination: {
             current_page: page,
             previous_page: page <= 1 ? 1 : page - 1,
-            next_page: reviews.length < reviews_per_page ? page : page + 1,
-            total_page: Math.ceil(total / reviews_per_page),
+            next_page: page < totalPage? page + 1 : totalPage,
+            total_page: totalPage,
           },
         },
       });

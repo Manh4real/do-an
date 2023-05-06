@@ -17,7 +17,7 @@ function BagFavorites() {
   const isLoggedIn = useIsLoggedIn();
 
   useEffect(() => {
-    const timeID = setTimeout(() => setLoading(false), 3000);
+    const timeID = setTimeout(() => setLoading(false), 1000);
 
     return () => clearTimeout(timeID);
   }, []);

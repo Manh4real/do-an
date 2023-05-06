@@ -3,6 +3,7 @@ import BottomMenu from "./BottomMenu";
 import { LatestProductsCarousel } from "components/Carousel";
 
 import StyledHome from "./StyledHome";
+import { Link } from "react-router-dom";
 
 function Home() {
   return (
@@ -10,7 +11,7 @@ function Home() {
       <div className="main-content-ctn">
         <div className="main-content-ctn-ctn">
           <div className="big-cover">
-            <a href="/shop">
+            <Link to="/shop">
               <div className="cover-title">
                 <p className="df-fnt max-font">
                   THE BEST <br />
@@ -31,7 +32,7 @@ function Home() {
                   alt=""
                 />
               </div>
-            </a>
+            </Link>
           </div>
 
           <LatestProductsCarousel title="The Latest And Greatest" />

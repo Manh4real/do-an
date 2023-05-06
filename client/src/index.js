@@ -37,6 +37,9 @@ const Checkout = React.lazy(() => import("routes/Checkout/Checkout"));
 const Account = React.lazy(() => import("routes/Account/Account"));
 const Cart = React.lazy(() => import("routes/Cart/Cart"));
 const Orders = React.lazy(() => import("routes/Orders"));
+const OrderSuccessInform = React.lazy(() =>
+  import("routes/OrderSuccessInform")
+);
 
 ReactDOM.render(
   <BrowserRouter>
@@ -75,6 +78,10 @@ ReactDOM.render(
                 </Route>
                 <Route element={<SimpleLayout />}>
                   <Route path="reviews/:productId" element={<ReviewsPage />} />
+                  <Route
+                    path="/place-order-success"
+                    element={<OrderSuccessInform />}
+                  />
                 </Route>
                 <Route element={<CheckoutLayout />}>
                   <Route path="/orders" element={<Orders />} />

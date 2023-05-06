@@ -17,10 +17,6 @@ module.exports = {
         [user_id]
       );
 
-      /*
-            INNER JOIN products ON favorites.product_id = products.product_id
-            INNER JOIN manufacturers ON products.manufacturer_id = manufacturers.manufacturer_id*/
-
       const favorites = result.rows;
       let finalFavorites = favorites;
 

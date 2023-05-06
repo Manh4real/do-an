@@ -3,6 +3,8 @@ import { Link, useSearchParams } from "react-router-dom";
 
 import { ArrowLeft, ArrowRight, SortIcon } from "../../Icons";
 
+import Spinner from "../../components/Spinner";
+
 // import { getOrders } from "../../services/orders";
 
 import { IOrders } from "../../types";
@@ -27,6 +29,7 @@ function Orders() {
   const [orders, setOrders] = useState<IOrders>({});
   const [statuses, setStatuses] = useState<IOrderStatusState[]>([]);
   const [activeStatus, setActiveStatus] = useState<IOrderStatusState>();
+  const [loading, setLoading] = useState(false);
 
   const [searchParams] = useSearchParams();
   const [total, setTotal] = useState<ITotal>({ orders: 0 });
@@ -60,6 +63,7 @@ function Orders() {
 
     if (refresh) {
       if (activeStatus) {
+        setLoading(true);
         getOrders(currentPage, activeStatus.order_status_id)
           .then((data) => {
             if (!ignore) {
@@ -82,6 +86,7 @@ function Orders() {
           })
           .finally(() => {
             setRefresh(false);
+            setLoading(false);
           });
       }
     } else {
@@ -94,28 +99,33 @@ function Orders() {
           "Get cached orders of status " + activeStatus.order_status_name
         );
       } else {
-        getOrders(currentPage, activeStatus.order_status_id).then((data) => {
-          if (!ignore) {
-            setOrders(data.data.orders);
-            setTotal({
-              orders: data.total,
-              // page: data.meta.pagination.total_page,
-            });
-
-            if (!cachedOrders.get(activeStatus.order_status_name)) {
-              cachedOrders.set(
-                activeStatus.order_status_name,
-                data.data.orders
-              );
-            }
-            if (!cachedOrders.get("total")) {
-              cachedOrders.set("total", {
-                // page: data.meta.pagination.total_page,
+        setLoading(true);
+        getOrders(currentPage, activeStatus.order_status_id)
+          .then((data) => {
+            if (!ignore) {
+              setOrders(data.data.orders);
+              setTotal({
                 orders: data.total,
+                // page: data.meta.pagination.total_page,
               });
+
+              if (!cachedOrders.get(activeStatus.order_status_name)) {
+                cachedOrders.set(
+                  activeStatus.order_status_name,
+                  data.data.orders
+                );
+              }
+              if (!cachedOrders.get("total")) {
+                cachedOrders.set("total", {
+                  // page: data.meta.pagination.total_page,
+                  orders: data.total,
+                });
+              }
             }
-          }
-        });
+          })
+          .finally(() => {
+            setLoading(false);
+          });
       }
     }
 
@@ -257,38 +267,59 @@ function Orders() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {Object.entries(orders).map(([orderId, orderItems], i) => {
-                      return (
-                        <OrderTableRow
-                          key={orderId}
-                          nth={(currentPage - 1) * ORDERS_PER_PAGE + (i + 1)}
-                          order={{
-                            address: orderItems[0].address,
-                            created_at: orderItems[0].created_at,
-                            customer_name: orderItems[0].customer_name,
-                            email: orderItems[0].email,
-                            est_arrived_date: orderItems[0].est_arrived_date,
-                            order_id: orderItems[0].order_id,
-                            phone: orderItems[0].phone,
-                            receiver: orderItems[0].receiver,
-                            status: orderItems[0].status,
-                            order_status_id: orderItems[0].order_status_id,
-                            order_status_name: orderItems[0].order_status_name,
-                            total_price: orderItems[0].total_price,
-                            user_id: orderItems[0].user_id,
-                          }}
-                          orderItems={orderItems.map((item) => ({
-                            order_item_id: item.order_item_id,
-                            product: item.product,
-                            product_id: item.product_id,
-                            quantity: item.quantity,
-                            size: item.size,
-                            color_id: item.color_id,
-                            color_name: item.color_name,
-                          }))}
-                        />
-                      );
-                    })}
+                    {loading && (
+                      <tr>
+                        <td>
+                          <div className="m-auto w-max my-3">
+                            <Spinner />
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                    {!loading && Object.keys(orders).length === 0 && (
+                      <tr>
+                        <td className="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">
+                          <div className="py-3 text-center">
+                            No orders found
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                    {!loading &&
+                      Object.keys(orders).length > 0 &&
+                      Object.entries(orders).map(([orderId, orderItems], i) => {
+                        return (
+                          <OrderTableRow
+                            key={orderId}
+                            nth={(currentPage - 1) * ORDERS_PER_PAGE + (i + 1)}
+                            order={{
+                              address: orderItems[0].address,
+                              created_at: orderItems[0].created_at,
+                              customer_name: orderItems[0].customer_name,
+                              email: orderItems[0].email,
+                              est_arrived_date: orderItems[0].est_arrived_date,
+                              order_id: orderItems[0].order_id,
+                              phone: orderItems[0].phone,
+                              receiver: orderItems[0].receiver,
+                              status: orderItems[0].status,
+                              order_status_id: orderItems[0].order_status_id,
+                              order_status_name:
+                                orderItems[0].order_status_name,
+                              total_price: orderItems[0].total_price,
+                              user_id: orderItems[0].user_id,
+                            }}
+                            orderItems={orderItems.map((item) => ({
+                              order_item_id: item.order_item_id,
+                              product: item.product,
+                              product_id: item.product_id,
+                              quantity: item.quantity,
+                              size: item.size,
+                              color_id: item.color_id,
+                              color_name: item.color_name,
+                            }))}
+                          />
+                        );
+                      })}
                   </tbody>
                 </table>
               </div>

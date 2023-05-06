@@ -16,6 +16,13 @@ const StyledGuidesNav = styled.div`
     flex-direction: column;
     flex-wrap: wrap;
     max-height: 180px;
+
+    a {
+      color: #7e7e7e !important;
+    }
+    a:hover {
+      color: #fff !important;
+    }
   }
 
   @media (max-width: 900px) {

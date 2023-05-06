@@ -13,8 +13,9 @@ module.exports = {
     try {
       const { user_id } = req.user;
       const result = await db.query(
-        `SELECT user_id, email, first_name, last_name, birthday, country, registration_time, avatar, role 
+        `SELECT users.user_id, email, first_name, last_name, birthday, country, registration_time, avatar, role_id as role 
             FROM users
+            INNER JOIN user_roles ON user_roles.user_id = users.user_id
             WHERE users.user_id = $1`,
         [user_id]
       );
@@ -137,6 +138,9 @@ module.exports = {
       const total_result = await db.query(
         `SELECT COUNT(1) as total FROM users`
       );
+      const total = total_result.rows[0]["total"] || 0;
+      const totalPage = Math.ceil(total / users_per_page);
+
       const result = await db.query(
         `SELECT users.user_id, users.email, users.first_name, users.last_name, users.birthday, users.country, users.registration_time, users.avatar, users.role FROM users ORDER BY users.registration_time DESC, users.first_name ASC, users.last_name ASC LIMIT $1 OFFSET $2`,
         [users_per_page, from]
@@ -154,10 +158,8 @@ module.exports = {
           pagination: {
             current_page: page,
             previous_page: page <= 1 ? 1 : page - 1,
-            next_page: users.length < users_per_page ? page : page + 1,
-            total_page: Math.ceil(
-              (total_result.rows[0]["total"] || 0) / users_per_page
-            ),
+            next_page: page < totalPage ? page + 1 : totalPage,
+            total_page: totalPage,
           },
         },
       });
@@ -195,6 +197,9 @@ module.exports = {
         `,
         [q]
       );
+      const total = total_result.rows[0]["total"] || 0;
+      const totalPage = Math.ceil(total / users_per_page);
+
       const result = await db.query(
         `SELECT users.user_id, users.email, users.first_name, users.last_name, users.birthday, users.country, users.registration_time, users.avatar, users.role FROM users 
           WHERE users.email LIKE ($1 || '%')
@@ -215,10 +220,8 @@ module.exports = {
           pagination: {
             current_page: page,
             previous_page: page <= 1 ? 1 : page - 1,
-            next_page: users.length < users_per_page ? page : page + 1,
-            total_page: Math.ceil(
-              (total_result.rows[0]["total"] || 0) / users_per_page
-            ),
+            next_page: page < totalPage ? page + 1 : totalPage,
+            total_page: totalPage,
           },
         },
       });
@@ -279,6 +282,14 @@ module.exports = {
           role,
           registration_time,
         ]
+      );
+
+      const insertUserRoleResult = await db.query(
+        `
+        INSERT INTO user_roles (user_id, role_id)
+        VALUES ($1, $2)
+      `,
+        [result.rows[0].user_id, role]
       );
 
       res.status(201).json({

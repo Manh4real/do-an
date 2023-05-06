@@ -81,12 +81,14 @@ export const getStockByProductId = async (productId: string) => {
     }
 }
 
-export const getStocks = async () => {
+export const getStocks = async (page: number = 1) => {
     try {
         const token = getAccessTokenFromLocalStorage()
 
         const response = await api.get("/stocks", {
-
+            params: {
+                page
+            },
             headers: {
                 Authorization: `Bearer ${token}`
             }

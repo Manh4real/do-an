@@ -47,6 +47,8 @@ const CheckoutForm = ({ handleNextStep, userEmail }) => {
   const stripe = useStripe();
   const elements = useElements();
 
+console.log({userEmail});
+
   const [errorMessage, setErrorMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   // const location = useLocation();

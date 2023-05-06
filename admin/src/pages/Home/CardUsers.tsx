@@ -15,7 +15,7 @@ const CardUsers = ({ users }: Props) => {
   const styleClasses = growthRate >= 0 ? "text-green-400" : "text-red-400";
 
   return (
-    <div className="whitespace-nowrap rounded-sm border bg-white py-6 px-7 shadow-lg shadow-gray-100">
+    <div className="whitespace-nowrap rounded-sm border bg-white py-6 px-7 shadow-lg shadow-gray-100 xl:col-span-3">
       <div className="flex h-11 w-11 items-center justify-center rounded-full bg-indigo-100">
         <svg
           xmlns="http://www.w3.org/2000/svg"

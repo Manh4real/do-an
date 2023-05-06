@@ -16,22 +16,27 @@ module.exports = {
       }
 
       // pagination
-      // let { page = 1 } = req.query;
+      let { page = 1 } = req.query;
 
-      // page = Number(page);
+      page = Number(page);
 
-      // if (Number.isNaN(page) || page <= 0) page = 1;
+      if (Number.isNaN(page) || page <= 0) page = 1;
 
-      // const stocks_per_page = 50;
-      // const from = (page - 1) * stocks_per_page;
-      // const to = (page + 1) * stocks_per_page;
+      const stocks_per_page = 10;
+      const from = (page - 1) * stocks_per_page;
+      const to = (page + 1) * stocks_per_page;
 
       const getTotalResult = await db.query(
         `SELECT COUNT(1) as total FROM stock
-        GROUP BY product_id
-        `
+        GROUP BY product_id`
+      );
+      const getProductsIdsResult = await db.query(
+        `SELECT stock.product_id FROM stock GROUP BY product_id 
+          LIMIT $1 OFFSET $2`, [stocks_per_page, from]
       );
       const total = getTotalResult.rows.length;
+      const pIds = getProductsIdsResult.rows.length;
+      const totalPage = Math.ceil(total / stocks_per_page);
       // end-pagination
 
       const result = await db.query(
@@ -47,8 +52,11 @@ module.exports = {
         INNER JOIN sizes ON sizes.size_id = stock.size_id
         INNER JOIN types ON types.type_id = products.type_id
         INNER JOIN manufacturers ON manufacturers.manufacturer_id = products.manufacturer_id
+
+        WHERE stock.product_id IN (SELECT stock.product_id FROM stock GROUP BY product_id LIMIT $1 OFFSET $2)
+    
         ORDER BY products.product_id DESC, sizes.size_id ASC
-      `
+      `, [stocks_per_page, from]
       );
 
       /*
@@ -134,15 +142,14 @@ module.exports = {
         data: {
           stocks: stock,
         },
-        // meta: {
-        //   pagination: {
-        //     // current_page: page,
-        //     // previous_page: page <= 1 ? 1 : page - 1,
-        //     // next_page:
-        //     //   Object.keys(stock).length < stocks_per_page ? page : page + 1,
-        //     total_page: Math.ceil(total / Object.keys(stock).length),
-        //   },
-        // },
+        meta: {
+          pagination: {
+            current_page: page,
+            previous_page: page <= 1 ? 1 : page - 1,
+            next_page: page < totalPage? page + 1 : totalPage,
+            total_page: totalPage,
+          },
+        },
       });
     } catch (err) {
       console.log(err);

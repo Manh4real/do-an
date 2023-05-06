@@ -23,7 +23,7 @@ function Reviews() {
   const [total, setTotal] = useState<ITotal>({ page: 1, reviews: 0 });
 
   const currentPage = Number(searchParams.get("page")) || 1;
-  const q = searchParams.get("q"); // search query string
+  // const q = searchParams.get("q"); // search query string
   const totalPage = total.page;
   const totalReviews = total.reviews;
 
@@ -197,7 +197,9 @@ function Reviews() {
                     {loading && (
                       <tr>
                         <td>
-                          <Spinner />
+                          <div className="m-auto w-max my-3">
+                            <Spinner />
+                          </div>
                         </td>
                       </tr>
                     )}

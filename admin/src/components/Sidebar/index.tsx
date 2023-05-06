@@ -19,7 +19,11 @@ function Sidebar() {
     if (isActive) c = "bg-gray-800 text-white";
     else c = "hover:bg-gray-800 hover:text-white text-black";
 
-    return "flex items-center gap-2 font-medium p-3 rounded-lg " + c;
+    return (
+      "flex items-center justify-center gap-2 font-medium p-3 rounded-lg " +
+      c +
+      " xl:justify-start"
+    );
   };
 
   return (
@@ -27,10 +31,12 @@ function Sidebar() {
       <div>
         <Link
           to="/"
-          className="flex flex-row items-center gap-3 mb-8 py-3 border-b-2 border-b-gray-200"
+          className="flex flex-row items-center justify-center gap-3 mb-8 py-3 border-b-2 border-b-gray-200"
         >
           <Logo />
-          <span className="font-medium">For The World.</span>
+          <span className="font-medium hidden xl:inline-block">
+            For The World.
+          </span>
         </Link>
 
         <nav>
@@ -38,7 +44,7 @@ function Sidebar() {
             <li className="mb-2">
               <NavLink className={getNavLinkClasses} to="/">
                 <DashboardIcon />
-                <span className="block text-ellipsis overflow-hidden">
+                <span className="hidden text-ellipsis overflow-hidden xl:block">
                   Dashboard
                 </span>
               </NavLink>
@@ -46,7 +52,7 @@ function Sidebar() {
             <li className="mb-2">
               <NavLink className={getNavLinkClasses} to="/products">
                 <ProductIcon />
-                <span className="block text-ellipsis overflow-hidden">
+                <span className="hidden text-ellipsis overflow-hidden xl:block">
                   Products Management
                 </span>
               </NavLink>
@@ -54,7 +60,7 @@ function Sidebar() {
             <li className="mb-2">
               <NavLink className={getNavLinkClasses} to="/users">
                 <UsersIcon />
-                <span className="block text-ellipsis overflow-hidden">
+                <span className="hidden text-ellipsis overflow-hidden xl:block">
                   Users Management
                 </span>
               </NavLink>
@@ -62,7 +68,7 @@ function Sidebar() {
             <li className="mb-2">
               <NavLink className={getNavLinkClasses} to="/orders">
                 <OrderIcon />
-                <span className="block text-ellipsis overflow-hidden">
+                <span className="hidden text-ellipsis overflow-hidden xl:block">
                   Orders Management
                 </span>
               </NavLink>
@@ -70,7 +76,7 @@ function Sidebar() {
             <li className="mb-2">
               <NavLink className={getNavLinkClasses} to="/reviews">
                 <ReviewIcon />
-                <span className="block text-ellipsis overflow-hidden">
+                <span className="hidden text-ellipsis overflow-hidden xl:block">
                   Reviews Management
                 </span>
               </NavLink>
@@ -78,7 +84,7 @@ function Sidebar() {
             <li className="mb-2">
               <NavLink className={getNavLinkClasses} to="/inventory">
                 <InventoryIcon />
-                <span className="block text-ellipsis overflow-hidden">
+                <span className="hidden text-ellipsis overflow-hidden xl:block">
                   Inventories
                 </span>
               </NavLink>
@@ -86,7 +92,9 @@ function Sidebar() {
             <li className="mb-2">
               <NavLink className={getNavLinkClasses} to="/analytics">
                 <ChartIcon />
-                Analytics
+                <span className="hidden text-ellipsis overflow-hidden xl:block">
+                  Analytics
+                </span>
               </NavLink>
             </li>
           </ul>

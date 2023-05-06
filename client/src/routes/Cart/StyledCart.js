@@ -258,7 +258,7 @@ const StyledCart = styled.div`
       grid-template-columns: repeat(4, 1fr);
       gap: 22px 0;
     }
-    .bag__products-info.grid-col-span-2,
+    .bag__products-info,
     .bag__summary,
     .bag__favorites {
       grid-column: 1 / -1;
@@ -269,7 +269,7 @@ const StyledCart = styled.div`
     .bag__product-info .flex-start {
       gap: 0;
     }
-    .bag__products-info.grid-col-span-2,
+    .bag__products-info,
     .bag__summary,
     .bag__favorites {
       padding: 0;

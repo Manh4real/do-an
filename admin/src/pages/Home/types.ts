@@ -1,3 +1,5 @@
+import { IProductImage } from "../../types";
+
 export interface IStatisticFieldProps {
     total: number;
     this_week: number;
@@ -33,4 +35,7 @@ export interface TopProduct {
     price: number;
     sold: number;
     sales: number;
+    images: {
+        [key: string]: IProductImage[]
+    }
 }

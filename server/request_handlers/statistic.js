@@ -1,4 +1,36 @@
+const _ = require("lodash");
+
 const db = require("../db");
+const { getImagesByProductsIDs } = require("../helpers");
+
+const productsWithImages = async (rows) => {
+  let products = [...rows];
+
+  if (products.length > 0) {
+    // $1, $2, ...
+    const products_ids = products.map((p) => p.product_id);
+
+    const imageResult = await db.query(
+      getImagesByProductsIDs(products_ids),
+      products_ids
+    );
+
+    products = products.map((p) => {
+      const filteredImages = imageResult.rows.filter(
+        (i) => i.product_id.trim() === p.product_id.trim()
+      );
+
+      const images = _.groupBy(filteredImages, "product_color_id");
+
+      return {
+        ...p,
+        images,
+      };
+    });
+  }
+
+  return products;
+};
 
 module.exports = {
   async getStatisticHandler(req, res) {
@@ -27,7 +59,7 @@ module.exports = {
             SELECT SUM(orders.total_price) as this_week_sales from orders
             WHERE created_at BETWEEN
                 NOW()::DATE - 7
-                AND NOW()::DATE
+                AND NOW()
         `);
       const salesLast12MonthsResult = await db.query(`
         SELECT 
@@ -45,7 +77,7 @@ module.exports = {
         FROM orders o
         WHERE created_at BETWEEN
           NOW()::DATE - (7 * 6)
-          AND NOW()::DATE
+          AND NOW()
         GROUP BY week_start
         ORDER BY week_start;
       `);
@@ -80,7 +112,7 @@ module.exports = {
             INNER JOIN order_items ON order_items.order_id = orders.order_id
             WHERE created_at BETWEEN
                 NOW()::DATE - 7
-                AND NOW()::DATE
+                AND NOW()
         `);
 
       // users
@@ -97,7 +129,7 @@ module.exports = {
             SELECT COUNT(1)::integer as this_week_users from users
             WHERE TO_TIMESTAMP(registration_time / 1000) BETWEEN
                 NOW()::DATE - 7
-                AND NOW()::DATE
+                AND NOW()
         `);
 
       // Recent sales (last 7 days)
@@ -106,7 +138,7 @@ module.exports = {
         INNER JOIN users ON orders.user_id = users.user_id
         WHERE created_at BETWEEN
             NOW()::DATE - 7
-            AND NOW()::DATE
+            AND NOW()
       `);
 
       // Top products (limit 10)
@@ -118,6 +150,7 @@ module.exports = {
         ORDER BY sold DESC, sales DESC
         LIMIT 10
       `);
+      const topProducts = await productsWithImages(topProductsResult.rows);
 
       res.status(200).json({
         status: "success",
@@ -147,7 +180,7 @@ module.exports = {
             sales: salesLast30daysResult.rows,
           },
           user_recent_sales: userRecentSalesResult.rows,
-          top_products: topProductsResult.rows,
+          top_products: topProducts,
         },
       });
     } catch (err) {

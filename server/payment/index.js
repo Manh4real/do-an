@@ -1,5 +1,6 @@
-const express = require("express");
+require("dotenv").config();
 
+const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const fetch = require("node-fetch");
@@ -11,9 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 // This is your test secret API key.
-const stripe = require("stripe")(
-  "sk_test_51N2rtKCUuUZ7cLz9yRORa9c1GPKJbib2Kbp1tjviwDOK3uyOvQDxKjtV3gNXsrRoh3oXyOdskgABN2KuGVUyEgPS00QKADuPJV"
-);
+const stripe = require("stripe")(process.env.STRIPE_TEST_SECRET_API_KEY);
 
 app.use(express.static("public"));
 app.use(express.json());
@@ -25,9 +24,7 @@ const calculateOrderAmount = async (items) => {
 
   if (products_ids.length === 0) return 1;
   const searchParams = new URLSearchParams([["q", products_ids.join(",")]]);
-  const response = await fetch(
-    "http://localhost:3005/api/v1/products/ids?" + searchParams.toString()
-  );
+  const response = await fetch(process.env.API_ENDPOINT + "/products/ids?" + searchParams.toString());
   const data = await response.json();
   // Replace this constant with a calculation of the order's amount
   // Calculate the order total on the server to prevent

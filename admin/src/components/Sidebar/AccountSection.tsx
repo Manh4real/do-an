@@ -37,11 +37,15 @@ function AccountSection() {
     <div className="flex justify-around pb-6 mt-8">
       <div className="flex flex-col items-center">
         <Link to="/account" className="rounded-full w-16 h-16 overflow-hidden">
-          <img
-            className="w-[100%] h-[100%] object-cover"
-            src={imageUrl || user.avatar}
-            alt=""
-          />
+          {imageUrl || user.avatar ? (
+            <img
+              className="w-[100%] h-[100%] object-cover"
+              src={imageUrl || user.avatar}
+              alt=""
+            />
+          ) : (
+            <div className="w-[100%] h-[100%] object-cover"></div>
+          )}
         </Link>
         <div className="font-semibold text-lg">
           {user.first_name + " " + user.last_name}

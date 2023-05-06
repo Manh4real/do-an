@@ -9,7 +9,7 @@ import OrderStatusInput from "./OrderStatusInput";
 import { useRefreshContext } from "../../../context";
 import { updateOrder } from "../../../services/orders";
 import { IOrderStatusState } from "../types";
-import { isInThePast } from "../../../helpers";
+// import { isInThePast } from "../../../helpers";
 
 interface Props {
   order: IOrder;

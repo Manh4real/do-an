@@ -19,3 +19,14 @@ export const getOrderStatuses = async () => {
     console.log(err);
   }
 };
+
+export const createProvinces = async () => {
+  try {
+    const response = await api.post("/provinces");
+
+    return true;
+  } catch (err) {
+    console.log(err);
+  }
+  return false;
+};

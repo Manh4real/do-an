@@ -5,16 +5,9 @@ import { getDownloadUserAvatar } from "../../features/firebase";
 import { To, useNavigate } from "react-router-dom";
 
 function Account() {
-  // const [visible, setVisible] = useState(false);
   const user = useUserStore();
   const [imageUrl, setImageUrl] = useState("");
 
-  // const handleOpen = () => {
-  //   setVisible(true);
-  // };
-  // const handleClose = () => {
-  //   setVisible(false);
-  // };
   const navigate = useNavigate();
 
   useEffect(() => {

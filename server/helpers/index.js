@@ -26,7 +26,7 @@ module.exports = {
     });
 
     let query =
-      "SELECT * FROM images WHERE images.product_id IN (" + s.join(",") + ")";
+      "SELECT * FROM images WHERE images.product_id IN (" + s.join(",") + ") ";
     return query;
   },
   getProductsByIDs(products_ids) {

@@ -28,8 +28,11 @@ app.post("/auth/signin", async (req, res) => {
     const { email, password: plainPassword } = req.body;
 
     const response = await db.query(
-      `SELECT user_id, password, first_name, last_name, birthday, country, registration_time, role 
-			FROM users WHERE users.email = $1`,
+      `SELECT users.user_id, password, first_name, last_name, birthday, country, registration_time, role_id as role 
+			FROM users 
+      INNER JOIN user_roles ON user_roles.user_id = users.user_id
+      WHERE users.email = $1
+      `,
       [email]
     );
 
@@ -76,8 +79,11 @@ app.post("/auth/a/signin", async (req, res) => {
   try {
     const { email, password: plainPassword } = req.body;
     const response = await db.query(
-      `SELECT user_id, password, first_name, last_name, birthday, country, registration_time, role 
-			FROM users WHERE users.email = $1`,
+      `SELECT users.user_id, password, first_name, last_name, birthday, country, registration_time, role_id as role 
+			FROM users
+      INNER JOIN user_roles ON user_roles.user_id = users.user_id
+      WHERE users.email = $1
+      `,
       [email]
     );
 
@@ -196,6 +202,14 @@ app.post("/auth/signup", async (req, res) => {
         );
 
         const { user_id } = response.rows[0];
+
+        const insertUserRoleResult = await db.query(
+          `
+          INSERT INTO user_roles (user_id)
+          VALUES ($1)
+        `,
+          [user_id]
+        );
 
         const payload = { user_id };
         const accessToken = generateAccessToken(payload);

@@ -40,14 +40,6 @@ function Orders() {
     };
   }, [isLoggedIn]);
 
-  if (loading) {
-    return (
-      <div className="h-100vh flex-center">
-        <Spinner />
-      </div>
-    );
-  }
-
   const filteredOrders = Object.entries(orders)
     .filter(
       ([, orderItems]) =>
@@ -64,44 +56,50 @@ function Orders() {
           setActiveStatus={setActiveStatus}
         />
       </header>
-      {filteredOrders.map(([orderId, orderItems], i) => {
-        const orderedDate = orderItems[0].created_at;
-        const shippingFee = 30000;
-        // const tax = 0;
-        // orderItems[0].total_price ||
-        const totalPrice =
-          orderItems.reduce(
-            (acc, orderItem) =>
-              acc + orderItem.quantity * orderItem.product.price,
-            0
-          ) + shippingFee;
+      {loading && (
+        <div className="flex-center">
+          <Spinner />
+        </div>
+      )}
+      {!loading &&
+        filteredOrders.map(([orderId, orderItems], i) => {
+          const orderedDate = orderItems[0].created_at;
+          const shippingFee = 30000;
+          // const tax = 0;
+          // orderItems[0].total_price ||
+          const totalPrice =
+            orderItems.reduce(
+              (acc, orderItem) =>
+                acc + orderItem.quantity * orderItem.product.price,
+              0
+            ) + shippingFee;
 
-        return (
-          <React.Fragment key={i}>
-            <div className="flex-spbw mt-25 medium-font order-title mt-25 grey-bg">
-              <div>
-                <span className="grey-font underlined">#{orderId}</span>
-                <span className="ml-10">
-                  Placed order on {stringifyDate(new Date(orderedDate))}
-                </span>
-              </div>
-              <div>
-                <span className="ml-auto bold-font order-total-price">
-                  Total Price: {formatCurrency(totalPrice)} VND
-                </span>
-                <div className="small-font text-right">
-                  includes shipping fee: {formatCurrency(shippingFee)} VND
+          return (
+            <React.Fragment key={i}>
+              <div className="flex-spbw mt-25 medium-font order-title mt-25 grey-bg">
+                <div>
+                  <span className="grey-font underlined">#{orderId}</span>
+                  <span className="ml-10">
+                    Placed order on {stringifyDate(new Date(orderedDate))}
+                  </span>
+                </div>
+                <div>
+                  <span className="ml-auto bold-font order-total-price">
+                    Total Price: {formatCurrency(totalPrice)} VND
+                  </span>
+                  <div className="small-font text-right">
+                    includes shipping fee: {formatCurrency(shippingFee)} VND
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {orderItems.map((orderItem, i) => {
-              return <OrderItem key={i} orderItem={orderItem} />;
-            })}
-          </React.Fragment>
-        );
-      })}
-      {filteredOrders.length === 0 && (
+              {orderItems.map((orderItem, i) => {
+                return <OrderItem key={i} orderItem={orderItem} />;
+              })}
+            </React.Fragment>
+          );
+        })}
+      {!loading && filteredOrders.length === 0 && (
         <div
           className="grid-col-span-all flex-center text-center large-font"
           style={{

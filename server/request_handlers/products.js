@@ -32,6 +32,7 @@ module.exports = {
         `SELECT COUNT(1) as total FROM products`
       );
       const total = getTotalResult.rows[0].total || 0;
+      const totalPage = Math.ceil(total / products_per_page);
 
       const result = await db.query(
         `SELECT * FROM products 
@@ -123,8 +124,8 @@ module.exports = {
           pagination: {
             current_page: page,
             previous_page: page <= 1 ? 1 : page - 1,
-            next_page: products.length < products_per_page ? page : page + 1,
-            total_page: Math.ceil(total / products_per_page),
+            next_page: page < totalPage ? page + 1 : totalPage,
+            total_page: totalPage,
           },
         },
       });
@@ -311,6 +312,7 @@ module.exports = {
         [q]
       );
       const total = getTotalResult.rows[0].total || 0;
+      const totalPage = Math.ceil(total / products_per_page);
 
       const result = await db.query(
         `SELECT * FROM products 
@@ -392,8 +394,8 @@ module.exports = {
           pagination: {
             current_page: page,
             previous_page: page <= 1 ? 1 : page - 1,
-            next_page: products.length < products_per_page ? page : page + 1,
-            total_page: Math.ceil(total / products_per_page),
+            next_page: page < totalPage ? page + 1 : totalPage,
+            total_page: totalPage,
           },
         },
       });

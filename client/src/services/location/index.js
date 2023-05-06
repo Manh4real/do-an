@@ -1,5 +1,5 @@
 import axios from "axios";
-import { geoApi, zipcodeApi } from "api";
+import api, { geoApi, zipcodeApi } from "api";
 
 /*
 geolocation (of IP address):
@@ -58,7 +58,7 @@ export const getUserGeolocation = async (code, options = {}) => {
 };
 
 // ADDRESS
-export const getProvinceList = async (options) => {
+export const getProvinceList = async (options = {}) => {
   const response = await axios.get(
     process.env.REACT_APP_PROVINCES_API_ENDPOINT,
     {
@@ -68,7 +68,7 @@ export const getProvinceList = async (options) => {
 
   return response.data;
 };
-export const getDistrictList = async (options) => {
+export const getDistrictList = async (options = {}) => {
   const response = await axios.get(
     process.env.REACT_APP_DISTRICTS_API_ENDPOINT,
     {
@@ -78,10 +78,35 @@ export const getDistrictList = async (options) => {
 
   return response.data;
 };
-export const getWardList = async (options) => {
+export const getWardList = async (options = {}) => {
   const response = await axios.get(process.env.REACT_APP_WARDS_API_ENDPOINT, {
     ...options,
   });
 
   return response.data;
+};
+
+// database
+export const getProvinces = async (options = {}) => {
+  const response = await api.get("/provinces", {
+    ...options,
+  });
+
+  return response.data.provinces;
+};
+
+export const getDistricts = async (options = {}) => {
+  const response = await api.get("/districts", {
+    ...options,
+  });
+
+  return response.data.districts;
+};
+
+export const getWards = async (options = {}) => {
+  const response = await api.get("/wards", {
+    ...options,
+  });
+
+  return response.data.wards;
 };

@@ -89,6 +89,20 @@ CREATE TABLE users (
 	with_email BOOLEAN
 );
 
+create table roles (
+	role_id bigserial NOT NULL PRIMARY KEY,
+	role_name varchar(10)
+);
+
+create table user_roles (
+	user_id bigint NOT NULL,
+	role_id bigint NOT NULL default 1,
+	
+	primary key(user_id, role_id),
+	foreign key (user_id) references users(user_id),
+	foreign key (role_id) references roles(role_id)
+);
+
 INSERT INTO users (email, password, first_name, last_name, birthday, country, registration_time, with_email) VALUES 
 ('phungvi@gmail.com', 'abcABC123', 'Vi', 'Phung', '2022-02-10'::date, 'US', 1644665202923, false),
 ('nguyenthang@gmail.com', 'abcABC123', 'Thang', 'Nguyen', '2022-02-12'::date, 'US', 1644665202923, false),
@@ -389,9 +403,23 @@ ALTER TABLE reviews
 ADD COLUMN title VARCHAR(50) DEFAULT '';
 
 
+-- update stock from product
+update stock
+set quantity = quantity - 1
+where stock.product_id = 37 AND stock.color_id = 1 AND stock.size_id = 3
+
+-- select products from order
+select order_items.product_id, order_items.color_id, order_items.size_id, quantity
+from orders
+inner join order_items on order_items.order_id = orders.order_id
+where orders.order_id = 31
+
+-- select order status from order
+select order_status_id from orders
+where orders.order_id = 31
 
 
-
+-- STATISTICS
 -- last 12 months
 SELECT 
 	EXTRACT(YEAR FROM created_at) as year,

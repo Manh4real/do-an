@@ -35,10 +35,10 @@ const ShippingInfo = () => {
   }, []);
 
   return (
-    <div className="regular-font">
+    <div className="regular-font mb-10">
       <h4>Shipping</h4>
       <p>
-        Arrives by {date} to&nbsp;
+        Estimated Arrives by {date} to&nbsp;
         <button
           title={geolocation.city}
           className="underlined regular-font hover-w-hl-udl"

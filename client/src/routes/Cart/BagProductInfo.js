@@ -141,14 +141,14 @@ function BagProductInfo({ product }) {
         </div>
       </div>
       <ShippingInfo />
-      <div className="regular-font">
+      {/* <div className="regular-font">
         <h4>Free Pickup</h4>
         <p>
           <button className="underlined regular-font hover-w-hl-udl">
             Find a Store
           </button>
         </p>
-      </div>
+      </div> */}
     </div>
   );
 }
