@@ -158,6 +158,12 @@ const StyledHome = styled.div`
         font-size: 24px;
       }
     }
+    .itm-1,
+    .itm-2,
+    .itm-3,
+    .itm-4 {
+      min-height: 200px;
+    }
     .itm-1 {
       grid-row: span 4;
       grid-column: 1 / 2;

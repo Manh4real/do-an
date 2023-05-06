@@ -28,8 +28,8 @@ const CheckoutProduct = ({ product }) => {
 
   return (
     <div className="checkout__product flex-start">
-      <div className="image" style={{ width: 50 }}>
-        <img src={url || imageName} alt="" />
+      <div className="image grey-bg" style={{ width: 50, height: 50 }}>
+        {(url || imageName) && <img src={url || imageName} alt="" />}
       </div>
       <div className="checkout__product-info">
         <div className="productName">{product.product_name}</div> <br />

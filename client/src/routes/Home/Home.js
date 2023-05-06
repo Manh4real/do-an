@@ -10,7 +10,7 @@ function Home() {
     <StyledHome>
       <div className="main-content-ctn">
         <div className="main-content-ctn-ctn">
-          <div className="big-cover">
+          <div className="big-cover grey-bg">
             <Link to="/shop">
               <div className="cover-title">
                 <p className="df-fnt max-font">
@@ -39,8 +39,11 @@ function Home() {
 
           <div className="best-gift-ever">
             <div className="pd-title">Best Gifts Ever</div>
-            <a href="/">
-              <div className="bge-cover">
+            <Link to="/">
+              <div
+                className="bge-cover grey-bg flex"
+                style={{ minHeight: 200 }}
+              >
                 <img src="/images/nike-just-do-it.jpg" width="100%" alt="" />
               </div>
               <div className="bge-title df-fnt max-font">
@@ -51,22 +54,22 @@ function Home() {
                 Warmth for exploring or posterizing yetis. Plus, more of the
                 best gift ever.
               </p>
-            </a>
+            </Link>
             <div className="btns">
-              <a href="/" className="shop-btn regular-font">
+              <Link to="/shop" className="shop-btn regular-font">
                 Shop
-              </a>
-              <a href="/" className="shop-btn regular-font explore-btn">
+              </Link>
+              <Link to="/shop" className="shop-btn regular-font explore-btn">
                 Explore
-              </a>
+              </Link>
             </div>
           </div>
 
           <div className="trending-now-ctn">
             <div className="pd-title">Trending Now</div>
             <div className="trending-now">
-              <div className="itm-1">
-                <a href="/">
+              <div className="itm-1 grey-bg">
+                <Link to="/shop">
                   <img src="./images/nike-just-do-it (1).jpg" alt="" />
                   <div className="title">
                     <h2 className="large-font">
@@ -74,10 +77,10 @@ function Home() {
                     </h2>
                     <button className="shop-btn">Shop</button>
                   </div>
-                </a>
+                </Link>
               </div>
-              <div className="itm-2">
-                <a href="/">
+              <div className="itm-2 grey-bg">
+                <Link to="/shop">
                   <img src="/images/nike-just-do-it (2).jpg" alt="" />
                   <div className="title">
                     <h2 className="large-font">
@@ -85,10 +88,10 @@ function Home() {
                     </h2>
                     <button className="shop-btn">Shop</button>
                   </div>
-                </a>
+                </Link>
               </div>
-              <div className="itm-3">
-                <a href="/">
+              <div className="itm-3 grey-bg">
+                <Link to="/shop">
                   <img src="/images/card.jpg" alt="" />
                   <div className="title">
                     <h2 className="large-font">
@@ -96,19 +99,19 @@ function Home() {
                     </h2>
                     <button className="shop-btn">Shop</button>
                   </div>
-                </a>
+                </Link>
               </div>
-              <div className="itm-4">
-                <div className="bg">
+              <div className="itm-4 grey-bg">
+                <div className="bg flex">
                   <img src="/images/bg.jpg" alt="" />
                 </div>
 
                 <div className="title">
                   <h1 className="max-font">BIG CHEER TO YOUR INBOX</h1>
                   <p>Sign up to stay up to date on the latest this Holiday.</p>
-                  <a href="/" className="underlined">
+                  <Link to="/" className="underlined">
                     Get Email Updates
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

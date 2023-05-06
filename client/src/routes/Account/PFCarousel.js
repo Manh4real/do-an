@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { selectFavorites } from "features/user/userSlice";
 import { useDownloadImage } from "hooks";
 import { formatCurrency } from "helpers";
+import { Link } from "react-router-dom";
 
 const PFCarousel = React.forwardRef(
   ({ noScroll, handleSlideLeft, handleSlideRight }, ref) => {
@@ -61,8 +62,8 @@ const PFItem = ({ product }) => {
 
   return (
     <div className="profile__carousel-item b-carousel__item">
-      <a href={`/products/${product.product_id}/${product.added.colorId}`}>
-        <div className="b-carousel__item-image">
+      <Link to={`/products/${product.product_id}/${product.added.colorId}`}>
+        <div className="b-carousel__item-image grey-bg">
           <img src={url || imageName} alt="" />
         </div>
         <div className="profile__carousel-title regular-font flex-spbw w-100">
@@ -73,7 +74,7 @@ const PFItem = ({ product }) => {
           </span>
         </div>
         <div className="grey-font regular-font">{product.target}</div>
-      </a>
+      </Link>
     </div>
   );
 };

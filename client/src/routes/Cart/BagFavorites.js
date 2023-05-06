@@ -8,6 +8,7 @@ import ViewMoreButton from "./ViewMoreButton";
 // Redux-related
 import { useSelector } from "react-redux";
 import { selectFavorites, useIsLoggedIn } from "features/user/userSlice";
+import { Link } from "react-router-dom";
 
 function BagFavorites() {
   const [more, setMore] = useState(false);
@@ -54,12 +55,12 @@ function BagFavorites() {
             {more ? "less" : "more"}
           </ViewMoreButton>
           {more && (
-            <a
-              href="/favorites"
+            <Link
+              to="/favorites"
               className="view-all underlined grey-font small-font"
             >
               View all
-            </a>
+            </Link>
           )}
         </React.Fragment>
       )}
@@ -90,13 +91,13 @@ export const QuestionMessage = ({ className }) => {
   return (
     <p className={className}>
       Want to view your favorites?&nbsp;
-      <a href="/join-us" className="grey-font">
+      <Link to="/join-us" className="grey-font">
         Join us
-      </a>
+      </Link>
       &nbsp; or&nbsp;
-      <a href="/sign-in" className="grey-font">
+      <Link to="/sign-in" className="grey-font">
         Sign-in
-      </a>
+      </Link>
     </p>
   );
 };

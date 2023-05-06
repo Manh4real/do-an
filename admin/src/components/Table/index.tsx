@@ -3,6 +3,7 @@ import React from "react";
 import { ArrowLeft, ArrowRight } from "../../Icons";
 import Row from "./Row";
 import TableHeader from "./TableHeader";
+import { Link } from "react-router-dom";
 
 interface Props {
   data: [];
@@ -38,38 +39,38 @@ function Table({ data }: Props) {
       </div>
 
       <div className="flex items-center justify-between mt-6">
-        <a
-          href="/"
+        <Link
+          to="/"
           className="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100"
         >
           <ArrowLeft />
 
           <span>previous</span>
-        </a>
+        </Link>
 
         <div className="items-center hidden lg:flex gap-x-3">
           <PageNumber number={1} active />
           <PageNumber number={2} />
           <PageNumber number={3} />
-          <a
-            href="/"
+          <Link
+            to="/"
             className="px-2 py-1 text-sm text-gray-500 rounded-md hover:bg-gray-100"
           >
             ...
-          </a>
+          </Link>
           <PageNumber number={12} />
           <PageNumber number={13} />
           <PageNumber number={14} />
         </div>
 
-        <a
-          href="/"
+        <Link
+          to="/"
           className="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100"
         >
           <span>Next</span>
 
           <ArrowRight />
-        </a>
+        </Link>
       </div>
     </section>
   );
@@ -83,8 +84,8 @@ const PageNumber = ({
   active?: boolean;
 }) => {
   return (
-    <a
-      href="/"
+    <Link
+      to="/"
       className={
         active
           ? "px-2 py-1 text-sm text-blue-500 rounded-md bg-blue-100/60"
@@ -92,7 +93,7 @@ const PageNumber = ({
       }
     >
       {number}
-    </a>
+    </Link>
   );
 };
 

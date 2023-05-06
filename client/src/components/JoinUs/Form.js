@@ -8,6 +8,7 @@ import { withSubmit } from "hoc";
 import { SIGN_UP } from "script";
 
 import StyledForm from "components/StyledForm";
+import { Link } from "react-router-dom";
 
 function Form({ handleSubmit, first, validation, processing }) {
   return (
@@ -32,8 +33,8 @@ function Form({ handleSubmit, first, validation, processing }) {
       />
       <p>
         By creating an account, you agree to 4TW's&nbsp;
-        <a href="/">Privacy Policy</a> and&nbsp;
-        <a href="/">Terms of Use</a>.
+        <Link to="/">Privacy Policy</Link> and&nbsp;
+        <Link to="/">Terms of Use</Link>.
       </p>
 
       <div className="form__submit-btn-ctn sign-in-btn-ctn">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { IInventoryProduct } from "../../types";
 import { formatCurrency } from "../../helpers";
 import moment from "moment";
@@ -11,6 +11,11 @@ interface Props {
   product: IInventoryProduct;
 }
 
+interface IDisplayedSize {
+  size: string;
+  size_id: string;
+}
+
 function InventoryTableRow({ nth, product }: Props) {
   const [expand, setExpand] = useState(false);
 
@@ -20,6 +25,22 @@ function InventoryTableRow({ nth, product }: Props) {
     "default-product-image.png";
 
   const { imageUrl } = useFetchImage(firstImageName);
+
+  // displayed sizes
+  const displayedSizes = useMemo(() => {
+    const sizes: IDisplayedSize[] = [];
+    Object.entries(product.colors).forEach(([, color]) => {
+      color.sizes.forEach((stock) => {
+        if (sizes.findIndex(({ size_id }) => stock.size_id === size_id) !== -1)
+          return;
+
+        sizes.push({ size: stock.size, size_id: stock.size_id });
+      });
+    });
+    const displayedSizes = sizes.sort((a, b) => +a.size_id - +b.size_id);
+
+    return displayedSizes;
+  }, [product.colors]);
 
   return (
     <>
@@ -89,15 +110,15 @@ function InventoryTableRow({ nth, product }: Props) {
         </td>
         <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
           <div className="flex flex-wrap gap-2 max-w-[180px]">
-            {Object.entries(product.colors).map(([color_id, color]) => {
-              return color.sizes.map((stock) => (
+            {displayedSizes.map(({ size }, i) => {
+              return (
                 <div
-                  key={color_id + stock.size_id}
+                  key={i}
                   className="p-1 ring-1 ring-gray-300 rounded w-7 h-7 text-xs font-medium flex justify-center items-center"
                 >
-                  {stock.size}
+                  {size}
                 </div>
-              ));
+              );
             })}
           </div>
         </td>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { IProduct } from "../../types";
 import DeleteButton from "./DeleteButton";
@@ -10,6 +10,11 @@ import { useFetchImage } from "../../hooks";
 interface Props {
   nth: number;
   product: IProduct;
+}
+
+interface IDisplayedSize {
+  size: string;
+  size_id: string;
 }
 
 function ProductTableRow({ nth, product }: Props) {
@@ -25,6 +30,22 @@ function ProductTableRow({ nth, product }: Props) {
     // imageUrl: imageUrl || product.imageUrl,
     image: imageUrl,
   };
+
+  // displayed sizes
+  const displayedSizes = useMemo(() => {
+    const sizes: IDisplayedSize[] = [];
+    Object.entries(product.stock).forEach(([, color]) => {
+      color.forEach((stock) => {
+        if (sizes.findIndex(({ size_id }) => stock.size_id === size_id) !== -1)
+          return;
+
+        sizes.push({ size: stock.size, size_id: stock.size_id });
+      });
+    });
+    const displayedSizes = sizes.sort((a, b) => +a.size_id - +b.size_id);
+
+    return displayedSizes;
+  }, [product.stock]);
 
   return (
     <tr>
@@ -64,18 +85,24 @@ function ProductTableRow({ nth, product }: Props) {
       </td>
       <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
         <div className="flex flex-wrap gap-2 max-w-[180px]">
-          {Object.entries(product.stock).map(([colorId, s]) => {
-            return s.map((st) => {
-              return (
-                <div
-                  key={st.color_id + st.size_id}
-                  className="p-1 ring-1 ring-gray-300 rounded w-7 h-7 text-xs font-medium flex justify-center items-center"
-                >
-                  {st.size}
-                </div>
-              );
-            });
+          {displayedSizes.map(({ size }, i) => {
+            return (
+              <div
+                key={i}
+                className="p-1 ring-1 ring-gray-300 rounded w-7 h-7 text-xs font-medium flex justify-center items-center"
+              >
+                {size}
+              </div>
+            );
           })}
+          {/* {displayedSizes.length > 9 && (
+            <span
+              title="See more"
+              className="font-medium ml-1 hover:bg-gray-200 flex items-center cursor-pointer"
+            >
+              ...
+            </span>
+          )} */}
         </div>
       </td>
       <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">

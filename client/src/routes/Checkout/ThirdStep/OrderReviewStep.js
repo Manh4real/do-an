@@ -20,20 +20,25 @@ function OrderReviewStep({ nextStep }) {
         return (
           <div className="checkout__step-content">
             <label style={{ fontWeight: "bold" }}>Payment:</label>
-            {/* <p>Card number: {payment.data.number}</p>
+            <p>Card number: {payment.data.number}</p>
             <p>Owner: {payment.data.name}</p>
             <p>Expiry: {payment.data.expiry}</p>
             <p>CVC: {payment.data.cvc}</p>
-            <p>Issuer: {payment.data.issuer}</p> */}
-            <p>{JSON.stringify(payment)}</p>
+            <p>Issuer: {payment.data.issuer}</p>
+            {/* <p>{JSON.stringify(payment)}</p> */}
 
             <label className="mt-25" style={{ fontWeight: "bold" }}>
               Address:
             </label>
             <p>
-              {delivery?.address?.province?.text || ""},{" "}
-              {delivery?.address?.district?.text || ""},{" "}
-              {delivery?.address?.ward?.text || ""}
+              {delivery?.address?.province?.text ||
+                delivery?.address?.province ||
+                ""}
+              ,{" "}
+              {delivery?.address?.district?.text ||
+                delivery?.address?.district ||
+                ""}
+              , {delivery?.address?.ward?.text || delivery?.address?.ward || ""}
             </p>
             <p>{delivery.address.additional}</p>
             {/* <p>{delivery.checked["ship-p"]}</p> */}

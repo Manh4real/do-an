@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, useLocation, Navigate } from "react-router-dom";
+import { Outlet, useLocation, Navigate, Link } from "react-router-dom";
 
 import { Bag } from "components/Header/Bag";
 import SubFooterMenu from "components/Footer/SubFooterMenu";
@@ -41,7 +41,7 @@ function CheckoutLayout() {
     content = (
       <div>
         <header className="checkout__header flex-spbw">
-          <a href="/">
+          <Link to="/">
             <svg
               width="50"
               height="56"
@@ -54,15 +54,15 @@ function CheckoutLayout() {
                 fill="#111111"
               />
             </svg>
-          </a>
+          </Link>
 
           <div className="flex-start">
             <div className="checkout__bag-ctn flex-center">
               <Bag />
             </div>
-            <a href="/account" className="capitalized-text">
+            <Link to="/account" className="capitalized-text">
               {user.name.firstName} {user.name.lastName}
-            </a>
+            </Link>
           </div>
         </header>
         <main className="checkout__content">

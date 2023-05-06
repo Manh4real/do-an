@@ -17,12 +17,7 @@ const ProductDetailsModal = ({ product, handleClose }) => {
       >
         <header className="flex-start">
           <div className="image">
-            <img
-              src={image}
-              width="75"
-              height="75"
-              alt={product.product_name}
-            />
+            <img src={image} alt={product.product_name} />
           </div>
           <div className="regular-font">
             <div className="capitalized-text">{product.product_name}</div>

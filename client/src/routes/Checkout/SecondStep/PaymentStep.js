@@ -7,14 +7,15 @@ import { useCheckoutStepContext } from "../Steps";
 // Redux
 import {
   updatePaymentInfo,
-  useCheckoutInfo,
+  // useCheckoutInfo,
 } from "features/checkout/checkoutSlice";
 import { useDispatch } from "react-redux";
-import StripePayment from "./StripePayment";
+// import StripePayment from "./StripePayment";
+import CreditCards from "../CreditCards";
 
 function PaymentStep({ nextStep }) {
   const dispatch = useDispatch();
-  const checkoutInfo = useCheckoutInfo();
+  // const checkoutInfo = useCheckoutInfo();
 
   const { setStep } = useCheckoutStepContext();
 
@@ -23,7 +24,7 @@ function PaymentStep({ nextStep }) {
       {({ handleDone }) => {
         return (
           <>
-            <StripePayment
+            {/* <StripePayment
               items={checkoutInfo.products}
               userEmail={checkoutInfo.delivery?.email}
               handleNextStep={(paymentInfo) => {
@@ -33,8 +34,8 @@ function PaymentStep({ nextStep }) {
                 // update checkout info (Redux)
                 dispatch(updatePaymentInfo(paymentInfo));
               }}
-            />
-            {/* <CreditCards
+            /> */}
+            <CreditCards
               handleNextStep={(paymentInfo) => {
                 setStep(nextStep);
                 handleDone();
@@ -42,7 +43,7 @@ function PaymentStep({ nextStep }) {
                 // update checkout info (Redux)
                 dispatch(updatePaymentInfo(paymentInfo));
               }}
-            /> */}
+            />
           </>
         );
       }}

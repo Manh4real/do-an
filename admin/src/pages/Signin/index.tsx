@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { Logo } from "../../Icons";
 
@@ -129,12 +129,12 @@ function Signin() {
             </div>
 
             <div className="text-sm">
-              <a
-                href="/"
+              <Link
+                to="/"
                 className="font-medium text-indigo-600 hover:text-indigo-500"
               >
                 Forgot your password?
-              </a>
+              </Link>
             </div>
           </div>
 

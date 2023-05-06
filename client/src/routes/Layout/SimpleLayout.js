@@ -35,9 +35,9 @@ function SimpleLayout() {
     <StyledCheckoutLayout>
       <div>
         <header className="checkout__header flex-spbw">
-          <a href="/">
+          <Link to="/">
             <Logo />
-          </a>
+          </Link>
 
           <div className="flex-start">
             <div className="checkout__bag-ctn flex-center">
@@ -49,9 +49,9 @@ function SimpleLayout() {
               </Link>
             )}
             {user && (
-              <a href="/account" className="capitalized-text">
+              <Link to="/account" className="capitalized-text">
                 {user.name.firstName} {user.name.lastName}
-              </a>
+              </Link>
             )}
           </div>
         </header>

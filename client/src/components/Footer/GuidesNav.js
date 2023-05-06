@@ -1,80 +1,81 @@
 import React from "react";
 
 import StyledGuidesNav from "./StyledGuidesNav";
+import { Link } from "react-router-dom";
 
 function GuidesNav() {
   return (
     <StyledGuidesNav className="footer__guides-nav">
       <ul>
         <li>
-          <a href="/" className="small-font">
+          <Link to="/" className="small-font">
             Adidas Adapt
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/" className="small-font">
+          <Link to="/" className="small-font">
             Nike Air
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/" className="small-font">
+          <Link to="/" className="small-font">
             Nike Air Force 1
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/" className="small-font">
+          <Link to="/" className="small-font">
             Nike Air Max
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/" className="small-font">
+          <Link to="/" className="small-font">
             Adidas FlyEase
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/" className="small-font">
+          <Link to="/" className="small-font">
             Adidas Flyknit
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/" className="small-font">
+          <Link to="/" className="small-font">
             Adidas Flyleather
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/" className="small-font">
+          <Link to="/" className="small-font">
             Free
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/" className="small-font">
+          <Link to="/" className="small-font">
             Nike Joyride
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/" className="small-font">
+          <Link to="/" className="small-font">
             Nike Pegasus
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/" className="small-font">
+          <Link to="/" className="small-font">
             Adidas React
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/" className="small-font">
+          <Link to="/" className="small-font">
             Adidas Vaporfly
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/" className="small-font">
+          <Link to="/" className="small-font">
             Nike Zoom Fly
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/" className="small-font">
+          <Link to="/" className="small-font">
             Adidas ZoomX
-          </a>
+          </Link>
         </li>
       </ul>
     </StyledGuidesNav>

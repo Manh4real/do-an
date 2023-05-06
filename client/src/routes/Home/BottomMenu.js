@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import StyledBottomMenu from "./StyledBottomMenu";
+import { Link } from "react-router-dom";
 
 function BottomMenu() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 650);
@@ -27,32 +28,32 @@ function BottomMenu() {
                   })}
                 >
                   <li>
-                    <a href="/">Air Force 1 </a>
+                    <Link to="/">Air Force 1 </Link>
                   </li>
                   <li>
-                    <a href="/">Jordan 1 </a>
+                    <Link to="/">Jordan 1 </Link>
                   </li>
                   <li>
-                    <a href="/">Air Max 2090 </a>
+                    <Link to="/">Air Max 2090 </Link>
                   </li>
                   <div className="hidden">
                     <li>
-                      <a href="/">Air Max 270 </a>
+                      <Link to="/">Air Max 270 </Link>
                     </li>
                     <li>
-                      <a href="/">Air Max 97 </a>
+                      <Link to="/">Air Max 97 </Link>
                     </li>
                     <li>
-                      <a href="/">Air Max 90 </a>
+                      <Link to="/">Air Max 90 </Link>
                     </li>
                     <li>
-                      <a href="/">Blazer </a>
+                      <Link to="/">Blazer </Link>
                     </li>
                     <li>
-                      <a href="/">React </a>
+                      <Link to="/">React </Link>
                     </li>
                     <li>
-                      <a href="/">Pegasus </a>
+                      <Link to="/">Pegasus </Link>
                     </li>
                   </div>
                 </ul>
@@ -69,32 +70,32 @@ function BottomMenu() {
                   })}
                 >
                   <li>
-                    <a href="/"> All Shoes</a>
+                    <Link to="/"> All Shoes</Link>
                   </li>
                   <li>
-                    <a href="/">Jordan Shoes</a>
+                    <Link to="/">Jordan Shoes</Link>
                   </li>
                   <li>
-                    <a href="/">Running Shoes</a>
+                    <Link to="/">Running Shoes</Link>
                   </li>
                   <div className="hidden">
                     <li>
-                      <a href="/">Basketball Shoes</a>
+                      <Link to="/">Basketball Shoes</Link>
                     </li>
                     <li>
-                      <a href="/">Tennis Shoes</a>
+                      <Link to="/">Tennis Shoes</Link>
                     </li>
                     <li>
-                      <a href="/">Training Shoes</a>
+                      <Link to="/">Training Shoes</Link>
                     </li>
                     <li>
-                      <a href="/">Custom Shoes</a>
+                      <Link to="/">Custom Shoes</Link>
                     </li>
                     <li>
-                      <a href="/">Sale Shoes</a>
+                      <Link to="/">Sale Shoes</Link>
                     </li>
                     <li>
-                      <a href="/">Soccer Cleats</a>
+                      <Link to="/">Soccer Cleats</Link>
                     </li>
                   </div>
                 </ul>
@@ -111,47 +112,47 @@ function BottomMenu() {
                   })}
                 >
                   <li>
-                    <a href="/">All Clothing </a>
+                    <Link to="/">All Clothing </Link>
                   </li>
                   <li>
-                    <a href="/">Tops & T-Shirts </a>
+                    <Link to="/">Tops & T-Shirts </Link>
                   </li>
                   <li>
-                    <a href="/">Shorts </a>
+                    <Link to="/">Shorts </Link>
                   </li>
                   <div className="hidden">
                     <li>
-                      <a href="/">Hoodies & Pullovers </a>
+                      <Link to="/">Hoodies & Pullovers </Link>
                     </li>
                     <li>
-                      <a href="/">Joggers & Sweatpants </a>
+                      <Link to="/">Joggers & Sweatpants </Link>
                     </li>
                     <li>
-                      <a href="/">Sports Bras </a>
+                      <Link to="/">Sports Bras </Link>
                     </li>
                     <li>
-                      <a href="/">Pants & Tights </a>
+                      <Link to="/">Pants & Tights </Link>
                     </li>
                     <li>
-                      <a href="/">Socks </a>
+                      <Link to="/">Socks </Link>
                     </li>
                     <li>
-                      <a href="/">Yoga </a>
+                      <Link to="/">Yoga </Link>
                     </li>
                     <li>
-                      <a href="/">4TWLab </a>
+                      <Link to="/">4TWLab </Link>
                     </li>
                     <li>
-                      <a href="/">Plus Size </a>
+                      <Link to="/">Plus Size </Link>
                     </li>
                     <li>
-                      <a href="/">Big & Tall </a>
+                      <Link to="/">Big & Tall </Link>
                     </li>
                     <li>
-                      <a href="/">Luxe Leggings </a>
+                      <Link to="/">Luxe Leggings </Link>
                     </li>
                     <li>
-                      <a href="/">Sale Clothing </a>
+                      <Link to="/">Sale Clothing </Link>
                     </li>
                   </div>
                 </ul>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { lis } from "./index";
 import { CardDropdown } from "./CardDropDown";
+import { Link } from "react-router-dom";
 
 function Help() {
   const [list, setList] = useState([]);
@@ -12,16 +13,16 @@ function Help() {
 
   return (
     <div className="position-relative">
-      <a href="/help" className="capitalized-text hover-w-fade">
+      <Link to="/help" className="capitalized-text hover-w-fade">
         Help
-      </a>
+      </Link>
       <div className="hidden">
         <CardDropdown titleHref="/help" title="Help" list={list}>
           <ul>
             {list.map((li, i) => {
               return (
                 <li key={i}>
-                  <a href={li.path}>{li.text}</a>
+                  <Link to={li.path}>{li.text}</Link>
                 </li>
               );
             })}

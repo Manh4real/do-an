@@ -23,7 +23,7 @@ const AccountMenu = () => {
             {list.map((li, i) => {
               return (
                 <li key={i}>
-                  <a href={li.path}>{li.text}</a>
+                  <Link to={li.path}>{li.text}</Link>
                 </li>
               );
             })}

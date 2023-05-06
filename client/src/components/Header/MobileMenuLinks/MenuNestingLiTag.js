@@ -4,6 +4,7 @@ import clsx from "clsx";
 
 import { ArrowIcon } from "components/Icons";
 import { useToggleMobileMenuContext } from "../TopMenu";
+import { Link } from "react-router-dom";
 
 const MenuNestingLiTag = ({
   className,
@@ -69,9 +70,9 @@ const SubMenu = ({ title, prev, href, handleBack, children }) => {
           <ArrowIcon type="left" w="12" h="12" />
           <span className="small-font">{prev}</span>
         </button>
-        <a href={href} className="bold-font medium-font">
+        <Link to={href} className="bold-font medium-font">
           {title}
-        </a>
+        </Link>
       </header>
       {children}
     </div>

@@ -139,6 +139,7 @@ module.exports = {
         WHERE created_at BETWEEN
             NOW()::DATE - 7
             AND NOW()
+        ORDER BY created_at DESC
       `);
 
       // Top products (limit 10)

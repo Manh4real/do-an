@@ -28,25 +28,25 @@ const BagFavoritesItem = ({ product }) => {
 
   return (
     <div className="item flex-start">
-      <a
-        href={`/products/${product.product_id}/${product.added.colorId}`}
+      <Link
+        to={`/products/${product.product_id}/${product.added.colorId}`}
         className="image grey-bg"
         style={{ width: 150, height: 150 }}
       >
         {url && <img src={url} alt={product.product_name} />}
-      </a>
+      </Link>
       <div className="info flex-1">
         <div className="flex">
           <div className="flex-1 regular-font">
-            <a
-              href={`/products/${product.product_id}/${product.added.colorId}`}
+            <Link
+              to={`/products/${product.product_id}/${product.added.colorId}`}
               className="text-ellipsis-2"
               style={{
                 maxWidth: 180,
               }}
             >
               {product.product_name}
-            </a>
+            </Link>
             <div className="grey-font">{product.target}</div>
             <div className="grey-font">Size: {product.added.size.size}</div>
             <Link

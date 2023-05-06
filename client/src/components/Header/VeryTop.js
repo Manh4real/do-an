@@ -5,6 +5,7 @@ import TopLinks from "./TopLinks";
 import { ConverseIcon, JDIcon } from "../Icons";
 
 import styles from "./VeryTop.module.css";
+import { Link } from "react-router-dom";
 
 const VeryTop = () => {
   return (
@@ -12,12 +13,12 @@ const VeryTop = () => {
       <div className={styles["vr-top"]}>
         <div className={clsx(styles["vr-top-container"], "flex-spbw")}>
           <div className="flex-start gap-15">
-            <a href="/" className="hover-w-fade">
+            <Link to="/" className="hover-w-fade">
               <JDIcon />
-            </a>
-            <a href="/" className="hover-w-fade">
+            </Link>
+            <Link to="/" className="hover-w-fade">
               <ConverseIcon />
-            </a>
+            </Link>
           </div>
 
           <TopLinks />

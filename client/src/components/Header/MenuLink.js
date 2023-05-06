@@ -5,6 +5,7 @@ import { DropdownContext } from "./MenuLinks";
 import styles from "./MenuLink.module.css";
 
 import clsx from "clsx";
+import { Link } from "react-router-dom";
 
 function MenuLink({ l }) {
   const { handleAddDropdown, active, toggle } = useContext(DropdownContext);
@@ -16,8 +17,8 @@ function MenuLink({ l }) {
 
   return (
     <li className={styles["tpMnLkCtn"]}>
-      <a
-        href={l.href}
+      <Link
+        to={l.href}
         className={clsx(styles["top-menu-link"], {
           [styles.active]: active === ddRef.current?.id,
         })}
@@ -25,7 +26,7 @@ function MenuLink({ l }) {
         onFocus={toggle ? null : appearDropdown}
       >
         {l.name}
-      </a>
+      </Link>
       <DropdownMenu ref={ddRef} categories={l.categories} />
     </li>
   );

@@ -88,7 +88,9 @@ export const orderProducts = async (info) => {
     const token = getAccessTokenFromLocalStorage();
 
     const a = info.delivery.address;
-    const address = `${a.additional}, ${a.ward.text}, ${a.district.text}, ${a.province.text}`;
+    const address = `${a.additional}, ${a.ward?.text || a.ward}, ${
+      a.district?.text || a.district
+    }, ${a.province?.text || a.province}`;
 
     const response = await api.post(
       "/orders",

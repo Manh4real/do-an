@@ -12,9 +12,12 @@ import Spinner from "components/Spinner";
 import Select from "./Select";
 
 import StyledCheckoutForm from "./StyledCheckoutForm";
+import FallbackCheckoutFormSelect from "./FallbackCheckoutFormSelect";
+// import { createProvinces } from "services/misc";
 
 function CheckoutFormSelect({ validate }) {
   const [loading, setLoading] = useState(false);
+  const [hasTimeout, setHasTimeout] = useState(false);
 
   const [data, setData] = useState({
     additional: "",
@@ -39,9 +42,43 @@ function CheckoutFormSelect({ validate }) {
       setLoading(true);
 
       try {
+        const now = Date.now();
+        let timeID;
+
+        new Promise((rs) => {
+          timeID = setTimeout(() => {
+            rs(true);
+          }, 4000);
+        })
+          .then(() => {
+            controller.abort();
+            setHasTimeout(true);
+            console.log(
+              "Get provinces timed out. ",
+              Math.floor((Date.now() - now) / 1000) + "s"
+            );
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
+        if (hasTimeout) {
+          return () => {
+            controller.abort();
+          };
+        }
+
         const provinces = await getProvinceList({ signal: controller.signal });
         const districts = await getDistrictList({ signal: controller.signal });
         const wards = await getWardList({ signal: controller.signal });
+        // const provinces = await getProvinces({ signal: controller.signal });
+        // const districts = await getDistricts({ signal: controller.signal });
+        // const wards = await getWards({ signal: controller.signal });
+        // const { provinces, districts, wards } = await getProvinces({
+        // signal: controller.signal,
+        // });
+
+        clearTimeout(timeID);
 
         setData((prev) => {
           return {
@@ -86,7 +123,7 @@ function CheckoutFormSelect({ validate }) {
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [hasTimeout]);
 
   const provincesOptions = useMemo(() => {
     return data.provinces.map(({ name, code }) => ({
@@ -128,7 +165,7 @@ function CheckoutFormSelect({ validate }) {
     >
       {loading && <Spinner />}
 
-      {!loading && (
+      {!loading && !hasTimeout && (
         <React.Fragment>
           <Select
             className={clsx(
@@ -203,6 +240,9 @@ function CheckoutFormSelect({ validate }) {
             }}
           ></Select>
         </React.Fragment>
+      )}
+      {hasTimeout && (
+        <FallbackCheckoutFormSelect address={address} setAddress={setAddress} />
       )}
       <CheckoutFormInput
         className="grid-col-span-2"

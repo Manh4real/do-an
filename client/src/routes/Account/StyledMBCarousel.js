@@ -10,6 +10,9 @@ const StyledMBCarousel = styled.div`
   .mb-carousel__item {
     padding-bottom: 50px;
   }
+  .mb-carousel__item-image {
+    min-height: 150px;
+  }
   .container {
     position: relative;
     padding-left: 20px;

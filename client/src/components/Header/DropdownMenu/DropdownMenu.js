@@ -9,6 +9,7 @@ import clsx from "clsx";
 import Mask from "components/Mask/Mask";
 import { DropdownContext } from "../MenuLinks";
 import StyledDropdownMenu from "./StyledDropdownMenu";
+import { Link } from "react-router-dom";
 
 function DropdownMenu({ categories }, ref) {
   const [isShown, setIsShown] = useState(false);
@@ -56,9 +57,9 @@ const Titles = ({ titles }) => (
 
 const Title = ({ title }) => (
   <li>
-    <a tabIndex="-1" href="/">
+    <Link tabIndex="-1" to="/">
       {title}
-    </a>
+    </Link>
   </li>
 );
 

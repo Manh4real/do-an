@@ -8,6 +8,7 @@ import StyledMobileMenuLinks from "./StyledMobileMenuLinks";
 import MenuNestingLiTag from "./MenuNestingLiTag";
 import MobileMenuMask from "./MobileMenuMask";
 import { HeartIcon, OrderIcon, UserIcon } from "components/Icons";
+import { Link } from "react-router-dom";
 
 function MobileMenuLinks() {
   const { toggle, handleToggle } = useToggleMobileMenuContext();
@@ -17,28 +18,31 @@ function MobileMenuLinks() {
       <StyledMobileMenuLinks className={clsx({ toggle: toggle })}>
         <ul>
           <li>
-            <a href="/account" className="hover-w-fade flex-spbw medium-font">
+            <Link to="/account" className="hover-w-fade flex-spbw medium-font">
               <span className="flex-center gap-15">
                 <UserIcon />
                 Account
               </span>
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/favorites" className="hover-w-fade flex-spbw medium-font">
+            <Link
+              to="/favorites"
+              className="hover-w-fade flex-spbw medium-font"
+            >
               <span className="flex-center gap-15">
                 <HeartIcon />
                 Favorites
               </span>
-            </a>
+            </Link>
           </li>
           <li className="mb-25">
-            <a href="/orders" className="hover-w-fade flex-spbw medium-font">
+            <Link to="/orders" className="hover-w-fade flex-spbw medium-font">
               <span className="flex-center gap-15">
                 <OrderIcon />
                 Orders
               </span>
-            </a>
+            </Link>
           </li>
           {LIST.map((item, i) => {
             return <RootMenuTitle key={i} item={item} />;
@@ -67,7 +71,7 @@ const RootMenuTitle = ({ item }) => {
                 {ctg.titles.map((ct, i) => {
                   return (
                     <li key={i}>
-                      <a href="/">{ct}</a>
+                      <Link to="/">{ct}</Link>
                     </li>
                   );
                 })}

@@ -18,6 +18,7 @@ import BagProductColor from "./BagProductColor";
 import useRedirect from "hooks/useRedirect";
 import { formatCurrency } from "helpers";
 import BagSelectSize from "./BagSelectSize";
+import { Link } from "react-router-dom";
 
 function BagProductInfo({ product }) {
   const dispatch = useDispatch();
@@ -82,21 +83,21 @@ function BagProductInfo({ product }) {
   return (
     <div className="bag__product-info">
       <div className="upper flex-spbw">
-        <a
-          href={`/products/${product.product_id}/${product.added.colorId}`}
-          className="bag__pd-image"
+        <Link
+          to={`/products/${product.product_id}/${product.added.colorId}`}
+          className="bag__pd-image grey-bg"
         >
           <img src={url || imageName} alt="" />
-        </a>
+        </Link>
         <div className="flex-start">
           <div className="bag__pd-content flex-spbw">
             <div>
-              <a
-                href={`/products/${product.product_id}/${product.added.colorId}`}
+              <Link
+                to={`/products/${product.product_id}/${product.added.colorId}`}
                 className="regular-font"
               >
                 {product.product_name}
-              </a>
+              </Link>
               <div className="grey-font">
                 <div className="regular-font">{product.target}</div>
                 <BagProductColor colorId={product.added.colorId} />

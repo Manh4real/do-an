@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import clsx from "clsx";
 
 import { ArrowIcon } from "../Icons";
@@ -173,21 +173,21 @@ function Info({ colors, product, handleChangeSelectedColorId }) {
         <p className="regular-font">
           To get accurate shipping information
           <br />
-          <a
+          <Link
             className="edit-location underlined hover-w-hl-udl"
-            href="/"
+            to="/"
             target="_blank"
           >
             Edit Location
-          </a>
+          </Link>
         </p>
       </div>
 
       <div className="free-pickup sb regular-font">
         <div className="small-title">Free Pickup</div>
-        <a href="/" className="underlined hover-w-hl-udl" target="_blank">
+        <Link to="/" className="underlined hover-w-hl-udl" target="_blank">
           Find a Store
-        </a>
+        </Link>
 
         <p>
           <small>*Faster Shipping options may be available</small>
@@ -203,23 +203,23 @@ function Info({ colors, product, handleChangeSelectedColorId }) {
       <div className="misc regular-font">
         <DetailsTag summary="Free Shipping & Returns">
           Free standard shipping and free 60-day returns for 4TW Members.{" "}
-          <a
-            href="/"
+          <Link
+            to="/"
             target="_blank"
             style={{ textDecoration: "underline" }}
             className="hover-w-fade"
           >
             Learn more
-          </a>
+          </Link>
           .&nbsp;
-          <a
-            href="/"
+          <Link
+            to="/"
             target="_blank"
             style={{ textDecoration: "underline" }}
             className="hover-w-fade"
           >
             Return policy exclusions apply
-          </a>
+          </Link>
           .
         </DetailsTag>
 
@@ -237,14 +237,14 @@ function Info({ colors, product, handleChangeSelectedColorId }) {
             </li>
             <li>
               Learn more about our{" "}
-              <a
-                href="/"
+              <Link
+                to="/"
                 target="_blank"
                 style={{ textDecoration: "underline" }}
                 className="hover-w-fade"
               >
                 Move to Zero
-              </a>
+              </Link>
               &nbsp; journey towards zero carbon and zero waste, including how
               we're working to design product with sustainability in mind and
               help protect the future of where we live and play.

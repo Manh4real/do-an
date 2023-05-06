@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Checkbox({ checked, validateKeepSignIn }) {
   const [check, setCheck] = useState(checked);
@@ -28,9 +29,9 @@ function Checkbox({ checked, validateKeepSignIn }) {
         </label>
       </div>
       <div>
-        <a href="/" className="grey-font fg-pw">
+        <Link to="/" className="grey-font fg-pw">
           Forgot your password?
-        </a>
+        </Link>
       </div>
     </div>
   );

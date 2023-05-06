@@ -48,13 +48,13 @@ html {
 *::-webkit-scrollbar-thumb {
   border-radius: 30px;
   background: grey;
-  opacity: 0;
-  visibility: hidden;
+  /* opacity: 0;
+  visibility: hidden; */
 }
-*:hover::-webkit-scrollbar-thumb {
+/* *:hover::-webkit-scrollbar-thumb {
   opacity: 1;
   visibility: visible;
-}
+} */
 *::-webkit-scrollbar-track {
   background: transparent;
 }

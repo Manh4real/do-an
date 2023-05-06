@@ -1,6 +1,7 @@
 import React from "react";
 
 import PFCarousel from "./PFCarousel";
+import { Link } from "react-router-dom";
 
 function ProfileFavorites() {
   return (
@@ -8,12 +9,12 @@ function ProfileFavorites() {
       <header className="title flex-start gap-25">
         <span className="font-24">Favorite</span>
         <span className="grey-font">|</span>
-        <a
-          href="/favorites"
+        <Link
+          to="/favorites"
           className="small-font capitalized-text hover-w-fade"
         >
           View all
-        </a>
+        </Link>
       </header>
       <PFCarousel />
     </div>

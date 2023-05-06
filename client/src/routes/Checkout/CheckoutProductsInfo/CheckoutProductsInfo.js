@@ -8,6 +8,7 @@ import { useCheckoutInfo } from "features/checkout/checkoutSlice";
 
 import { THREE_DAYS_TIME } from "../../../constants";
 import { formatCurrency } from "helpers";
+import { Link } from "react-router-dom";
 
 function CheckoutProductsInfo() {
   const { products } = useCheckoutInfo();
@@ -20,9 +21,9 @@ function CheckoutProductsInfo() {
     <div className="checkout__info checkout__block">
       <div className="title checkout__info-title flex-spbw">
         IN YOUR BAG
-        <a href="/cart" className="small-font">
+        <Link to="/cart" className="small-font">
           Edit
-        </a>
+        </Link>
       </div>
       <main>
         <div className="checkout__prices">

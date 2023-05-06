@@ -10,6 +10,7 @@ import { ActiveFormContext } from "components/Header/TopLinks";
 import { SIGN_IN } from "script";
 
 import StyledJoinUs from "./StyledJoinUs";
+import { Link } from "react-router-dom";
 
 function JoinUs({ isShown, onClose, onReplace }) {
   const { handleFormChange } = useContext(ActiveFormContext);
@@ -34,14 +35,14 @@ function JoinUs({ isShown, onClose, onReplace }) {
           <Form />
           <p className="regular-font">
             Already a member?&nbsp;
-            <a
-              href="/"
+            <Link
+              to="/"
               style={{ color: "#111" }}
               id="bottom-sign-in"
               onClick={handleClick}
             >
               Sign in.
-            </a>
+            </Link>
           </p>
         </div>
         <button className="close-btn" onClick={onClose}>

@@ -4,6 +4,7 @@ import FavoriteButton from "./FavoriteButton";
 
 import { useDownloadImage } from "hooks";
 import { formatCurrency } from "helpers";
+import { Link } from "react-router-dom";
 
 const FavoriteItem = ({ item }) => {
   const imageName = item.images[item.added.colorId][0].url;
@@ -13,8 +14,8 @@ const FavoriteItem = ({ item }) => {
   return (
     <div className="favorite-item">
       <div className="position-relative">
-        <a
-          href={`/products/${item.product_id}/${item.added.colorId}`}
+        <Link
+          to={`/products/${item.product_id}/${item.added.colorId}`}
           className="favorite-item__image flex-start"
           style={{
             background: "#f1f1f1",
@@ -23,7 +24,7 @@ const FavoriteItem = ({ item }) => {
           }}
         >
           <img src={url || imageName} alt="" />
-        </a>
+        </Link>
         <FavoriteButton item={item} />
       </div>
 

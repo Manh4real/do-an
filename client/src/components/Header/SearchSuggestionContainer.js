@@ -3,6 +3,7 @@ import clsx from "clsx";
 
 import Mask from "../Mask/Mask";
 import styles from "./SearchSuggestionContainer.module.css";
+import { Link } from "react-router-dom";
 
 function SearchSuggestionContainer({ isShown, removeSuggestion }) {
   return (
@@ -24,21 +25,21 @@ const Content = () => {
       <div className={styles["title"]}>
         <h4 className="regular-font capitalized-text">Popular search terms</h4>
       </div>
-      <a href={"/shop/?search=air+force+1"} className="bigger-font">
+      <Link to={"/shop/?search=air+force+1"} className="bigger-font">
         Air Force 1
-      </a>
-      <a href={"/shop/?search=jordan"} className="bigger-font">
+      </Link>
+      <Link to={"/shop/?search=jordan"} className="bigger-font">
         Jordan
-      </a>
-      <a href={"/shop/?search=air+max"} className="bigger-font">
+      </Link>
+      <Link to={"/shop/?search=air+max"} className="bigger-font">
         Air Max
-      </a>
-      <a href={"/shop/?search=blazer"} className="bigger-font">
+      </Link>
+      <Link to={"/shop/?search=blazer"} className="bigger-font">
         Blazer
-      </a>
-      <a href={"/shop/?search=gifts"} className="bigger-font">
+      </Link>
+      <Link to={"/shop/?search=gifts"} className="bigger-font">
         Gifts
-      </a>
+      </Link>
     </div>
   );
 };

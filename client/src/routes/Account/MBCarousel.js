@@ -4,6 +4,7 @@ import { withScrollControl } from "hoc";
 
 import { ArrowIcon } from "components/Icons";
 import StyledMBCarousel from "./StyledMBCarousel";
+import { Link } from "react-router-dom";
 
 const MBCarousel = React.forwardRef(
   ({ disabled, handleSlideLeft, handleSlideRight }, ref) => {
@@ -22,8 +23,8 @@ const MBCarousel = React.forwardRef(
           </div>
           <div ref={ref} className="profile__carousel mb-carousel">
             <div className="profile__carousel-item mb-carousel__item">
-              <a href="/">
-                <div className="mb-carousel__item-image">
+              <Link to="/">
+                <div className="mb-carousel__item-image grey-bg">
                   <img
                     src="/images/nike-just-do-it (3).jpg"
                     width="320"
@@ -33,21 +34,21 @@ const MBCarousel = React.forwardRef(
                 <div className="profile__carousel-title bigger-font">
                   Member-only Products
                 </div>
-              </a>
+              </Link>
             </div>
             <div className="profile__carousel-item mb-carousel__item">
-              <a href="/">
-                <div className="mb-carousel__item-image">
+              <Link to="/">
+                <div className="mb-carousel__item-image grey-bg">
                   <img src="/images/member-benefits-1.jpg" width="320" alt="" />
                 </div>
                 <div className="profile__carousel-title bigger-font">
                   Product Advice From 4TW Experts
                 </div>
-              </a>
+              </Link>
             </div>
             <div className="profile__carousel-item mb-carousel__item">
-              <a href="/">
-                <div className="mb-carousel__item-image">
+              <Link to="/">
+                <div className="mb-carousel__item-image grey-bg">
                   <img
                     src="/images/member-home-carousel.jpg"
                     width="320"
@@ -57,11 +58,11 @@ const MBCarousel = React.forwardRef(
                 <div className="profile__carousel-title bigger-font">
                   Free Running & Training Apps
                 </div>
-              </a>
+              </Link>
             </div>
             <div className="profile__carousel-item mb-carousel__item">
-              <a href="/">
-                <div className="mb-carousel__item-image">
+              <Link to="/">
+                <div className="mb-carousel__item-image grey-bg">
                   <img
                     src="/images/member-home-carousel (1).jpg"
                     width="320"
@@ -71,11 +72,11 @@ const MBCarousel = React.forwardRef(
                 <div className="profile__carousel-title bigger-font">
                   Partnerships & Events
                 </div>
-              </a>
+              </Link>
             </div>
             <div className="profile__carousel-item mb-carousel__item">
-              <a href="/">
-                <div className="mb-carousel__item-image">
+              <Link to="/">
+                <div className="mb-carousel__item-image grey-bg">
                   <img
                     src="/images/member-home-carousel (2).jpg"
                     width="320"
@@ -85,27 +86,27 @@ const MBCarousel = React.forwardRef(
                 <div className="profile__carousel-title bigger-font">
                   Free Shipping With Every Order
                 </div>
-              </a>
+              </Link>
             </div>
             <div className="profile__carousel-item mb-carousel__item">
-              <a href="/">
-                <div className="mb-carousel__item-image">
+              <Link to="/">
+                <div className="mb-carousel__item-image grey-bg">
                   <img src="/images/member-benefits-1.jpg" width="320" alt="" />
                 </div>
                 <div className="profile__carousel-title bigger-font">
                   Exclusive Deals
                 </div>
-              </a>
+              </Link>
             </div>
             <div className="profile__carousel-item mb-carousel__item">
-              <a href="/">
-                <div className="mb-carousel__item-image">
+              <Link to="/">
+                <div className="mb-carousel__item-image grey-bg">
                   <img src="/images/member-benefits-1.jpg" width="320" alt="" />
                 </div>
                 <div className="profile__carousel-title bigger-font">
                   Special Benefits in 4TW Stores
                 </div>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="mb-benefits__slide-btn right">

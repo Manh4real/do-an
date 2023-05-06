@@ -8,6 +8,7 @@ import { Validation, SIGN_IN } from "script";
 
 import { withSubmit } from "hoc";
 import StyledForm from "components/StyledForm";
+import { Link } from "react-router-dom";
 
 export const ValidationContext = React.createContext(new Validation());
 
@@ -27,13 +28,13 @@ function Form({ handleSubmit, first, validation, processing }) {
 
         <p className="grey-font">
           By logging in, you agree to 4TW's&nbsp;
-          <a href="/" style={{ textDecoration: "underline" }}>
+          <Link to="/" style={{ textDecoration: "underline" }}>
             Privacy Policy
-          </a>
+          </Link>
           &nbsp; and&nbsp;
-          <a href="/" style={{ textDecoration: "underline" }}>
+          <Link to="/" style={{ textDecoration: "underline" }}>
             Terms of Use
-          </a>
+          </Link>
           .
         </p>
 

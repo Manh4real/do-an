@@ -3,6 +3,7 @@ import React from "react";
 import { useDownloadImage } from "hooks";
 import { formatCurrency } from "helpers";
 import { Star } from "components/Icons";
+import { Link } from "react-router-dom";
 
 const CarouselProducts = React.forwardRef((products, ref) => {
   return (
@@ -23,8 +24,8 @@ export const CarouselProduct = ({ item: p }) => {
   return (
     <div className="product-container">
       <div className="pd-cover">
-        <a href={`/products/${p.product_id}/${colorId}`}>
-          <div className="pd-cover">
+        <Link to={`/products/${p.product_id}/${colorId}`}>
+          <div className="pd-cover flex grey-bg">
             {url ? (
               <img src={url} alt={p.product_name} />
             ) : (
@@ -48,53 +49,14 @@ export const CarouselProduct = ({ item: p }) => {
               </span>
             </div>
           </div>
-        </a>
+        </Link>
       </div>
     </div>
   );
 };
 
 const SimpleImageSkeleton = () => {
-  return <div style={{ height: 472, width: 465 }}></div>;
+  return <div className="grey-bg" style={{ height: 472, width: 465 }}></div>;
 };
-
-// const CAROUSEL_PRODUCTS = [
-//   {
-//     id: 1,
-//     target: "Men's Shoes",
-//     images: {
-//       1: [{ url: "10.jfif" }],
-//     },
-//     price: 200,
-//     product_name: "",
-//   },
-//   {
-//     id: 2,
-//     target: "Men's Shoes",
-//     images: {
-//       1: [{ url: "11.jfif" }],
-//     },
-//     price: 200,
-//     product_name: "",
-//   },
-//   {
-//     id: 3,
-//     target: "Men's Shoes",
-//     images: {
-//       1: [{ url: "12.jfif" }],
-//     },
-//     price: 200,
-//     product_name: "",
-//   },
-//   {
-//     id: 5,
-//     target: "Men's Shoes",
-//     images: {
-//       1: [{ url: "13.jfif" }],
-//     },
-//     price: 200,
-//     product_name: "",
-//   },
-// ];
 
 export default React.memo(CarouselProducts);

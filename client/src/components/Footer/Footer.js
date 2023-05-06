@@ -12,6 +12,7 @@ import {
 import StyledFooter from "./StyledFooter";
 import SubFooterMenu from "./SubFooterMenu";
 import clsx from "clsx";
+import { Link } from "react-router-dom";
 
 function Footer() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 450);
@@ -30,39 +31,39 @@ function Footer() {
       <div className="col-1">
         <ul>
           <li>
-            <a href="/" className="bold-font regular-font">
+            <Link to="/" className="bold-font regular-font">
               GIFT CARDS
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/" className="bold-font regular-font">
+            <Link to="/" className="bold-font regular-font">
               PROMOTIONS
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/" className="bold-font regular-font">
+            <Link to="/" className="bold-font regular-font">
               FIND A STORE
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/" className="bold-font regular-font">
+            <Link to="/" className="bold-font regular-font">
               SIGN UP FOR EMAIL
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/" className="bold-font regular-font">
+            <Link to="/" className="bold-font regular-font">
               BECOME A MEMBER
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/" className="bold-font regular-font">
+            <Link to="/" className="bold-font regular-font">
               4TW JOURNAL
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/" className="bold-font regular-font">
+            <Link to="/" className="bold-font regular-font">
               SEND US FEEDBACK
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
@@ -72,22 +73,22 @@ function Footer() {
             return (
               <ul className={clsx("expand", { active: expanded })}>
                 <li>
-                  <a href="/">Order Status</a>
+                  <Link to="/">Order Status</Link>
                 </li>
                 <li>
-                  <a href="/">Shipping and Delivery</a>
+                  <Link to="/">Shipping and Delivery</Link>
                 </li>
                 <li>
-                  <a href="/">Returns</a>
+                  <Link to="/">Returns</Link>
                 </li>
                 <li>
-                  <a href="/">Payment Options</a>
+                  <Link to="/">Payment Options</Link>
                 </li>
                 <li>
-                  <a href="/">Gift Card Balance</a>
+                  <Link to="/">Gift Card Balance</Link>
                 </li>
                 <li>
-                  <a href="/">Contact Us</a>
+                  <Link to="/">Contact Us</Link>
                 </li>
               </ul>
             );
@@ -100,19 +101,19 @@ function Footer() {
             return (
               <ul className={clsx("expand", { active: expanded })}>
                 <li>
-                  <a href="/">News</a>
+                  <Link to="/">News</Link>
                 </li>
                 <li>
-                  <a href="/">Careers</a>
+                  <Link to="/">Careers</Link>
                 </li>
                 <li>
-                  <a href="/">Investors</a>
+                  <Link to="/">Investors</Link>
                 </li>
                 <li>
-                  <a href="/">Purpose</a>
+                  <Link to="/">Purpose</Link>
                 </li>
                 <li>
-                  <a href="/">Sustainability</a>
+                  <Link to="/">Sustainability</Link>
                 </li>
               </ul>
             );
@@ -123,24 +124,24 @@ function Footer() {
       <div className="socials-col col-5">
         <ul className="social-links flex-end">
           <li>
-            <a href="/" className="social">
+            <Link to="/" className="social">
               <TwitterIcon />
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/" className="social">
+            <Link to="/" className="social">
               <FacebookIcon />
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/" className="social">
+            <Link to="/" className="social">
               <YoutubeIcon />
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/" className="social">
+            <Link to="/" className="social">
               <InstagramIcon />
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
@@ -161,11 +162,11 @@ const Expandable = ({ isMobile, title, children }) => {
 
   return (
     <div className="col-2">
-      <a href="/" className="col-title bold-font" onClick={handleClick}>
+      <Link to="/" className="col-title bold-font" onClick={handleClick}>
         {title}
         {isMobile && expanded && <Minus />}
         {isMobile && !expanded && <Plus />}
-      </a>
+      </Link>
       {children(expanded)}
     </div>
   );

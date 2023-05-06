@@ -10,6 +10,7 @@ import { ActiveFormContext } from "components/Header/TopLinks";
 import { SIGN_UP } from "script";
 
 import StyledSignIn from "./StyledSignIn";
+import { Link } from "react-router-dom";
 
 const SignIn = ({ isShown, onClose, onReplace }) => {
   const { handleFormChange } = useContext(ActiveFormContext);
@@ -40,14 +41,14 @@ const SignIn = ({ isShown, onClose, onReplace }) => {
           <Form />
           <p className="grey-font small-font">
             Not a member?&nbsp;
-            <a
-              href="/"
+            <Link
+              to="/"
               style={{ color: "#111" }}
               id="join-us"
               onClick={handleClick}
             >
               Join Us.
-            </a>
+            </Link>
           </p>
         </div>
         <button className="close-btn" onClick={onClose}>

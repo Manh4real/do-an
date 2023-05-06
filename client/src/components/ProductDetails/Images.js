@@ -22,7 +22,7 @@ function Images({ images, product_id, selectedColor }) {
   //     setImages(data.data.images);
   //   })
   // }, [product_id]);
-// console.log(images);
+  // console.log(images);
   return (
     <>
       <div className="card">
@@ -33,15 +33,16 @@ function Images({ images, product_id, selectedColor }) {
       </div>
       <div className="images-ctn">
         {Object.keys(images).map((key, index) => {
-            return (
-              <Image
-                className={Object.keys(images).length > 1 ? "" : "grid-col-span-2"}
-                key={index}
-                src={images[key].url}
-              />
-            );
-          })
-        }
+          return (
+            <Image
+              className={
+                Object.keys(images).length > 1 ? "" : "grid-col-span-2"
+              }
+              key={index}
+              src={images[key].url}
+            />
+          );
+        })}
       </div>
     </>
   );
@@ -55,12 +56,10 @@ const Image = ({ className, src }) => {
   }, [show]);
 
   const handleOpen = () => {
-    console.log("open");
     setShow(true);
   };
   const handleClose = (e) => {
     e.stopPropagation();
-    console.log("close");
     setShow(false);
   };
 
