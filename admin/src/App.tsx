@@ -15,6 +15,8 @@ import Orders from "./pages/Orders";
 import OrderDetails from "./pages/OrderDetails";
 import Inventory from "./pages/Inventory";
 import Reviews from "./pages/Reviews";
+import ProductTypes from "./pages/ProductTypes";
+import Manufacturers from "./pages/Manufacturer";
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
           <Route path="/orders/details/:orderId" element={<OrderDetails />} />
           <Route path="/account" element={<Account />} />
           <Route path="/inventory" element={<Inventory />} />
+          <Route path="/types" element={<ProductTypes />} />
+          <Route path="/manufacturers" element={<Manufacturers />} />
         </Route>
         <Route path="/sign-in" element={<Signin />} />
         <Route path="/logout" element={<Logout />} />

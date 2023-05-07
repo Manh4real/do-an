@@ -20,12 +20,13 @@ function OrderReviewStep({ nextStep }) {
         return (
           <div className="checkout__step-content">
             <label style={{ fontWeight: "bold" }}>Payment:</label>
-            <p>Card number: {payment.data.number}</p>
+            {/* <p>Card number: {payment.data.number}</p>
             <p>Owner: {payment.data.name}</p>
             <p>Expiry: {payment.data.expiry}</p>
             <p>CVC: {payment.data.cvc}</p>
-            <p>Issuer: {payment.data.issuer}</p>
-            {/* <p>{JSON.stringify(payment)}</p> */}
+            <p>Issuer: {payment.data.issuer}</p> */}
+
+            <p>{JSON.stringify(payment)}</p>
 
             <label className="mt-25" style={{ fontWeight: "bold" }}>
               Address:

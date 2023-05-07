@@ -82,7 +82,7 @@ const useEditFormStore = create<IStore>()(
               c = validation.validateName(_value).isValid;
               break;
             case "birthday":
-              c = validation.validateName(_value.slice(0, 10)).isValid;
+              c = validation.validateBirthday(new Date(_value)).isValid;
               break;
             case "email":
               c = validation.validateEmail(_value).isValid;

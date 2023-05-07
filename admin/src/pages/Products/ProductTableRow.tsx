@@ -1,15 +1,17 @@
-import React, { useMemo } from "react";
+import React, { useState, useMemo } from "react";
 
-import { IProduct } from "../../types";
+import { IProduct, IProductStatus } from "../../types";
 import DeleteButton from "./DeleteButton";
 import EditUserButton from "./EditProductButton";
 import { formatCurrency } from "../../helpers";
 import moment from "moment";
 import { useFetchImage } from "../../hooks";
+import { updateProductStatus } from "../../services/products";
 
 interface Props {
   nth: number;
   product: IProduct;
+  statuses: IProductStatus[];
 }
 
 interface IDisplayedSize {
@@ -17,7 +19,7 @@ interface IDisplayedSize {
   size_id: string;
 }
 
-function ProductTableRow({ nth, product }: Props) {
+function ProductTableRow({ statuses, nth, product }: Props) {
   // first image with first color
   const firstImageName =
     product.images[Object.keys(product.images)[0]]?.[0].url ||
@@ -49,10 +51,10 @@ function ProductTableRow({ nth, product }: Props) {
 
   return (
     <tr>
-      <td className="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">
+      <td className="px-3 py-4 text-sm text-gray-700 whitespace-nowrap">
         {nth}
       </td>
-      <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+      <td className="px-3 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
         <div className="inline-flex items-center gap-x-3">
           <div className="flex items-center gap-x-2">
             {imageUrl ? (
@@ -66,24 +68,24 @@ function ProductTableRow({ nth, product }: Props) {
             )}
             <div>
               <h2 className="max-w-[150px] text-ellipsis overflow-hidden whitespace-nowrap font-medium text-gray-800">
-                {product.product_name}
+                {product.product_id}. {product.product_name}
               </h2>
               {/* <p className="text-sm font-normal text-gray-600">@authurmelo</p> */}
             </div>
           </div>
         </div>
       </td>
-      <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
+      <td className="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
         {product.gender[0].toUpperCase() + product.gender.slice(1)}
       </td>
-      <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
-        {product.target}
+      <td className="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
+        {product.manufacturer_name}
       </td>
-      <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
+      <td className="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
         {formatCurrency(product.price)}{" "}
         <span className="text-xs font-medium mx-1">VND</span>
       </td>
-      <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
+      <td className="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
         <div className="flex flex-wrap gap-2 max-w-[180px]">
           {displayedSizes.map(({ size }, i) => {
             return (
@@ -105,15 +107,20 @@ function ProductTableRow({ nth, product }: Props) {
           )} */}
         </div>
       </td>
-      <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
+      <td className="px-3 py-4 text-sm text-gray-500 whitespace-nowrap">
         {/* {new Date(product.created_at).toUTCString().slice(4, 17)} */}
         {moment(new Date(product.created_at)).format("ll")}
       </td>
-      <td className="max-w-[200px] text-ellipsis overflow-hidden whitespace-nowrap px-4 py-4 text-sm text-gray-500">
+      <td className="max-w-[200px] text-ellipsis overflow-hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500">
         {product.description}
       </td>
-      <td className="px-4 py-4 text-sm whitespace-nowrap">
-        <div className="flex items-center gap-x-6">
+      <td className="px-3 py-4 text-sm whitespace-nowrap">
+        <div className="flex items-center gap-x-3">
+          <ProductStatus
+            productId={product.product_id}
+            initialStatusId={product.product_status_id}
+            statuses={statuses}
+          />
           <DeleteButton productId={product.product_id} />
           <EditUserButton product={_product} />
         </div>
@@ -121,5 +128,49 @@ function ProductTableRow({ nth, product }: Props) {
     </tr>
   );
 }
+
+interface ProductStatusProps {
+  productId: string;
+  initialStatusId: string;
+  statuses: IProductStatus[];
+}
+const ProductStatus = ({
+  productId,
+  initialStatusId,
+  statuses,
+}: ProductStatusProps) => {
+  const [value, setValue] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setValue(e.target.value);
+
+    updateProductStatus(productId, e.target.value)
+      .then(() => {
+        console.log(`Updated product #${productId} status`);
+      })
+      .catch(() => {
+        console.log(`Error: Failed to update product #${productId} status`);
+      });
+  };
+
+  return (
+    <select
+      value={value || initialStatusId}
+      onChange={handleChange}
+      id="type"
+      name="type"
+      autoComplete="type-name"
+      className="capitalize px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+    >
+      {statuses.map((status, i) => {
+        return (
+          <option key={i} value={status.product_status_id}>
+            {status.product_status_name}
+          </option>
+        );
+      })}
+    </select>
+  );
+};
 
 export default ProductTableRow;

@@ -18,7 +18,6 @@ interface Props {
 
 function Form({ handleClose }: Props) {
   const { data, isAllValid: _isAllValid, getAll } = useAddFormStore();
-
   const isAllValid = _isAllValid();
   const { updateData } = useAddFormStore();
 

@@ -2,13 +2,15 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 
 import {
-  ChartIcon,
+  // ChartIcon,
   DashboardIcon,
   InventoryIcon,
   Logo,
+  ManufacturerIcon,
   OrderIcon,
   ProductIcon,
   ReviewIcon,
+  TagIcon,
   UsersIcon,
 } from "../../Icons";
 import AccountSection from "./AccountSection";
@@ -27,7 +29,7 @@ function Sidebar() {
   };
 
   return (
-    <div className="fixed top-0 bottom-0 left-0 z-30 w-1/6 overflow-auto container p-4 bg-gray-50 h-[100%] flex flex-col justify-between">
+    <div className="fixed top-0 bottom-0 left-0 z-30 w-1/6 overflow-auto container p-4 pr-3 bg-gray-50 h-[100%] flex flex-col justify-between">
       <div>
         <Link
           to="/"
@@ -53,7 +55,7 @@ function Sidebar() {
               <NavLink className={getNavLinkClasses} to="/products">
                 <ProductIcon />
                 <span className="hidden text-ellipsis overflow-hidden xl:block">
-                  Products Management
+                  Product Manager
                 </span>
               </NavLink>
             </li>
@@ -61,7 +63,7 @@ function Sidebar() {
               <NavLink className={getNavLinkClasses} to="/users">
                 <UsersIcon />
                 <span className="hidden text-ellipsis overflow-hidden xl:block">
-                  Users Management
+                  User Manager
                 </span>
               </NavLink>
             </li>
@@ -69,7 +71,7 @@ function Sidebar() {
               <NavLink className={getNavLinkClasses} to="/orders">
                 <OrderIcon />
                 <span className="hidden text-ellipsis overflow-hidden xl:block">
-                  Orders Management
+                  Order Manager
                 </span>
               </NavLink>
             </li>
@@ -77,7 +79,7 @@ function Sidebar() {
               <NavLink className={getNavLinkClasses} to="/reviews">
                 <ReviewIcon />
                 <span className="hidden text-ellipsis overflow-hidden xl:block">
-                  Reviews Management
+                  Review Manager
                 </span>
               </NavLink>
             </li>
@@ -85,18 +87,34 @@ function Sidebar() {
               <NavLink className={getNavLinkClasses} to="/inventory">
                 <InventoryIcon />
                 <span className="hidden text-ellipsis overflow-hidden xl:block">
-                  Inventories
+                  Inventorie
                 </span>
               </NavLink>
             </li>
             <li className="mb-2">
+              <NavLink className={getNavLinkClasses} to="/types">
+                <TagIcon />
+                <span className="hidden text-ellipsis overflow-hidden xl:block">
+                  Product Type Manager
+                </span>
+              </NavLink>
+            </li>
+            <li className="mb-2">
+              <NavLink className={getNavLinkClasses} to="/manufacturers">
+                <ManufacturerIcon />
+                <span className="hidden text-ellipsis overflow-hidden xl:block">
+                  Manufacturer Manager
+                </span>
+              </NavLink>
+            </li>
+            {/* <li className="mb-2">
               <NavLink className={getNavLinkClasses} to="/analytics">
                 <ChartIcon />
                 <span className="hidden text-ellipsis overflow-hidden xl:block">
                   Analytics
                 </span>
               </NavLink>
-            </li>
+            </li> */}
           </ul>
         </nav>
       </div>

@@ -9,7 +9,7 @@ import { deleteImages, uploadProductImages } from '../images';
 
 export const getProducts = async (page = 1) => {
     const token = getAccessTokenFromLocalStorage();
-    const response = await api.get("/products", {
+    const response = await api.get("/a/products", {
         params: {
             page
         },
@@ -195,7 +195,7 @@ export const deleteProduct = async (productId: string) => {
 
 export const searchProducts = async (q: string) => {
     try {
-        const response = await api.get("/search", {
+        const response = await api.get("/a/search", {
             params: {
                 q
             }
@@ -205,4 +205,33 @@ export const searchProducts = async (q: string) => {
     } catch (err) {
         console.log(err);
     }
+}
+
+export const getProductStatuses = async () => {
+    try {
+        const response = await api.get("/product-statuses");
+
+        return response.data.data.product_statuses;
+    } catch (err) {
+        console.log(err);
+    }
+}
+export const updateProductStatus = async (id: string, product_status_id: string, options = {}) => {
+    try {
+        const token = getAccessTokenFromLocalStorage();
+
+        await api.put("/products/status/" + id, {
+            product_status_id
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return true;
+    } catch (err) {
+        console.log(err);
+    }
+
+    return false;
 }

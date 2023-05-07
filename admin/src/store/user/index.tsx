@@ -20,7 +20,7 @@ interface ILoginPayload {
 // {
 //     avatar: "default-avatar.png",
 //     birthday: new Date().toDateString(),
-//     country: "Vietnam",
+//     country: "VN",
 //     email: "nguyenmanh@gmail.com",
 //     first_name: "Manh",
 //     last_name: "Nguyen",

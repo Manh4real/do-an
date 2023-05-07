@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useEditFormStore } from "../../../store/editForm";
 import Validation from "../../../validation";
 import BirthdayInput from "../_components/BirthdayInput";
+import moment from "moment";
 
 function Birthday() {
   const editFormStore = useEditFormStore();
@@ -10,8 +11,9 @@ function Birthday() {
 
   const [value, setValue] = useState<string>(() => {
     const data = editFormStore.data;
-
-    return data === null ? "" : data.birthday.value.slice(0, 10);
+    return data === null
+      ? ""
+      : moment(new Date(data.birthday.value)).format("YYYY-MM-DD");
   });
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);

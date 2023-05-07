@@ -219,12 +219,12 @@ CREATE TABLE order_items (
 	SIZE char(5)
 );
 
-CREATE TABLE product_sizes (
-	product_size_id bigserial NOT NULL PRIMARY KEY,
-	product_id bigint REFERENCES products(product_id),
-	size_id bigint REFERENCES sizes(size_id),
-	color_id bigint REFERENCES colors(color_id)
-)
+-- CREATE TABLE product_sizes (
+-- 	product_size_id bigserial NOT NULL PRIMARY KEY,
+-- 	product_id bigint REFERENCES products(product_id),
+-- 	size_id bigint REFERENCES sizes(size_id),
+-- 	color_id bigint REFERENCES colors(color_id)
+-- )
 
 CREATE TABLE stock (
 	stock_id bigserial NOT NULL PRIMARY KEY,

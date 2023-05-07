@@ -5,7 +5,6 @@ import { useValidatedInput } from "./hooks";
 import FirstNameInput from "../_components/FirstNameInput";
 
 function FirstName() {
-  console.log("FirstName");
   const { value, additionalClasses, handleChange, errorMessage } =
     useValidatedInput(InputType.FIRSTNAME);
 

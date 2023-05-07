@@ -10,7 +10,7 @@ module.exports = {
       const { role } = req.user;
 
       if (role != "2" && role != "0") {
-        res.status(405).json({
+        res.status(403).json({
           status: "error",
           error: "You are not allowed",
         });
@@ -84,7 +84,7 @@ module.exports = {
           pagination: {
             current_page: page,
             previous_page: page <= 1 ? 1 : page - 1,
-            next_page: page < totalPage? page + 1 : totalPage,
+            next_page: page < totalPage ? page + 1 : totalPage,
             total_page: totalPage,
           },
         },
@@ -196,7 +196,7 @@ module.exports = {
       const { role } = req.user;
 
       if (role != "2" && role != "0") {
-        res.status(405).json({
+        res.status(403).json({
           status: "error",
           error: "You are not allowed",
         });

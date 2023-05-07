@@ -63,7 +63,7 @@ const PFItem = ({ product }) => {
   return (
     <div className="profile__carousel-item b-carousel__item">
       <Link to={`/products/${product.product_id}/${product.added.colorId}`}>
-        <div className="b-carousel__item-image grey-bg">
+        <div className="b-carousel__item-image grey-bg flex">
           <img src={url || imageName} alt="" />
         </div>
         <div className="profile__carousel-title regular-font flex-spbw w-100">

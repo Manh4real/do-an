@@ -26,6 +26,7 @@ export enum InputType {
     PASSWORD = "password",
     FIRSTNAME = "first_name",
     LASTNAME = "last_name",
+    BIRTHDAY = "birthday",
 }
 export enum ProductInputType {
     NAME = "product_name",
@@ -64,7 +65,9 @@ export interface IProduct {
         [key: string]: IProductImage[]
     },
     manufacturer_id: string,
+    manufacturer_name: string,
     size_type_id: string,
+    product_status_id: string,
     stock: {
         [key: string]: {
             stock_id: string,
@@ -80,7 +83,7 @@ export interface IProduct {
     }
 }
 
-export type IProductFormData = Omit<IProduct, "product_id" | "created_at" | "images" | "stock"> & {
+export type IProductFormData = Omit<IProduct, "product_id" | "created_at" | "images" | "stock" | "product_status_id"> & {
     images: {
         [key: string]: (File | Blob)[]
     },
@@ -93,7 +96,7 @@ export type IProductFormData = Omit<IProduct, "product_id" | "created_at" | "ima
         }[]
     }
 }
-export type IProductEditFormData = Omit<IProduct, "stock"> & {
+export type IProductEditFormData = Omit<IProduct, "stock" | "manufacturer_name" | "product_status_id"> & {
     colors: string[],
     removedColors: string[],
     addedImages: {
@@ -132,7 +135,7 @@ export interface IManufacturer {
     manufacturer_name: string;
     brand_name: string;
 }
-export interface IProductTypes {
+export interface IProductType {
     type_id: string;
     type_name: string;
 }
@@ -228,4 +231,20 @@ export interface IReview {
     images: {
         [color_id: string]: IProductImage[]
     }
+}
+
+export interface IProductTypeFormData extends IProductType { }
+export interface IManufacturerFormData extends IManufacturer { }
+export enum ProductTypeInputType {
+    TYPE_NAME = "type_name"
+}
+export enum ManufacturerInputType {
+    MANUFACTURER_NAME = "manufacturer_name",
+    BRAND_NAME = "brand_name"
+}
+
+export interface IProductStatus {
+    product_status_id: string;
+    product_status_name: string;
+    product_status_desc: string;
 }

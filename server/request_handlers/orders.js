@@ -155,7 +155,7 @@ module.exports = {
       const { role } = req.user;
 
       if (role != "2" && role != "0") {
-        res.status(405).json({
+        res.status(403).json({
           status: "error",
           error: "You are not allowed",
         });
@@ -271,7 +271,7 @@ module.exports = {
       // const { role } = req.user;
 
       // if (role != "2" && role != "0") {
-      //   res.status(405).json({
+      //   res.status(403).json({
       //     status: "error",
       //     error: "You are not allowed",
       //   });
@@ -522,7 +522,7 @@ module.exports = {
       const { role } = req.user;
 
       if (role != "2" && role != "0") {
-        res.status(405).json({
+        res.status(403).json({
           status: "error",
           error: "You are not allowed",
         });
@@ -535,73 +535,104 @@ module.exports = {
       if (status && arrivedDate) {
         // update stock
         // status: normal => canceled (id = 3)        return (increase) stock
-        if(status.toString() === "3") {
+        if (status.toString() === "3") {
           const productsFromOrderResult = await productsFromOrderQuery(orderId);
           const productsFromOrder = productsFromOrderResult.rows;
 
-          if(productsFromOrder.length > 0) {
+          if (productsFromOrder.length > 0) {
             const promises = [];
 
-            productsFromOrder.forEach(({product_id, color_id, size_id, quantity}) => {
-              const query = db.query(`
+            productsFromOrder.forEach(
+              ({ product_id, color_id, size_id, quantity }) => {
+                const query = db.query(
+                  `
                 UPDATE stock
                 SET quantity = quantity + $1
                 WHERE stock.product_id = $2 AND stock.color_id = $3 AND stock.size_id = $4
-              `, [quantity, product_id, color_id, size_id])
+              `,
+                  [quantity, product_id, color_id, size_id]
+                );
 
-              promises.push(query);
-            });
+                promises.push(query);
+              }
+            );
 
-            await Promise.all(promises).then(() => {
-              console.log("Updated (increased) stock from updateOrderHandler");
-            }).catch(err => {
-              console.log("Failed to update (increase) stock from updateOrderHandler");
-            });
+            await Promise.all(promises)
+              .then(() => {
+                console.log(
+                  "Updated (increased) stock from updateOrderHandler"
+                );
+              })
+              .catch((err) => {
+                console.log(
+                  "Failed to update (increase) stock from updateOrderHandler"
+                );
+              });
           }
         } else {
-        //         canceld => normal:        decrease stock
-        //             select order status -> check status === canceled
-          const orderStatusFromOrderResult = await db.query(`
+          //         canceld => normal:        decrease stock
+          //             select order status -> check status === canceled
+          const orderStatusFromOrderResult = await db.query(
+            `
               SELECT order_status_id FROM orders
               WHERE orders.order_id = $1
-            `, [orderId])
-          const orderStatusFromOrder = orderStatusFromOrderResult.rows[0].order_status_id;
+            `,
+            [orderId]
+          );
+          const orderStatusFromOrder =
+            orderStatusFromOrderResult.rows[0].order_status_id;
 
-          if(orderStatusFromOrder.toString() === "3") {
-            const productsFromOrderResult = await productsFromOrderQuery(orderId);
+          if (orderStatusFromOrder.toString() === "3") {
+            const productsFromOrderResult = await productsFromOrderQuery(
+              orderId
+            );
             const productsFromOrder = productsFromOrderResult.rows;
 
-            if(productsFromOrder.length > 0) {
+            if (productsFromOrder.length > 0) {
               const promises = [];
 
-              productsFromOrder.forEach(({product_id, color_id, size_id, quantity}) => {
-                const query = db.query(`
+              productsFromOrder.forEach(
+                ({ product_id, color_id, size_id, quantity }) => {
+                  const query = db.query(
+                    `
                   UPDATE stock
                   SET quantity = quantity - $1
                   WHERE stock.product_id = $2 AND stock.color_id = $3 AND stock.size_id = $4
-                `, [quantity, product_id, color_id, size_id])
+                `,
+                    [quantity, product_id, color_id, size_id]
+                  );
 
-                promises.push(query);
-              });
+                  promises.push(query);
+                }
+              );
 
-              await Promise.all(promises).then(() => {
-                console.log("Updated (decreased) stock from updateOrderHandler");
-              }).catch(err => {
-                console.log("Failed to update (decrease) stock from updateOrderHandler");
-              });
+              await Promise.all(promises)
+                .then(() => {
+                  console.log(
+                    "Updated (decreased) stock from updateOrderHandler"
+                  );
+                })
+                .catch((err) => {
+                  console.log(
+                    "Failed to update (decrease) stock from updateOrderHandler"
+                  );
+                });
             }
           }
         }
         // end - update stock
 
-          function productsFromOrderQuery(orderId) {
-            return db.query(`
+        function productsFromOrderQuery(orderId) {
+          return db.query(
+            `
               SELECT order_items.product_id, order_items.color_id, order_items.size_id, quantity
               FROM orders
               INNER JOIN order_items on order_items.order_id = orders.order_id
               WHERE orders.order_id = $1
-            `, [orderId])
-          }
+            `,
+            [orderId]
+          );
+        }
 
         // eventually update order status
         const result = await db.query(
@@ -629,7 +660,7 @@ module.exports = {
       const { role } = req.user;
 
       if (role != "2" && role != "0") {
-        res.status(405).json({
+        res.status(403).json({
           status: "error",
           error: "You are not allowed",
         });

@@ -15,7 +15,7 @@ const patterns = {
     product_name: /^(?!\s*$).{1,50}$/,
     category: /^(?!\s*$).{1,50}$/,
     target: /^(?!\s*$).{1,20}$/,
-    number: /[0-9]+/,
+    number: /^[0-9]+$/,
     description: /^(?!\s*$).{0,}$/
 };
 

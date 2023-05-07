@@ -22,7 +22,7 @@ export const getOrderStatuses = async () => {
 
 export const createProvinces = async () => {
   try {
-    const response = await api.post("/provinces");
+    await api.post("/provinces");
 
     return true;
   } catch (err) {

@@ -58,6 +58,7 @@ function Form({ product, handleClose }: Props) {
       setLoading(true);
       updateProduct(product.product_id, body)
         .then(() => {
+          reset();
           handleClose();
           refreshContext.handleRefresh();
         })

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 
 import { useAddFormStore } from "../../../store/product/addForm";
-import { IProductTypes } from "../../../types";
+import { IProductType } from "../../../types";
 import { getProductTypes } from "../../../services/misc";
 
 function ProductTypeInput() {
   const addFormStore = useAddFormStore();
 
   const [value, setValue] = useState<string>("");
-  const [types, setTypes] = useState<IProductTypes[]>([]);
+  const [types, setTypes] = useState<IProductType[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setValue(e.target.value);
@@ -32,7 +32,7 @@ function ProductTypeInput() {
 
     if (types.length === 0) {
       getProductTypes({ signal: controller.signal }).then(
-        (data: IProductTypes[] | undefined) => {
+        (data: IProductType[] | undefined) => {
           if (!data) return;
 
           setTypes(data);

@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import countryList from "countries-list";
 import { IUserFormData, IRole } from "../../types";
+import moment from "moment";
 
 type CommonKeys =
   | "first_name"
@@ -9,8 +10,7 @@ type CommonKeys =
   | "email"
   | "password"
   | "birthday"
-  | "role"
-  | "manufacturer";
+  | "role";
 type Keys = CommonKeys | "country" | "avatar";
 type IUserAddFormData = {
   [key in CommonKeys]: {
@@ -39,9 +39,9 @@ const initialValue = {
 };
 
 const EIGHTEEN_YEARS_TIME = 86400 * 1000 * 365 * 18;
-const EIGHTEEN_YO_DOB_STRING = new Date(Date.now() - EIGHTEEN_YEARS_TIME)
-  .toISOString()
-  .slice(0, 10);
+const EIGHTEEN_YO_DOB_STRING = moment(
+  new Date(Date.now() - EIGHTEEN_YEARS_TIME)
+).format("YYYY-MM-DD");
 const initialData: IUserAddFormData = {
   first_name: initialValue,
   last_name: initialValue,
@@ -63,7 +63,6 @@ const initialData: IUserAddFormData = {
     value: null,
     isValid: true,
   },
-  manufacturer: initialValue,
 };
 
 interface IStore {

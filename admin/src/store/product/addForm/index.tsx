@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { IGender, IProductFormData } from "../../../types";
 
-type Keys = Exclude<keyof IProductFormData, "old_price">;
+type Keys = Exclude<keyof IProductFormData, "old_price" | "manufacturer_name">;
 type IProductAddFormData = {
   [key in Keys]: {
     value: IProductFormData[key];

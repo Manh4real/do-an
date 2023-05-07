@@ -118,7 +118,7 @@ module.exports = {
       const { role } = req.user;
 
       if (role != "2" && role != "0") {
-        res.status(405).json({
+        res.status(403).json({
           status: "error",
           error: "You are not allowed",
         });
@@ -173,7 +173,7 @@ module.exports = {
       const { role } = req.user;
 
       if (role != "2" && role != "0") {
-        res.status(405).json({
+        res.status(403).json({
           status: "error",
           error: "You are not allowed",
         });
@@ -235,7 +235,7 @@ module.exports = {
       const { role: _role } = req.user;
 
       if (_role != "2" && _role != "0") {
-        res.status(405).json({
+        res.status(403).json({
           status: "error",
           error: "You are not allowed",
         });
@@ -308,7 +308,7 @@ module.exports = {
       const { role: _role } = req.user;
 
       if (_role != "2" && _role != "0") {
-        res.status(405).json({
+        res.status(403).json({
           status: "error",
           error: "You are not allowed",
         });
@@ -383,7 +383,7 @@ module.exports = {
       const { role } = req.user;
 
       if (role != "2" && role != "0") {
-        res.status(405).json({
+        res.status(403).json({
           status: "error",
           error: "You are not allowed",
         });
@@ -406,6 +406,14 @@ module.exports = {
       // delete favorites of user
       const deleteFavoritesResult = await db.query(
         "DELETE FROM favorites WHERE favorites.user_id = $1",
+        [id]
+      );
+
+      // delete user role
+      const deleteUserRoleResult = await db.query(
+        `
+          DELETE FROM user_roles WHERE user_roles.user_id = $1
+        `,
         [id]
       );
 

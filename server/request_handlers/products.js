@@ -16,6 +16,127 @@ const {
 const db = require("../db");
 
 module.exports = {
+  async getActiveProductsHandler(req, res) {
+    try {
+      let { page = 1 } = req.query;
+
+      page = Number(page);
+
+      if (Number.isNaN(page) || page <= 0) page = 1;
+
+      const products_per_page = 10;
+      const from = (page - 1) * products_per_page;
+      const to = (page + 1) * products_per_page;
+
+      const getTotalResult = await db.query(
+        `SELECT COUNT(1) as total FROM products
+         WHERE products.product_status_id = 1
+        `
+      );
+      const total = getTotalResult.rows[0].total || 0;
+      const totalPage = Math.ceil(total / products_per_page);
+
+      const result = await db.query(
+        `SELECT * FROM products 
+            INNER JOIN manufacturers ON products.manufacturer_id = manufacturers.manufacturer_id
+            INNER JOIN styles ON products.style_id = styles.style_id
+            INNER JOIN types ON types.type_id = products.type_id
+            WHERE products.product_status_id = 1
+            ORDER BY products.created_at DESC
+            LIMIT $1 OFFSET $2
+            `,
+        [products_per_page, from]
+      );
+      // const sizeResult = await db.query(
+      //   `
+      //     SELECT * FROM product_sizes
+      //     INNER JOIN sizes ON product_sizes.size_id = sizes.size_id
+      //     INNER JOIN size_types ON size_types.size_type_id = sizes.size_type_id
+      //   `
+      // );
+      const stockResult = await db.query(
+        `
+          SELECT * FROM stock
+          INNER JOIN sizes ON stock.size_id = sizes.size_id
+          INNER JOIN colors ON colors.color_id = stock.color_id
+          INNER JOIN size_types ON size_types.size_type_id = sizes.size_type_id
+        `
+      );
+      let products = result.rows;
+
+      if (products.length > 0) {
+        const products_ids = products.map((p) => p.product_id);
+        const imageResult = await db.query(
+          getImagesByProductsIDs(products_ids),
+          products_ids
+        );
+
+        products = products.map((p) => {
+          const filteredImages = imageResult.rows.filter(
+            (i) => i.product_id.trim() === p.product_id.trim()
+          );
+          // const filteredSizes = sizeResult.rows.filter(
+          //   (s) => s.product_id.trim() === p.product_id.trim()
+          // );
+          const filteredStock = stockResult.rows.filter(
+            (s) => s.product_id.trim() === p.product_id.trim()
+          );
+          const images = _.groupBy(filteredImages, "product_color_id");
+          // const sizes = _.groupBy(filteredSizes, "color_id");
+          const stock = _.groupBy(filteredStock, "color_id");
+
+          return {
+            ...p,
+            sizes: p.sizes.split(",").map((s) => s.trim()),
+            // product_sizes: sizes,
+            stock,
+            images,
+          };
+        });
+      }
+
+      // average rating products
+      const avgRatingResult = await db.query(
+        `SELECT reviews.product_id, AVG(reviews.rating) as average_rating FROM products 
+        INNER JOIN reviews ON reviews.product_id = products.product_id
+        GROUP BY products.product_id, reviews.product_id`
+      );
+      let avgRatingProducts = avgRatingResult.rows;
+
+      avgRatingProducts = products.map((p) => {
+        const r = avgRatingProducts.find(
+          (a) => a.product_id.trim() === p.product_id.trim()
+        );
+
+        return {
+          ...p,
+          average_rating: r?.average_rating || 0,
+        };
+      });
+
+      saveObjectsToAlgoliaIndex(avgRatingProducts);
+      // end- average rating products
+
+      res.status(200).json({
+        status: "success",
+        total: total,
+        data: {
+          products: avgRatingProducts,
+        },
+        meta: {
+          pagination: {
+            current_page: page,
+            previous_page: page <= 1 ? 1 : page - 1,
+            next_page: page < totalPage ? page + 1 : totalPage,
+            total_page: totalPage,
+          },
+        },
+      });
+    } catch (err) {
+      console.log(err);
+      res.sendStatus(500);
+    }
+  },
   async getProductsHandler(req, res) {
     try {
       let { page = 1 } = req.query;
@@ -292,6 +413,123 @@ module.exports = {
       res.sendStatus(500);
     }
   },
+  async searchActiveProductsHandler(req, res) {
+    try {
+      let { page = 1, q = "" } = req.query;
+
+      page = Number(page);
+      q = q.toString().trim().toLowerCase();
+
+      if (Number.isNaN(page) || page <= 0) page = 1;
+
+      const products_per_page = 10;
+      const from = (page - 1) * products_per_page;
+      const to = (page + 1) * products_per_page;
+
+      const getTotalResult = await db.query(
+        `SELECT COUNT(1) as total FROM products
+          WHERE LOWER(products.product_name) LIKE '%' || $1 || '%'
+            AND products.product_status_id = 1
+        `,
+        [q]
+      );
+      const total = getTotalResult.rows[0].total || 0;
+      const totalPage = Math.ceil(total / products_per_page);
+
+      const result = await db.query(
+        `SELECT * FROM products 
+            INNER JOIN manufacturers ON products.manufacturer_id = manufacturers.manufacturer_id
+            INNER JOIN styles ON products.style_id = styles.style_id
+            INNER JOIN types ON types.type_id = products.type_id
+            WHERE LOWER(products.product_name) LIKE '%' || $1 || '%'
+             AND products.product_status_id = 1
+            ORDER BY products.created_at DESC
+            LIMIT $2 OFFSET $3
+            `,
+        [q, products_per_page, from]
+      );
+
+      const stockResult = await db.query(
+        `
+          SELECT stock_id, stock.product_id, stock.color_id, stock.size_id, stock.quantity, size, sizes.size_type_id, color_name, color_code, size_type_name FROM stock
+          INNER JOIN sizes ON stock.size_id = sizes.size_id
+          INNER JOIN colors ON colors.color_id = stock.color_id
+          INNER JOIN size_types ON size_types.size_type_id = sizes.size_type_id
+          INNER JOIN products ON products.product_id = stock.product_id
+          WHERE products.product_status_id = 1
+        `
+      );
+      let products = result.rows;
+
+      if (products.length > 0) {
+        const products_ids = products.map((p) => p.product_id);
+        const imageResult = await db.query(
+          getImagesByProductsIDs(products_ids),
+          products_ids
+        );
+
+        products = products.map((p) => {
+          const filteredImages = imageResult.rows.filter(
+            (i) => i.product_id.trim() === p.product_id.trim()
+          );
+          const filteredStock = stockResult.rows.filter(
+            (s) => s.product_id.trim() === p.product_id.trim()
+          );
+          const images = _.groupBy(filteredImages, "product_color_id");
+          // const sizes = _.groupBy(filteredSizes, "color_id");
+          const stock = _.groupBy(filteredStock, "color_id");
+
+          return {
+            ...p,
+            sizes: p.sizes.split(",").map((s) => s.trim()),
+            stock,
+            images,
+          };
+        });
+      }
+
+      // average rating products
+      const avgRatingResult = await db.query(
+        `SELECT reviews.product_id, AVG(reviews.rating) as average_rating FROM products 
+        INNER JOIN reviews ON reviews.product_id = products.product_id
+          AND products.product_status_id = 1
+        GROUP BY products.product_id, reviews.product_id`
+      );
+      let avgRatingProducts = avgRatingResult.rows;
+
+      avgRatingProducts = products.map((p) => {
+        const r = avgRatingProducts.find(
+          (a) => a.product_id.trim() === p.product_id.trim()
+        );
+
+        return {
+          ...p,
+          average_rating: r?.average_rating || 0,
+        };
+      });
+
+      // end- average rating products
+
+      res.status(200).json({
+        status: "success",
+        total: total,
+        data: {
+          products: avgRatingProducts,
+        },
+        meta: {
+          pagination: {
+            current_page: page,
+            previous_page: page <= 1 ? 1 : page - 1,
+            next_page: page < totalPage ? page + 1 : totalPage,
+            total_page: totalPage,
+          },
+        },
+      });
+    } catch (err) {
+      console.log(err);
+      res.sendStatus(500);
+    }
+  },
   async searchProductsHandler(req, res) {
     try {
       let { page = 1, q = "" } = req.query;
@@ -411,6 +649,7 @@ module.exports = {
         INNER JOIN manufacturers ON products.manufacturer_id = manufacturers.manufacturer_id
         INNER JOIN styles ON products.style_id = styles.style_id
         INNER JOIN types ON types.type_id = products.type_id
+          AND products.product_status_id = 1
         ORDER BY created_at desc limit 10`
       );
 
@@ -439,6 +678,7 @@ module.exports = {
         const avgRatingResult = await db.query(
           `SELECT reviews.product_id, AVG(reviews.rating) as average_rating FROM products 
         INNER JOIN reviews ON reviews.product_id = products.product_id
+          AND products.product_status_id = 1
         GROUP BY products.product_id, reviews.product_id`
         );
         let avgRatingProducts = avgRatingResult.rows;
@@ -474,7 +714,7 @@ module.exports = {
       const { role } = req.user;
 
       if (role != "2" && role != "0") {
-        res.status(405).json({
+        res.status(403).json({
           status: "error",
           error: "You are not allowed",
         });
@@ -588,7 +828,7 @@ module.exports = {
       const { role } = req.user;
 
       if (role != "2" && role != "0") {
-        res.status(405).json({
+        res.status(403).json({
           status: "error",
           error: "You are not allowed",
         });
@@ -682,10 +922,10 @@ module.exports = {
   },
   async deleteProductHandler(req, res) {
     try {
-      const { role, user_id } = req.user;
+      const { role } = req.user;
 
       if (role != "2" && role != "0") {
-        res.status(405).json({
+        res.status(403).json({
           status: "error",
           error: "You are not allowed",
         });
@@ -710,8 +950,8 @@ module.exports = {
       );
 
       const deleteFromFavoritesResult = await db.query(
-        "DELETE FROM favorites WHERE favorites.product_id = $1 AND favorites.user_id = $2",
-        [id, user_id]
+        "DELETE FROM favorites WHERE favorites.product_id = $1",
+        [id]
       );
 
       const deleteFromOrdersResult = await db.query(
@@ -720,8 +960,8 @@ module.exports = {
       );
 
       const deleteFromReviewsResult = await db.query(
-        "DELETE FROM reviews WHERE reviews.product_id = $1 AND reviews.user_id = $2",
-        [id, user_id]
+        "DELETE FROM reviews WHERE reviews.product_id = $1",
+        [id]
       );
 
       const result = await db.query(
@@ -738,6 +978,35 @@ module.exports = {
           images: images.rows,
         },
       });
+    } catch (err) {
+      console.log(err);
+      res.sendStatus(500);
+    }
+  },
+  async updateProductStatusHandler(req, res) {
+    try {
+      const { role } = req.user;
+
+      if (role != "2" && role != "0") {
+        res.status(403).json({
+          status: "error",
+          error: "You are not allowed",
+        });
+        return;
+      }
+
+      const { product_status_id } = req.body;
+      const { id } = req.params;
+
+      const result = await db.query(
+        `
+          UPDATE products SET product_status_id = $1
+          WHERE products.product_id = $2
+        `,
+        [product_status_id, id]
+      );
+
+      res.sendStatus(204);
     } catch (err) {
       console.log(err);
       res.sendStatus(500);

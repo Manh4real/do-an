@@ -4,9 +4,13 @@ import { Link, useSearchParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight, InfoIcon, SortIcon } from "../../Icons";
 import ProductTableRow from "./ProductTableRow";
 
-import { getProducts, searchProducts } from "../../services/products";
+import {
+  getProductStatuses,
+  getProducts,
+  searchProducts,
+} from "../../services/products";
 
-import { IProduct } from "../../types";
+import { IProduct, IProductStatus } from "../../types";
 import AddProductButton from "./AddProductButton";
 import { RefreshContextProvider } from "../../context";
 import ProductSearch from "./ProductSearch";
@@ -39,6 +43,8 @@ function Products() {
 
   const disabledClasses = "text-gray-300 pointer-events-none";
 
+  const [statuses, setStatuses] = useState<IProductStatus[]>([]);
+
   // EXPORT TO PDF FILE
   //#region
   const { container, exportPDFWithMethod } = useExportToPDF({
@@ -46,6 +52,12 @@ function Products() {
     fileName: `Product Records for ${new Date().getFullYear()}`,
   });
   //#endregion
+
+  useEffect(() => {
+    getProductStatuses().then((data) => {
+      setStatuses(data);
+    });
+  }, []);
 
   useEffect(() => {
     let ignore = false;
@@ -241,7 +253,7 @@ function Products() {
                         scope="col"
                         className="px-4 py-3.5 text-sm font-medium text-left rtl:text-right text-gray-500"
                       >
-                        Target
+                        Manufacturer
                       </th>
                       <th
                         scope="col"
@@ -291,11 +303,12 @@ function Products() {
                       products.map((product, i) => {
                         return (
                           <ProductTableRow
-                            key={i}
+                            key={product.product_id}
                             nth={
                               (currentPage - 1) * PRODUCTS_PER_PAGE + (i + 1)
                             }
                             product={product}
+                            statuses={statuses}
                           />
                         );
                       })}

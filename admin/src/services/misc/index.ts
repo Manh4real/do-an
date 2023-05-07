@@ -26,6 +26,7 @@ export const getProductTypes = async (options: AxiosRequestConfig<{ signal: Gene
     }
 }
 
+
 export const getProductStyles = async (options: AxiosRequestConfig<{ signal: GenericAbortSignal }> = {}) => {
     try {
         const response = await api.get("/styles", {

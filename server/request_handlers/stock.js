@@ -8,7 +8,7 @@ module.exports = {
       const { role } = req.user;
 
       if (role != "2" && role != "0") {
-        res.status(405).json({
+        res.status(403).json({
           status: "error",
           error: "You are not allowed",
         });
@@ -32,7 +32,8 @@ module.exports = {
       );
       const getProductsIdsResult = await db.query(
         `SELECT stock.product_id FROM stock GROUP BY product_id 
-          LIMIT $1 OFFSET $2`, [stocks_per_page, from]
+          LIMIT $1 OFFSET $2`,
+        [stocks_per_page, from]
       );
       const total = getTotalResult.rows.length;
       const pIds = getProductsIdsResult.rows.length;
@@ -56,7 +57,8 @@ module.exports = {
         WHERE stock.product_id IN (SELECT stock.product_id FROM stock GROUP BY product_id LIMIT $1 OFFSET $2)
     
         ORDER BY products.product_id DESC, sizes.size_id ASC
-      `, [stocks_per_page, from]
+      `,
+        [stocks_per_page, from]
       );
 
       /*
@@ -146,7 +148,7 @@ module.exports = {
           pagination: {
             current_page: page,
             previous_page: page <= 1 ? 1 : page - 1,
-            next_page: page < totalPage? page + 1 : totalPage,
+            next_page: page < totalPage ? page + 1 : totalPage,
             total_page: totalPage,
           },
         },
@@ -161,7 +163,7 @@ module.exports = {
       const { role } = req.user;
 
       if (role != "2" && role != "0") {
-        res.status(405).json({
+        res.status(403).json({
           status: "error",
           error: "You are not allowed",
         });
@@ -216,7 +218,7 @@ module.exports = {
       const { role } = req.user;
 
       if (role != "2" && role != "0") {
-        res.status(405).json({
+        res.status(403).json({
           status: "error",
           error: "You are not allowed",
         });

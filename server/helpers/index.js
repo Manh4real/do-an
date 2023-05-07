@@ -39,7 +39,9 @@ module.exports = {
       INNER JOIN manufacturers ON products.manufacturer_id = manufacturers.manufacturer_id
       INNER JOIN styles ON products.style_id = styles.style_id
       INNER JOIN types ON types.type_id = products.type_id
-      WHERE products.product_id IN (${s.join(",")})`;
+      WHERE products.product_id IN (${s.join(",")})
+        AND products.product_status_id = 1
+      `;
 
     return query;
   },
@@ -59,6 +61,26 @@ module.exports = {
     // Add the WHERE statement to look up by id
     // and returning updated row
     query.push("WHERE user_id = " + id + " returning *");
+
+    // Return a complete query string
+    return query.join(" ");
+  },
+  updateManufacturerByID(id, cols) {
+    // Setup static beginning of query
+    var query = ["UPDATE manufacturers"];
+    query.push("SET");
+
+    // Create another array storing each set command
+    // and assigning a number value for parameterized query
+    var set = [];
+    Object.keys(cols).forEach(function (key, i) {
+      set.push(key + " = ($" + (i + 1) + ")");
+    });
+    query.push(set.join(", "));
+
+    // Add the WHERE statement to look up by id
+    // and returning updated row
+    query.push("WHERE manufacturer_id = " + id + " returning *");
 
     // Return a complete query string
     return query.join(" ");

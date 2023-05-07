@@ -34,6 +34,8 @@ export const useValidatedInput = (type: InputType) => {
                 return validation.validateName(value)
             case InputType.LASTNAME:
                 return validation.validateName(value)
+            case InputType.BIRTHDAY:
+                return validation.validateBirthday(new Date(value))
 
             default: return { isValid: false, errorMessage: "Something went wrong" };
         }

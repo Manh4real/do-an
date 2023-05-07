@@ -19,6 +19,9 @@ const {
   createProductHandler,
   updateProductHandler,
   deleteProductHandler,
+  updateProductStatusHandler,
+  getActiveProductsHandler,
+  searchActiveProductsHandler,
 } = require("./request_handlers/products");
 
 const {
@@ -57,9 +60,15 @@ const {
 const { getColorNameByIDHandler } = require("./request_handlers/colors");
 const {
   getAllManifacturersHandler,
+  createManufacturerHandler,
+  updateManufacturerHandler,
+  deleteManufacturerHandler,
 } = require("./request_handlers/manifacturers");
 const {
   getAllProductTypesHandler,
+  deleteProductTypeHandler,
+  createProductTypeHandler,
+  updateProductTypeHandler,
 } = require("./request_handlers/productTypes");
 const { getProductStyles } = require("./request_handlers/productStyles");
 const {
@@ -82,6 +91,9 @@ const {
   getDistrictsHandler,
   getWardsHandler,
 } = require("./request_handlers/provinces");
+const {
+  getProductStatusesHandler,
+} = require("./request_handlers/product_statuses");
 
 const app = express();
 
@@ -91,7 +103,8 @@ app.use(cors());
 app.use(express.json());
 
 // get all products
-app.get("/api/v1/products", getProductsHandler);
+app.get("/api/v1/products", getActiveProductsHandler);
+app.get("/api/v1/a/products", getProductsHandler);
 
 // get products by ids
 app.get("/api/v1/products/ids", getProductsByIdsHandler);
@@ -100,7 +113,8 @@ app.get("/api/v1/products/ids", getProductsByIdsHandler);
 app.get("/api/v1/products/:id", getProductByIdHandler);
 
 // get products by name (search)
-app.get("/api/v1/search", searchProductsHandler);
+app.get("/api/v1/search", searchActiveProductsHandler);
+app.get("/api/v1/a/search", searchProductsHandler);
 
 // get latest products
 app.get("/api/v1/latest", getLatestProductsHandler);
@@ -110,6 +124,13 @@ app.post("/api/v1/products", authenticateToken, createProductHandler);
 
 // update a product
 app.put("/api/v1/products/:id", authenticateToken, updateProductHandler);
+
+// update product status
+app.put(
+  "/api/v1/products/status/:id",
+  authenticateToken,
+  updateProductStatusHandler
+);
 
 // delete a product
 app.post(
@@ -173,9 +194,30 @@ app.get("/api/v1/colors/:id", getColorNameByIDHandler);
 
 // MANUFACTURERS
 app.get("/api/v1/manufacturers", getAllManifacturersHandler);
+app.post("/api/v1/manufacturers", authenticateToken, createManufacturerHandler);
+app.put(
+  "/api/v1/manufacturers/:manufacturer_id",
+  authenticateToken,
+  updateManufacturerHandler
+);
+app.post(
+  "/api/v1/delete/manufacturers/:manufacturer_id",
+  authenticateToken,
+  deleteManufacturerHandler
+);
 
 // TYPE
 app.get("/api/v1/types", getAllProductTypesHandler);
+app.post("/api/v1/types", authenticateToken, createProductTypeHandler);
+app.put("/api/v1/types/:type_id", authenticateToken, updateProductTypeHandler);
+app.post(
+  "/api/v1/delete/types/:type_id",
+  authenticateToken,
+  deleteProductTypeHandler
+);
+
+// PRODUCT STATUSES
+app.get("/api/v1/product-statuses", getProductStatusesHandler);
 
 // STYLES
 app.get("/api/v1/styles", getProductStyles);

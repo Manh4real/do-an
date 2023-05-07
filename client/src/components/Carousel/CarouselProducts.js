@@ -25,7 +25,7 @@ export const CarouselProduct = ({ item: p }) => {
     <div className="product-container">
       <div className="pd-cover">
         <Link to={`/products/${p.product_id}/${colorId}`}>
-          <div className="pd-cover flex grey-bg">
+          <div className="pd-cover flex grey-bg mb-10">
             {url ? (
               <img src={url} alt={p.product_name} />
             ) : (

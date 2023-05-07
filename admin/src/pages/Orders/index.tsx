@@ -278,7 +278,10 @@ function Orders() {
                     )}
                     {!loading && Object.keys(orders).length === 0 && (
                       <tr>
-                        <td className="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">
+                        <td
+                          colSpan={8}
+                          className="px-4 py-4 text-sm text-gray-700 whitespace-nowrap"
+                        >
                           <div className="py-3 text-center">
                             No orders found
                           </div>
