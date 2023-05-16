@@ -3,7 +3,11 @@ import React, { useState } from "react";
 import { IOrder, IOrderItem } from "../../types";
 import { Link } from "react-router-dom";
 import EditOrderButton from "./EditOrderButton";
-import { formatCurrency, getStatusClasses } from "../../helpers";
+import {
+  formatCurrency,
+  getPaymentStatusClasses,
+  getStatusClasses,
+} from "../../helpers";
 import DeleteButton from "./DeleteButton";
 import moment from "moment";
 
@@ -15,6 +19,9 @@ interface Props {
 
 function OrderTableRow({ order, orderItems, nth }: Props) {
   const statusColorClass = getStatusClasses(order.order_status_name);
+  const paymentStatusColorClass = getPaymentStatusClasses(
+    order.payment_status_name
+  );
 
   return (
     <tr>
@@ -38,13 +45,20 @@ function OrderTableRow({ order, orderItems, nth }: Props) {
       <td className="px-4 py-4 text-sm text-gray-500">
         <OrderItemsNames orderItems={orderItems} />
       </td>
+      <td className="px-4 py-4 text-sm text-gray-500 capitalize">
+        <span
+          className={`${paymentStatusColorClass.toString()} font-medium px-3 py-2 rounded-full`}
+        >
+          {order.payment_status_name}
+        </span>
+      </td>
       <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
         {/* {new Date(order.est_arrived_date).toLocaleDateString()} */}
         {moment(new Date(order.est_arrived_date)).format("ll")}
       </td>
       <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
         {/* {new Date(order.created_at).toLocaleDateString()} */}
-        {moment(new Date(order.created_at)).format("ll")}
+        {moment(new Date(order.created_at)).format("YYYY-MM-DD HH:mm:ss")}
       </td>
       <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
         {formatCurrency(order.total_price)}

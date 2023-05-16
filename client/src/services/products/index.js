@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import api from "api";
 // import { useGetProductQuery } from "features/productsApi";
 
@@ -9,11 +9,14 @@ export const useGetProductById = (productId) => {
   const [finalProduct, setFinalProduct] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const previousProductId = useRef(productId);
+
   useEffect(() => {
     setLoading(true);
     getProductById(productId)
       .then((data) => {
         setFinalProduct(data);
+        previousProductId.current = productId;
       })
       .finally(() => {
         setLoading(false);
@@ -65,7 +68,7 @@ export const useGetProductById = (productId) => {
 
   return {
     product: finalProduct,
-    isLoading: loading,
+    isLoading: loading || previousProductId.current !== productId,
   };
 };
 

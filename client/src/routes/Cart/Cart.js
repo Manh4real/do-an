@@ -10,8 +10,6 @@ import BagFavorites from "./BagFavorites";
 import BagProductInfo from "./BagProductInfo";
 import PromoCodeInput from "./PromoCodeInput";
 
-// import PaypalButton from "components/PaypalButton";
-
 // Redux-related
 import { useBag } from "App";
 import { formatCurrency } from "helpers";

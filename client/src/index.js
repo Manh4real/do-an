@@ -31,6 +31,8 @@ import reportWebVitals from "./reportWebVitals";
 import FormLayout from "routes/Layout/FormLayout";
 import ReviewsPage from "routes/ReviewsPage";
 import SimpleLayout from "routes/Layout/SimpleLayout";
+import PaymentError from "routes/PaymentError";
+import OrderResult from "routes/OrderResult";
 
 const Favorites = React.lazy(() => import("routes/Favorites/Favorites"));
 const Checkout = React.lazy(() => import("routes/Checkout/Checkout"));
@@ -82,6 +84,8 @@ ReactDOM.render(
                     path="/place-order-success"
                     element={<OrderSuccessInform />}
                   />
+                  <Route path="/order-result" element={<OrderResult />} />
+                  <Route path="/payment-error" element={<PaymentError />} />
                 </Route>
                 <Route element={<CheckoutLayout />}>
                   <Route path="/orders" element={<Orders />} />

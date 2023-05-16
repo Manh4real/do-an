@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import {
-  PayPalScriptProvider,
   PayPalButtons,
+  PayPalScriptProvider,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
 

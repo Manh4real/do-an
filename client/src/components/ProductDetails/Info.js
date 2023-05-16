@@ -113,7 +113,8 @@ function Info({ colors, product, handleChangeSelectedColorId }) {
 
   return (
     <StyledInfo>
-      <h4>{product.category}</h4>
+      {/* <h4>{product.category}</h4> */}
+      <h4>{product.categories.map((c) => c.category_name).join(" / ")}</h4>
       <h1 className="large-font capitalized-text">{product.product_name}</h1>
       <p className="regular-font">{product.target}</p>
       <div className="medium-font">{product.brand_name}</div>

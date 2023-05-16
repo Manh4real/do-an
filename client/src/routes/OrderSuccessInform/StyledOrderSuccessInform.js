@@ -3,7 +3,7 @@ import styled from "styled-components";
 const StyledOrderSuccessInform = styled.div`
   /* Order Success Styles */
   position: relative;
-  height: 60vh;
+  min-height: 60vh;
   background-color: #fcfcfc;
   border: 1px solid #00000010;
   padding: 60px 40px 40px;

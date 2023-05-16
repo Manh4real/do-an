@@ -7,6 +7,8 @@ const StyledFooter = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  gap: 30px;
 `;
 
 export default StyledFooter;

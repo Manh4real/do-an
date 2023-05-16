@@ -1,0 +1,7 @@
+.label {
+  height: 50px;
+}
+.label.active {
+  box-shadow: #005aa7 0px 1px 0px 0px inset, #005aa7 -1px 0px 0px 0px inset,
+    #005aa7 0px -1px 0px 0px inset, #005aa7 1px 0px 0px 0px inset !important;
+}

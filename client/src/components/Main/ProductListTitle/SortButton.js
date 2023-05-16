@@ -26,9 +26,9 @@ function SortButton() {
       case "newest":
         setSelect("Newest");
         break;
-      case "featured":
-        setSelect("Featured");
-        break;
+      // case "featured":
+      //   setSelect("Featured");
+      //   break;
       default:
         setSelect("");
         break;
@@ -59,7 +59,7 @@ function SortButton() {
 const Content = (props) => {
   return (
     <div className="sort__content-dropdown">
-      <SubContent content="Featured" sort="featured" {...props} />
+      {/* <SubContent content="Featured" sort="featured" {...props} /> */}
       <SubContent content="Newest" sort="newest" {...props} />
       <SubContent content="Price: High-Low" sort="priceDesc" {...props} />
       <SubContent content="Price: Low-High" sort="priceAsc" {...props} />

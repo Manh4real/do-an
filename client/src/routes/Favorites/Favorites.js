@@ -54,7 +54,7 @@ function Favorites() {
   useEffect(() => {
     const timeID = setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 1000);
 
     return () => clearTimeout(timeID);
   });

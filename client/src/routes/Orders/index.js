@@ -68,11 +68,11 @@ function Orders() {
           // const tax = 0;
           // orderItems[0].total_price ||
           const totalPrice =
-            orderItems.reduce(
-              (acc, orderItem) =>
-                acc + orderItem.quantity * orderItem.product.price,
-              0
-            ) + shippingFee;
+            orderItems[0].total_price ||
+            orderItems.reduce((acc, orderItem) => {
+              // return acc + orderItem.quantity * orderItem.product.price;
+              return acc + orderItem.total_price;
+            }, 0) + shippingFee;
 
           return (
             <React.Fragment key={i}>
@@ -126,7 +126,6 @@ function Orders() {
       )}
       {Object.keys(orders).length > 0 && (
         <div className="grid-col-span-all mt-50">
-          {console.log("???")}
           <RelatedProductsCarousel
             title={"Related Products"}
             objectIDs={Object.entries(orders).map(

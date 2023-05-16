@@ -3,12 +3,13 @@ import { TailSpin } from "react-loader-spinner";
 
 import RelatedProductsCarousel from "../Carousel/RelatedProductsCarousel";
 import StyledFooter from "./StyledFooter";
+import BoughtTogetherProductsCarousel from "components/Carousel/BoughtTogetherProductsCarousel";
 
 function Footer({ currentproductID }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timeID = setTimeout(() => setLoading(false), 5000);
+    const timeID = setTimeout(() => setLoading(false), 1000);
 
     return () => clearTimeout(timeID);
   }, []);
@@ -18,10 +19,16 @@ function Footer({ currentproductID }) {
       {loading ? (
         <TailSpin color="#111" height={32} width={32} ariaLabel="loading" />
       ) : (
-        <RelatedProductsCarousel 
-          title="You Might Also Like" 
-          objectIDs={[currentproductID]}
-        />
+        <>
+          <BoughtTogetherProductsCarousel
+            title="Frequently Bought Together"
+            objectIDs={[currentproductID]}
+          />
+          <RelatedProductsCarousel
+            title="You Might Also Like"
+            objectIDs={[currentproductID]}
+          />
+        </>
       )}
     </StyledFooter>
   );

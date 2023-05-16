@@ -78,6 +78,8 @@ const {
   getOrderByIdHandler,
   updateOrderHandler,
   deleteOrderHandler,
+  createOrderReserveStockHandler,
+  updateStockAndSaleHandler,
 } = require("./request_handlers/orders");
 const {
   getStockByProductIdHandler,
@@ -234,15 +236,22 @@ app.delete("/api/v1/reviews", authenticateToken, deleteReviewHandler);
 app.get("/api/v1/orders", authenticateToken, getCurrentUserOrdersHandler);
 // get orders (admin/manager)
 app.get("/api/v1/a/orders", authenticateToken, getOrdersHandler);
-app.get("/api/v1/orders/:orderId", authenticateToken, getOrderByIdHandler);
+app.get("/api/v1/orders/:orderId", getOrderByIdHandler);
 app.post("/api/v1/orders", authenticateToken, createOrderHandler);
+app.post(
+  "/api/v1/create-order-reserve-stock",
+  authenticateToken,
+  createOrderReserveStockHandler
+);
 app.delete("/api/v1/orders/:orderId", authenticateToken, deleteOrderHandler);
+app.post("/api/v1/update-stocks", updateStockAndSaleHandler);
 
 // get order statuses
 app.get("/api/v1/order_statuses", async (req, res) => {
   try {
     const response = await db.query(`
       SELECT * FROM order_statuses
+      ORDER BY order_status_id ASC
     `);
 
     res.status(200).json({
@@ -252,6 +261,43 @@ app.get("/api/v1/order_statuses", async (req, res) => {
       },
     });
   } catch (err) {}
+});
+// update payment statuses
+app.put("/api/v1/update-payment-status", async (req, res) => {
+  try {
+    const { payment_status_id, order_id } = req.body;
+
+    const response = await db.query(
+      `
+        update orders SET payment_status_id = $1
+        where orders.order_id = $2
+      `,
+      [payment_status_id, order_id]
+    );
+
+    res.sendStatus(204);
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+});
+app.get("/api/v1/payment_statuses", async (req, res) => {
+  try {
+    const response = await db.query(`
+      SELECT * FROM payment_statuses
+      ORDER BY payment_status_id ASC
+    `);
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        payment_statuses: response.rows,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
 });
 // update order statuses
 app.post(

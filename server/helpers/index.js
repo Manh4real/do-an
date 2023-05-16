@@ -29,6 +29,20 @@ module.exports = {
       "SELECT * FROM images WHERE images.product_id IN (" + s.join(",") + ") ";
     return query;
   },
+  getCategoriesByProductsIDs(products_ids) {
+    const s = [];
+    products_ids.forEach(function (value, i) {
+      s.push("$" + (i + 1));
+    });
+
+    let query =
+      `SELECT product_category_id, product_categories.product_id, product_categories.category_id, category_name FROM product_categories 
+      INNER JOIN categories ON categories.category_id = product_categories.category_id
+      WHERE product_categories.product_id IN (` +
+      s.join(",") +
+      ") ";
+    return query;
+  },
   getProductsByIDs(products_ids) {
     const s = [];
     products_ids.forEach(function (_, i) {
@@ -40,8 +54,8 @@ module.exports = {
       INNER JOIN styles ON products.style_id = styles.style_id
       INNER JOIN types ON types.type_id = products.type_id
       WHERE products.product_id IN (${s.join(",")})
-        AND products.product_status_id = 1
       `;
+    // AND products.product_status_id = 1
 
     return query;
   },

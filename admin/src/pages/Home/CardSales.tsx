@@ -12,6 +12,8 @@ const CardSales = ({ sales }: Props) => {
       ? +sales.this_week
       : ((+sales.this_week - +sales.last_week) / +sales.last_week) * 100;
 
+  console.log(sales.this_week, sales.last_week);
+
   const styleClasses = growthRate >= 0 ? "text-green-400" : "text-red-400";
   const displayGrowRate =
     +sales.last_week === 0

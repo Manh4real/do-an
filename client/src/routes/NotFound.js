@@ -4,7 +4,7 @@ import styled from "styled-components";
 function NotFound() {
   return (
     <Styled>
-      <h1>Not Found.</h1>
+      <h1>Page Not Found.</h1>
     </Styled>
   );
 }

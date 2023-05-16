@@ -75,7 +75,7 @@ module.exports = {
 
         orders = orders.map((order) => {
           const product = products.find(
-            (p) => p.product_id === order.product_id
+            (p) => p.product_id.trim() === order.product_id.trim()
           );
 
           return {
@@ -182,10 +182,12 @@ module.exports = {
         receiver, orders.email, est_arrived_date, created_at, 
         orders.total_price, order_item_id, product_id, 
         order_items.color_id, quantity, size, color_name,
-        (coalesce(users.first_name, '') || ' ' || coalesce(users.last_name, '')) as customer_name
+        (coalesce(users.first_name, '') || ' ' || coalesce(users.last_name, '')) as customer_name,
+        orders.payment_status_id, payment_status_name
         FROM orders 
         INNER JOIN order_items ON orders.order_id = order_items.order_id
         INNER JOIN order_statuses ON orders.order_status_id = order_statuses.order_status_id
+        INNER JOIN payment_statuses ON payment_statuses.payment_status_id = orders.payment_status_id
         INNER JOIN colors ON order_items.color_id = colors.color_id
         INNER JOIN users ON orders.user_id = users.user_id
         WHERE orders.order_status_id = $1
@@ -285,10 +287,12 @@ module.exports = {
         orders.order_id, status, orders.order_status_id, order_status_name, address, phone, 
         receiver, orders.email, est_arrived_date, created_at, 
         orders.total_price, order_item_id, product_id, 
-        order_items.color_id, quantity, size, color_name, (coalesce(users.first_name, '') || ' ' || coalesce(users.last_name, '')) as customer_name
+        order_items.color_id, quantity, size, order_items.size_id, color_name, (coalesce(users.first_name, '') || ' ' || coalesce(users.last_name, '')) as customer_name,
+        orders.payment_status_id, payment_status_name
         FROM orders 
         INNER JOIN order_items ON orders.order_id = order_items.order_id
         INNER JOIN order_statuses ON orders.order_status_id = order_statuses.order_status_id
+        INNER JOIN payment_statuses ON payment_statuses.payment_status_id = orders.payment_status_id
         INNER JOIN colors ON order_items.color_id = colors.color_id
 		    INNER JOIN users ON orders.user_id = users.user_id
         WHERE orders.order_id = $1
@@ -354,7 +358,7 @@ module.exports = {
       res.sendStatus(500);
     }
   },
-  async createOrderHandler(req, res) {
+  async createOrderReserveStockHandler(req, res) {
     try {
       const { user_id } = req.user;
       const { products, receiver, address, email = "", phone } = req.body;
@@ -391,6 +395,171 @@ module.exports = {
           total_price,
           estArrivedDate,
           created_at,
+        ]
+      );
+
+      const addedOrder = response.rows[0];
+
+      let j = 0;
+      const values = [];
+      let query = products.map(
+        ({ product_id, price, added: { colorId, quantity, size } }, i) => {
+          let s =
+            "($" +
+            (i + j + 1) +
+            ",$" +
+            (i + j + 2) +
+            ",$" +
+            (i + j + 3) +
+            ",$" +
+            (i + j + 4) +
+            ",$" +
+            (i + j + 5) +
+            ",$" +
+            (i + j + 6) +
+            ",$" +
+            (i + j + 7) +
+            ")";
+
+          const total_price = price * quantity;
+
+          values.push(
+            +addedOrder.order_id,
+            +product_id,
+            +colorId,
+            quantity,
+            size.size,
+            size.size_id,
+            total_price
+          );
+
+          j += 6;
+
+          return s;
+        }
+      );
+      query = query.join(", ");
+
+      const insertOrderItemsResult = await db.query(
+        `
+        INSERT INTO order_items (order_id, product_id, color_id, quantity, size, size_id, total_price)
+        VALUES ${query} RETURNING *
+      `,
+        values
+      );
+
+      res.status(200).json({
+        status: "success",
+        data: {
+          order_id: addedOrder.order_id,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+      res.sendStatus(500);
+    }
+  },
+  async updateStockAndSaleHandler(req, res) {
+    try {
+      const { products = [] } = req.body;
+      // console.log(req.body);
+      // update product stock & sales
+      const promises = [];
+
+      for (let i = 0; i < products.length; i++) {
+        const product = products[i];
+
+        // update product sales
+        const updateProductsSalesResult = db.query(
+          `
+          UPDATE products 
+          SET sales = sales + $1
+          WHERE products.product_id = $2
+        `,
+          [+product.quantity, product.product_id]
+        );
+
+        promises.push(updateProductsSalesResult);
+
+        // update product stock
+        const updateProductsStockResult = db.query(
+          `
+          UPDATE stock 
+          SET quantity = quantity - $1
+          WHERE stock.product_id = $2 AND stock.color_id = $3 AND stock.size_id = $4
+        `,
+          [
+            +product.quantity,
+            product.product_id,
+            product.color_id,
+            product.size_id,
+          ]
+        );
+
+        promises.push(updateProductsStockResult);
+      }
+      // end - update product stock
+
+      await Promise.all(promises)
+        .then((a) => {
+          console.log("Updated product sales & stock.");
+        })
+        .catch((err) => {
+          console.log("Error: Can't update product sales & stock.", err);
+        });
+      // end - update product stock & sales
+
+      res.sendStatus(204);
+    } catch (err) {
+      console.log(err);
+      res.sendStatus(500);
+    }
+  },
+  async createOrderHandler(req, res) {
+    try {
+      const { user_id } = req.user;
+      const {
+        payment_status_id = "0",
+        products,
+        receiver,
+        address,
+        email = "",
+        phone,
+      } = req.body;
+      const estArrivedDate = new Date(Date.now() + THREE_DAYS_TIME);
+      const created_at = new Date(Date.now());
+
+      if (products.length === 0) {
+        res.status(409).json({
+          status: "error",
+          error: "Products are required",
+        });
+        return;
+      }
+
+      const subtotal =
+        products.reduce(
+          (acc, product) =>
+            acc + Number(product.price * product.added.quantity),
+          0
+        ) || 0;
+      const shipping = 30000;
+      const tax = 0;
+      const total_price = subtotal + shipping + tax;
+
+      const response = await db.query(
+        `INSERT INTO orders (user_id, receiver, address, phone, email, total_price, est_arrived_date, created_at, payment_status_id)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *`,
+        [
+          user_id,
+          receiver,
+          address,
+          phone,
+          email,
+          total_price,
+          estArrivedDate,
+          created_at,
+          payment_status_id,
         ]
       );
 

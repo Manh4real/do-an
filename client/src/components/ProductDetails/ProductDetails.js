@@ -24,7 +24,7 @@ function ProductDetails() {
 }
 
 const NotFoundProduct = () => {
-  return <h1>Not found product.</h1>;
+  return <h1>Product Not Found.</h1>;
 };
 
 export default ProductDetails;

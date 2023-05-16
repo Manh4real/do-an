@@ -28,10 +28,10 @@ function ShipMethod({ handleDone, nextStep }) {
 
     console.log(validation.getAll());
     if (!c) {
-      alert("Fill in the right format. You know what you doin'.");
+      alert("Please fill in the right format.");
       return;
     }
-    alert("That's it.");
+    // alert("That's it.");
     setStep(nextStep);
     handleDone();
 

@@ -84,35 +84,59 @@ export const addReview = async (info, options = {}) => {
  * }} info
  */
 export const orderProducts = async (info) => {
-  try {
-    const token = getAccessTokenFromLocalStorage();
+  const token = getAccessTokenFromLocalStorage();
 
-    const a = info.delivery.address;
-    const address = `${a.additional}, ${a.ward?.text || a.ward}, ${
-      a.district?.text || a.district
-    }, ${a.province?.text || a.province}`;
+  const a = info.delivery.address;
+  const address = `${a.additional}, ${a.ward?.text || a.ward}, ${
+    a.district?.text || a.district
+  }, ${a.province?.text || a.province}`;
 
-    const response = await api.post(
-      "/orders",
-      {
-        receiver:
-          info.delivery.name.firstName + " " + info.delivery.name.lastName,
-        address,
-        email: info.delivery.email,
-        phone: info.delivery.phone,
-        products: info.products.products,
+  const response = await api.post(
+    "/orders",
+    {
+      receiver:
+        info.delivery.name.firstName + " " + info.delivery.name.lastName,
+      address,
+      email: info.delivery.email,
+      phone: info.delivery.phone,
+      products: info.products.products,
+      payment_status_id: "1",
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    }
+  );
 
-    return response.data;
-  } catch (err) {
-    console.log(err);
-  }
+  return response.data;
+};
+export const createOrderReserveStock = async (info) => {
+  const token = getAccessTokenFromLocalStorage();
+
+  const a = info.delivery.address;
+  const address = `${a.additional}, ${a.ward?.text || a.ward}, ${
+    a.district?.text || a.district
+  }, ${a.province?.text || a.province}`;
+
+  const response = await api.post(
+    "/create-order-reserve-stock",
+    {
+      receiver:
+        info.delivery.name.firstName + " " + info.delivery.name.lastName,
+      address,
+      email: info.delivery.email,
+      phone: info.delivery.phone,
+      products: info.products.products,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return response.data;
 };
 
 export const getMyOrders = async (options = {}) => {

@@ -30,6 +30,7 @@ function QuantityInput({
           type="number"
           name="quantity"
           id="quantity"
+          min={0}
           autoComplete="given-quantity"
           className={
             additionalClasses +

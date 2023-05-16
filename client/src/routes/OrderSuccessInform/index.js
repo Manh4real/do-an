@@ -36,12 +36,65 @@ function OrderSuccessInform() {
         address soon.
       </p>
 
-      <Link
-        to="/orders"
-        className="btn cta bold-font large-font uppercase-text hover-w-fade"
-      >
-        Track Order
-      </Link>
+      {/* <table className="mb-50">
+        <tbody>
+          <tr>
+            <th>Order ID: </th>
+            <td></td>
+          </tr>
+          <tr>
+            <th>Amount: </th>
+            <td>{vnp_Amount}</td>
+          </tr>
+          <tr>
+            <th>Order Description: </th>
+            <td>{vnp_OrderInfo}</td>
+          </tr>
+          <tr>
+            <th>Response code: </th>
+            <td>{vnp_ResponseCode}</td>
+          </tr>
+          <tr>
+            <th>Transaction No: </th>
+            <td>{vnp_TransactionNo}</td>
+          </tr>
+          <tr>
+            <th>Card type: </th>
+            <td>{vnp_CardType}</td>
+          </tr>
+          <tr>
+            <th>Bank code: </th>
+            <td>{vnp_BankCode}</td>
+          </tr>
+          <tr>
+            <th>Pay date: </th>
+            <td>{vnp_PayDate}</td>
+          </tr>
+          <tr>
+            <th>Transaction Status: </th>
+            <td>{vnp_TransactionStatus}</td>
+          </tr>
+          <tr>
+            <th>Transaction Message: </th>
+            <td>{vnp_TransactionMessage}</td>
+          </tr>
+        </tbody>
+      </table> */}
+
+      <div className="flex-center">
+        <Link
+          to="/orders"
+          className="btn cta bold-font large-font uppercase-text hover-w-fade"
+        >
+          Track Order
+        </Link>
+        <Link
+          to="/shop"
+          className="btn ml-20 bold-font large-font uppercase-text hover-w-fade"
+        >
+          Shop
+        </Link>
+      </div>
     </StyledOrderSuccessInform>
   );
 }

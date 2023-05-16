@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 
 const initialState = {
+  orderId: null,
   products: null,
   delivery: null,
   payment: null,
@@ -20,6 +21,9 @@ const checkoutSlice = createSlice({
     updateProductsInfo(state, action) {
       if (action.payload) state.products = action.payload;
     },
+    updateOrderId(state, action) {
+      if (action.payload) state.orderId = action.payload;
+    },
   },
 });
 
@@ -27,7 +31,11 @@ export const useCheckoutInfo = () => {
   return useSelector((state) => state.checkout);
 };
 
-export const { updateDeliveryInfo, updatePaymentInfo, updateProductsInfo } =
-  checkoutSlice.actions;
+export const {
+  updateOrderId,
+  updateDeliveryInfo,
+  updatePaymentInfo,
+  updateProductsInfo,
+} = checkoutSlice.actions;
 
 export default checkoutSlice.reducer;

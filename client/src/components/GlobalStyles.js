@@ -33,6 +33,10 @@ const GlobalStyles = styled.div`
       rgb(0, 0, 0) -1px 0px 0px 0px inset, rgb(0, 0, 0) 0px -1px 0px 0px inset,
       rgb(0, 0, 0) 1px 0px 0px 0px inset;
   }
+  .blue-border {
+    box-shadow: #005aa7 0px 1px 0px 0px inset, #005aa7 -1px 0px 0px 0px inset,
+      #005aa7 0px -1px 0px 0px inset, #005aa7 1px 0px 0px 0px inset;
+  }
   .cta {
     background: #111;
     color: #fff;
@@ -201,6 +205,13 @@ const GlobalStyles = styled.div`
     gap: 10px;
     flex-direction: column;
   }
+  .flex-row-reversed {
+    flex-direction: row-reverse;
+  }
+  .flex-column-nogap {
+    display: flex;
+    flex-direction: column;
+  }
   .flex-1 {
     flex: 1;
   }
@@ -217,6 +228,9 @@ const GlobalStyles = styled.div`
     display: flex;
     align-items: center;
     gap: 10px;
+  }
+  .items-start {
+    align-items: start;
   }
   .flex-center {
     display: flex;
@@ -294,6 +308,9 @@ const GlobalStyles = styled.div`
   .hover-w-hl-udl:hover::after {
     border-bottom-width: 2px;
   }
+  .mt-auto {
+    margin-top: auto;
+  }
   .mt-10 {
     margin-top: 10px;
   }
@@ -312,14 +329,23 @@ const GlobalStyles = styled.div`
   .mb-25 {
     margin-bottom: 25px;
   }
+  .mb-50 {
+    margin-bottom: 50px;
+  }
   .ml-10 {
     margin-left: 10px;
+  }
+  .ml-20 {
+    margin-left: 20px;
   }
   .ml-auto {
     margin-left: auto;
   }
   .pl-20 {
     padding-left: 20px;
+  }
+  .pb-20 {
+    padding-bottom: 20px;
   }
   .p-10 {
     padding: 10px !important;

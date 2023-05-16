@@ -12,8 +12,16 @@ import { formatCurrency } from "helpers";
 import { Star } from "components/Icons";
 
 const Product = ({ product, img, handleImageChange }) => {
-  const { images, category, product_name, target, price, on_sale, old_price } =
-    product;
+  const {
+    images,
+    // category,
+    categories,
+    product_name,
+    target,
+    price,
+    on_sale,
+    old_price,
+  } = product;
 
   const fullColorImages = useMemo(() => {
     const c = {};
@@ -61,7 +69,19 @@ const Product = ({ product, img, handleImageChange }) => {
   }, [fullColorImages]);
 
   return (
-    <div ref={myRef} className={styles.product}>
+    <div ref={myRef} className={clsx(styles.product, "position-relative")}>
+      {on_sale && (
+        <div
+          className={clsx(
+            styles["sale-pct"],
+            "position-absolute",
+            "grey-border",
+            "text-center"
+          )}
+        >
+          {Math.round(100 - (price * 100) / old_price)}% <br /> off
+        </div>
+      )}
       <div className={clsx({ [styles.hasSomeImages]: colorNum > 1 })}>
         <Link
           to={`/products/${product.product_id}/${colorId}`}
@@ -74,12 +94,19 @@ const Product = ({ product, img, handleImageChange }) => {
         <div className={styles.title}>
           {Object.keys(colors).length > 1 && (
             <ProductImages
+              activeImage={img}
               handleImageChange={handleImageChange}
               images={colors}
             />
           )}
-          <Link to={`/products/${product.product_id}/${colorId}`}>
-            {category && <div className={styles.category}>{category}</div>}
+          <Link
+            to={`/products/${product.product_id}/${colorId}`}
+            className="flex-column-nogap"
+          >
+            {/* {category && <div className={styles.category}>{category}</div>} */}
+            <div className={styles.category}>
+              {categories.map((c) => c.category_name).join(" / ")}
+            </div>
             <div className={clsx(styles["pd-name"], "capitalized-text")}>
               {product.brand_name} &minus; {product_name}
             </div>
@@ -88,26 +115,33 @@ const Product = ({ product, img, handleImageChange }) => {
               {colorNum}&nbsp;
               {colorNum <= 1 ? "color" : "colors"}
             </div>
-            <div className={styles.price}>
-              <span className="black-border flex-inline-center w-40px h-40px">
-                {Math.floor(product.average_rating)}
-                <Star width={12} height={12} />
-              </span>
-              <span className="ml-10">
-                {formatCurrency(price)}
-                <span className="small-font"> &nbsp;VND</span>
-              </span>
-              {on_sale && (
-                <>
-                  <del>
-                    {formatCurrency(old_price)}
-                    <span className="small-font"> &nbsp;VND</span>
-                  </del>
-                  <div className={styles["sale-pct"]}>
-                    {Math.round(100 - (price * 100) / old_price)}% off
-                  </div>
-                </>
+            <div
+              className={clsx(
+                styles.price,
+                "flex-column mt-auto w-100 position-absolute"
               )}
+            >
+              <div className="flex-start text-left">
+                <span className="flex-inline-center">
+                  {Math.floor(product.average_rating)}
+                  <Star width={12} height={12} />
+                </span>
+                <span className="small-font grey-font">
+                  ({product.total_reviews} reviews)
+                </span>
+              </div>
+              <div className="flex-start">
+                <span>
+                  {formatCurrency(price)}
+                  <span className="small-font"> &nbsp;VND</span>
+                </span>
+                {on_sale && (
+                  <del className="small-font grey-font">
+                    {formatCurrency(old_price)}
+                    &nbsp;VND
+                  </del>
+                )}
+              </div>
             </div>
           </Link>
         </div>

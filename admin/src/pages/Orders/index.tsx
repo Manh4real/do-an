@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
-import { ArrowLeft, ArrowRight, SortIcon } from "../../Icons";
+import { ArrowLeft, ArrowRight } from "../../Icons";
 
 import Spinner from "../../components/Spinner";
 
@@ -146,6 +146,10 @@ function Orders() {
   const activeTabClass =
     "text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500";
 
+  const sortedOrders = useMemo(() => {
+    return Object.entries(orders).sort(([a, b], [a1, b1]) => (a < a1 ? 1 : -1));
+  }, [orders]);
+
   return (
     <RefreshContextProvider value={refreshContextValue}>
       <section className="container px-4 mx-auto mb-10">
@@ -215,8 +219,7 @@ function Orders() {
                         className="py-3.5 px-4 text-sm font-medium text-left rtl:text-right text-gray-500"
                       >
                         <div className="flex items-center gap-x-3">
-                          <span>Order ID</span>
-                          <SortIcon />
+                          Order ID
                         </div>
                       </th>
                       <th
@@ -234,6 +237,12 @@ function Orders() {
                         <div className="flex items-center gap-x-3">
                           <span>Order Items</span>
                         </div>
+                      </th>
+                      <th
+                        scope="col"
+                        className="py-3.5 px-4 text-sm font-medium text-left rtl:text-right text-gray-500"
+                      >
+                        <div className="flex items-center gap-x-3">Payment</div>
                       </th>
                       <th
                         scope="col"
@@ -290,7 +299,7 @@ function Orders() {
                     )}
                     {!loading &&
                       Object.keys(orders).length > 0 &&
-                      Object.entries(orders).map(([orderId, orderItems], i) => {
+                      sortedOrders.map(([orderId, orderItems], i) => {
                         return (
                           <OrderTableRow
                             key={orderId}
@@ -310,6 +319,8 @@ function Orders() {
                                 orderItems[0].order_status_name,
                               total_price: orderItems[0].total_price,
                               user_id: orderItems[0].user_id,
+                              payment_status_name:
+                                orderItems[0].payment_status_name,
                             }}
                             orderItems={orderItems.map((item) => ({
                               order_item_id: item.order_item_id,

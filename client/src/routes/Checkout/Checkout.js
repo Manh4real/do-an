@@ -11,6 +11,10 @@ import {
 import { useDispatch } from "react-redux";
 
 import { useBag } from "App";
+import BoughtTogetherProductsCarousel from "components/Carousel/BoughtTogetherProductsCarousel";
+// import { payment } from "api";
+import { Link } from "react-router-dom";
+// import { stringifyDate } from "script";
 
 export default function Checkout() {
   useEffect(() => {
@@ -37,10 +41,13 @@ export default function Checkout() {
 
   const checkoutInfo = useCheckoutInfo();
 
-  if (!checkoutInfo.products)
+  if (!checkoutInfo.products?.products?.length)
     return (
       <h2 className="flex-center" style={{ height: "80vh" }}>
         There's no products to checkout
+        <Link to="/shop" className="cta medium-button ml-20">
+          Go to shop
+        </Link>
       </h2>
     );
 
@@ -50,6 +57,13 @@ export default function Checkout() {
         <div className="title grid-col-span-3">CHECKOUT</div>
         <Steps />
         <CheckoutProductsInfo />
+
+        <div className="grid-col-span-3 mt-50">
+          <BoughtTogetherProductsCarousel
+            title="Frequently Bought Together"
+            objectIDs={checkoutInfo.products.products.map((p) => p.product_id)}
+          />
+        </div>
       </div>
     </StyledCheckout>
   );

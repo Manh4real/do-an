@@ -5,6 +5,7 @@ const {
   updateProductByID,
   getImagesByProductsIDs,
   getProductsByIDs,
+  getCategoriesByProductsIDs,
 } = require("../helpers");
 
 const {
@@ -70,9 +71,16 @@ module.exports = {
           getImagesByProductsIDs(products_ids),
           products_ids
         );
+        const categoriesResult = await db.query(
+          getCategoriesByProductsIDs(products_ids),
+          products_ids
+        );
 
         products = products.map((p) => {
           const filteredImages = imageResult.rows.filter(
+            (i) => i.product_id.trim() === p.product_id.trim()
+          );
+          const filteredCategories = categoriesResult.rows.filter(
             (i) => i.product_id.trim() === p.product_id.trim()
           );
           // const filteredSizes = sizeResult.rows.filter(
@@ -82,6 +90,10 @@ module.exports = {
             (s) => s.product_id.trim() === p.product_id.trim()
           );
           const images = _.groupBy(filteredImages, "product_color_id");
+          // const categoriesResult = _.groupBy(
+          //   filteredCategories,
+          //   "product_color_id"
+          // );
           // const sizes = _.groupBy(filteredSizes, "color_id");
           const stock = _.groupBy(filteredStock, "color_id");
 
@@ -91,13 +103,14 @@ module.exports = {
             // product_sizes: sizes,
             stock,
             images,
+            categories: filteredCategories,
           };
         });
       }
 
       // average rating products
       const avgRatingResult = await db.query(
-        `SELECT reviews.product_id, AVG(reviews.rating) as average_rating FROM products 
+        `SELECT reviews.product_id, AVG(reviews.rating) as average_rating, COUNT(reviews.rating) as total_reviews FROM products 
         INNER JOIN reviews ON reviews.product_id = products.product_id
         GROUP BY products.product_id, reviews.product_id`
       );
@@ -111,6 +124,7 @@ module.exports = {
         return {
           ...p,
           average_rating: r?.average_rating || 0,
+          total_reviews: r?.total_reviews || 0,
         };
       });
 
@@ -232,7 +246,7 @@ module.exports = {
         };
       });
 
-      saveObjectsToAlgoliaIndex(avgRatingProducts);
+      // saveObjectsToAlgoliaIndex(avgRatingProducts);
       // end- average rating products
 
       res.status(200).json({
@@ -356,58 +370,75 @@ module.exports = {
             WHERE products.product_id = $1`,
         [id]
       );
-      const imageResult = await db.query(
-        "SELECT * FROM images WHERE images.product_id = $1",
-        [result.rows[0].product_id]
-      );
-      // const sizeResult = await db.query(
-      //   `
-      //     SELECT * FROM product_sizes
-      //     INNER JOIN sizes ON product_sizes.size_id = sizes.size_id
-      //     INNER JOIN size_types ON size_types.size_type_id = sizes.size_type_id
-      //     WHERE product_sizes.product_id = $1
-      //   `,
-      //   [id]
-      // );
-      const stockResult = await db.query(
-        `
+
+      if (result.rows[0]) {
+        const imageResult = await db.query(
+          "SELECT * FROM images WHERE images.product_id = $1",
+          [result.rows[0].product_id]
+        );
+        const categoriesResult = await db.query(
+          `SELECT product_category_id, product_categories.product_id, product_categories.category_id, category_name FROM product_categories 
+        INNER JOIN categories ON categories.category_id = product_categories.category_id
+        WHERE product_categories.product_id = $1
+        `,
+          [result.rows[0].product_id]
+        );
+
+        // const sizeResult = await db.query(
+        //   `
+        //     SELECT * FROM product_sizes
+        //     INNER JOIN sizes ON product_sizes.size_id = sizes.size_id
+        //     INNER JOIN size_types ON size_types.size_type_id = sizes.size_type_id
+        //     WHERE product_sizes.product_id = $1
+        //   `,
+        //   [id]
+        // );
+        const stockResult = await db.query(
+          `
           SELECT * FROM stock
           INNER JOIN sizes ON stock.size_id = sizes.size_id
           INNER JOIN colors ON colors.color_id = stock.color_id
           INNER JOIN size_types ON size_types.size_type_id = sizes.size_type_id
           WHERE stock.product_id = $1
         `,
-        [id]
-      );
+          [id]
+        );
 
-      const filteredImages = imageResult.rows.filter(
-        (i) => i.product_id.trim() === id.trim()
-      );
-      // const filteredSizes = sizeResult.rows.filter(
-      //   (s) => s.product_id.trim() === id.trim()
-      // );
-      const filteredStock = stockResult.rows.filter(
-        (s) => s.product_id.trim() === id.trim()
-      );
+        const filteredImages = imageResult.rows.filter(
+          (i) => i.product_id.trim() === id.trim()
+        );
+        // const filteredSizes = sizeResult.rows.filter(
+        //   (s) => s.product_id.trim() === id.trim()
+        // );
+        const filteredStock = stockResult.rows.filter(
+          (s) => s.product_id.trim() === id.trim()
+        );
 
-      const images = _.groupBy(filteredImages, "product_color_id");
-      const stock = _.groupBy(filteredStock, "color_id");
-      // const sizes = _.groupBy(filteredSizes, "color_id");
+        const images = _.groupBy(filteredImages, "product_color_id");
+        const stock = _.groupBy(filteredStock, "color_id");
+        // const sizes = _.groupBy(filteredSizes, "color_id");
 
-      // console.log(images);
+        // console.log(images);
 
-      res.status(200).json({
-        status: "success",
-        data: {
-          product: {
-            ...result.rows[0],
-            sizes: result.rows[0].sizes.split(",").map((size) => size.trim()),
-            // product_sizes: sizes,
-            stock,
-            images: images,
+        res.status(200).json({
+          status: "success",
+          data: {
+            product: {
+              ...result.rows[0],
+              sizes: result.rows[0].sizes.split(",").map((size) => size.trim()),
+              // product_sizes: sizes,
+              stock,
+              images: images,
+              categories: categoriesResult.rows,
+            },
           },
-        },
-      });
+        });
+      } else {
+        res.status(404).json({
+          status: "error",
+          message: "Product not found",
+        });
+      }
     } catch (err) {
       console.log(err);
       res.sendStatus(500);
@@ -467,12 +498,19 @@ module.exports = {
           getImagesByProductsIDs(products_ids),
           products_ids
         );
+        const categoriesResult = await db.query(
+          getCategoriesByProductsIDs(products_ids),
+          products_ids
+        );
 
         products = products.map((p) => {
           const filteredImages = imageResult.rows.filter(
             (i) => i.product_id.trim() === p.product_id.trim()
           );
           const filteredStock = stockResult.rows.filter(
+            (s) => s.product_id.trim() === p.product_id.trim()
+          );
+          const filteredCategories = categoriesResult.rows.filter(
             (s) => s.product_id.trim() === p.product_id.trim()
           );
           const images = _.groupBy(filteredImages, "product_color_id");
@@ -484,6 +522,7 @@ module.exports = {
             sizes: p.sizes.split(",").map((s) => s.trim()),
             stock,
             images,
+            categories: filteredCategories,
           };
         });
       }
@@ -545,7 +584,7 @@ module.exports = {
 
       const getTotalResult = await db.query(
         `SELECT COUNT(1) as total FROM products
-          WHERE LOWER(products.product_name) LIKE '%' || $1 || '%'
+          WHERE LOWER(products.product_name) LIKE '%' || $1 || '%' 
         `,
         [q]
       );
@@ -605,6 +644,7 @@ module.exports = {
       const avgRatingResult = await db.query(
         `SELECT reviews.product_id, AVG(reviews.rating) as average_rating FROM products 
         INNER JOIN reviews ON reviews.product_id = products.product_id
+          AND products.product_status_id = 1
         GROUP BY products.product_id, reviews.product_id`
       );
       let avgRatingProducts = avgRatingResult.rows;

@@ -45,8 +45,8 @@ function FilterController(props) {
         case "priceDesc":
           newList.sort((a, b) => b.price - a.price);
           break;
-        case "featured":
-          return list;
+        // case "featured":
+        //   return list;
         case "newest":
           newList.sort((a, b) => compareDate(new Date(a), new Date(b)));
           break;

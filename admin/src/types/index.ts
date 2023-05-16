@@ -144,12 +144,13 @@ export interface IProductStyle {
     style_name: string;
 }
 
-export type OrderStatus = "prepared" | "ready" | "canceled" | "delivering" | "delivered" | "done";
+export type OrderStatus = "processing" | "ready" | "canceled" | "delivering" | "delivered" | "done";
 export interface IOrder {
     order_id: string,
     status: OrderStatus,
     order_status_id: string,
     order_status_name: OrderStatus,
+    payment_status_name: PaymentStatus,
     address: string,
     phone: string,
     receiver: string,
@@ -248,3 +249,5 @@ export interface IProductStatus {
     product_status_name: string;
     product_status_desc: string;
 }
+
+export type PaymentStatus = "initial" | "success" | "failed";

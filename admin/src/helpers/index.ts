@@ -1,6 +1,6 @@
 import moment from "moment";
 import { MONTHS } from "../pages/Home/constants";
-import { OrderStatus } from "../types";
+import { OrderStatus, PaymentStatus } from "../types";
 
 export function setAccessTokenAtLocalStorage(value: string) {
     localStorage.setItem("accessToken", JSON.stringify(value));
@@ -99,7 +99,7 @@ export const getStatusClasses = (status: OrderStatus) => {
             background: "bg-green-200",
             color: "text-green-800"
         };
-    else if (status === "prepared")
+    else if (status === "processing")
         statusColorClass = {
             background: "bg-yellow-100",
             color: "text-yellow-400"
@@ -108,6 +108,34 @@ export const getStatusClasses = (status: OrderStatus) => {
         statusColorClass = {
             background: "bg-blue-200",
             color: "text-blue-600"
+        };
+
+    return {
+        ...statusColorClass, toString() {
+            return `${statusColorClass.background} ${statusColorClass.color}`
+        }
+    };
+}
+export const getPaymentStatusClasses = (status: PaymentStatus) => {
+    let statusColorClass = {
+        background: "transparent",
+        color: "text-gray-500"
+    };
+
+    if (status === "failed")
+        statusColorClass = {
+            background: "bg-red-400",
+            color: "text-red-800"
+        };
+    else if (status === "success")
+        statusColorClass = {
+            background: "bg-green-200",
+            color: "text-green-800"
+        };
+    else if (status === "initial")
+        statusColorClass = {
+            background: "bg-yellow-100",
+            color: "text-yellow-400"
         };
 
     return {

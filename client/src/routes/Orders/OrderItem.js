@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { stringifyDate } from "script";
 
 const ORDER_STATUS = {
-  prepared: "prepared",
+  processing: "processing",
   ready: "ready",
   canceled: "canceled",
   delivering: "delivering",
@@ -35,7 +35,7 @@ function OrderItem({ orderItem }) {
 
   if (ORDER_STATUS.canceled === orderItem.order_status_name) {
     statusColor = "red-font";
-  } else if (ORDER_STATUS.prepared === orderItem.order_status_name) {
+  } else if (ORDER_STATUS.processing === orderItem.order_status_name) {
     statusColor = "orange-font";
   } else if (ORDER_STATUS.ready === orderItem.order_status_name) {
     statusColor = "blue-font";

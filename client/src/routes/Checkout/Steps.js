@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 const CheckoutStepContext = React.createContext({});
 export const useCheckoutStepContext = () => useContext(CheckoutStepContext);
 
+const LAST_STEP = 4;
 function Steps() {
   const [step, setStep] = useState(1);
   const checkoutInfo = useCheckoutInfo();
@@ -19,7 +20,7 @@ function Steps() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (step === 4) {
+    if (step === LAST_STEP) {
       console.log(checkoutInfo);
       orderProducts(checkoutInfo)
         .then((data) => {

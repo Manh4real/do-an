@@ -6,6 +6,7 @@ import OrderItemRow from "./OrderItemRow";
 import {
   formatCurrency,
   formatPhoneNumber,
+  getPaymentStatusClasses,
   getStatusClasses,
 } from "../../helpers";
 import Spinner from "../../components/Spinner";
@@ -36,6 +37,9 @@ function OrderDetails() {
   const orderInfo = order[0];
 
   let statusColorClass = getStatusClasses(orderInfo.order_status_name);
+  let paymentStatusColorClass = getPaymentStatusClasses(
+    orderInfo.payment_status_name
+  );
 
   if (loading) {
     return (
@@ -99,7 +103,18 @@ function OrderDetails() {
           </div>
         </dl>
 
-        <div className="col-span-3 flex flex-col gap-2 text-right">
+        <div className="relative col-span-3 flex flex-col gap-2 text-right">
+          <p className="absolute -top-5 right-0 -translate-y-full mb-2">
+            <span className="font-medium mr-3">Payment</span>
+            <span
+              className={
+                paymentStatusColorClass.toString() +
+                " py-2 px-3 w-max rounded-full capitalize font-medium"
+              }
+            >
+              {orderInfo.payment_status_name}
+            </span>
+          </p>
           <p className="text-4xl font-extrabold leading-none tracking-tight text-blue-600 dark:text-blue-500">
             Total price: {formatCurrency(orderInfo.total_price)}
             <span className="text-xs font-medium mx-1">VND</span>

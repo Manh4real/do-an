@@ -1,13 +1,20 @@
 import React from "react";
 
 import styles from "./Product.module.css";
+import clsx from "clsx";
 
-function ProductImages({ images, handleImageChange }) {
-  //  style={isHovered? {}: { display: "none" }}
+function ProductImages({ activeImage, images, handleImageChange }) {
   return (
     <div className={styles["changable-images"]}>
       {Object.values(images).map((image, i) => (
-        <Img key={i} src={image} onClick={() => handleImageChange(image)} />
+        <Img
+          key={i}
+          src={image}
+          className={clsx({
+            [styles.active]: activeImage === image,
+          })}
+          onClick={() => handleImageChange(image)}
+        />
       ))}
     </div>
   );
