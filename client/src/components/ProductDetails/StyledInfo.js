@@ -26,6 +26,10 @@ const StyledInfo = styled.div`
     flex-wrap: wrap;
     gap: 5px;
 
+    &.disabled {
+      opacity: 0.5;
+    }
+
     > a {
       display: inline-flex;
       border-radius: 4px;
@@ -109,6 +113,7 @@ const StyledInfo = styled.div`
         opacity: 0;
         width: 0;
         height: 0;
+        display: none;
       }
       input[type="radio"]:checked + label {
         box-shadow: #111 0px 0px 0px 1px;

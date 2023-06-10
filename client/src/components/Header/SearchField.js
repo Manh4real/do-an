@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import clsx from "clsx";
 
@@ -45,6 +45,10 @@ function SearchField({ isExpanded, onClick: onInputClick, removeSuggestion }) {
       return;
     }
   };
+
+  useEffect(() => {
+    setInput(searchParams.get("search") || "");
+  }, [searchParams]);
 
   return (
     <div

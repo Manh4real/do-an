@@ -8,7 +8,7 @@ import ProductImages from "./ProductImages";
 import { withEffect } from "./withEffect";
 
 import { getDownloadImage } from "features/firebase";
-import { formatCurrency } from "helpers";
+import { formatCompactNumber, formatCurrency } from "helpers";
 import { Star } from "components/Icons";
 
 const Product = ({ product, img, handleImageChange }) => {
@@ -19,7 +19,7 @@ const Product = ({ product, img, handleImageChange }) => {
     product_name,
     target,
     price,
-    on_sale,
+    // on_sale,
     old_price,
   } = product;
 
@@ -70,7 +70,7 @@ const Product = ({ product, img, handleImageChange }) => {
 
   return (
     <div ref={myRef} className={clsx(styles.product, "position-relative")}>
-      {on_sale && (
+      {false && (
         <div
           className={clsx(
             styles["sale-pct"],
@@ -129,13 +129,16 @@ const Product = ({ product, img, handleImageChange }) => {
                 <span className="small-font grey-font">
                   ({product.total_reviews} reviews)
                 </span>
+                <span className="small-font">
+                  {formatCompactNumber(product.sales)} sold
+                </span>
               </div>
               <div className="flex-start">
                 <span>
                   {formatCurrency(price)}
                   <span className="small-font"> &nbsp;VND</span>
                 </span>
-                {on_sale && (
+                {false && (
                   <del className="small-font grey-font">
                     {formatCurrency(old_price)}
                     &nbsp;VND

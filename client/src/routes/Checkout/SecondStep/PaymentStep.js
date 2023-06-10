@@ -7,6 +7,7 @@ import { useCheckoutStepContext } from "../Steps";
 // Redux
 import {
   updatePaymentInfo,
+  updatePaymentMethod,
   useCheckoutInfo,
 } from "features/checkout/checkoutSlice";
 import { useDispatch } from "react-redux";
@@ -17,7 +18,7 @@ import CreditCards from "../CreditCards";
 import styles from "./PaymentStep.module.css";
 
 const PAYMENT_METHOD = {
-  PAY_LATER: "Payment on delivery",
+  PAY_LATER: "Cash on delivery",
   STRIPE: "Stripe",
   FIXED_CARD: "fixed card",
   VNP: "VNPay",
@@ -56,7 +57,7 @@ function PaymentStep({ nextStep }) {
                     setMethod(PAYMENT_METHOD.PAY_LATER);
                   }}
                 />
-                Payment on Delivery
+                Cash on Delivery (COD)
               </label>
               <label
                 htmlFor="payment-method__stripe"
@@ -117,7 +118,7 @@ function PaymentStep({ nextStep }) {
                   alt="stripe logo"
                 />
               </label>
-              <label
+              {/* <label
                 htmlFor="payment-method__fixed"
                 className={clsx(
                   styles.label,
@@ -139,7 +140,7 @@ function PaymentStep({ nextStep }) {
                 />
                 <span className="d-hidden">Fixed card</span>
                 Fixed Card
-              </label>
+              </label> */}
             </div>
 
             <div className="mt-25">
@@ -152,6 +153,7 @@ function PaymentStep({ nextStep }) {
 
                     // update checkout info (Redux)
                     dispatch(updatePaymentInfo("success"));
+                    dispatch(updatePaymentMethod("1"));
                   }}
                 >
                   Proceed order

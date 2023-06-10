@@ -47,6 +47,16 @@ function Reviews({ productId }) {
         </span>
       }
     >
+      <div className="flex-start mb-10">
+        <Star width={16} height={16} count={Math.trunc(meta.avg) || 0} />
+        <Star
+          width={16}
+          height={16}
+          count={MAX_RATING_STARS - Math.trunc(meta.avg) || 0}
+          fill="#ddd"
+        />
+        <span className="ml-5">{(Number(meta.avg) || 0).toFixed(1)} stars</span>
+      </div>
       <WriteReview productId={productId} />
       {reviews.map((review, i) => (
         <Review key={i} review={review} />
@@ -71,22 +81,22 @@ const Review = ({ review }) => {
 
   return (
     <div style={{ marginBottom: 50 }}>
-      <div className="medium-font">{review.title}</div>
+      <div className="regular-font fw-medium">{review.title}</div>
       <div className="flex flex-start">
         <div className="flex-center">
-          <Star width={16} height={16} count={review.rating || 0} />
+          <Star width={14} height={14} count={review.rating || 0} />
           <Star
-            width={16}
-            height={16}
+            width={14}
+            height={14}
             count={MAX_RATING_STARS - review.rating || 0}
             fill="#ddd"
           />
         </div>
-        <span className="grey-font medium-font" style={{ marginLeft: 10 }}>
+        <span className="grey-font regular-font" style={{ marginLeft: 10 }}>
           {new Date(review.created_at).toLocaleDateString("us")}
         </span>
       </div>
-      <div className="mt-15 bigger-font">
+      <p className="mt-15 regular-font">
         {review.review.slice(0, MAX_PREVIEW_REVIEW_LENGTH)}
         {review.review.length > MAX_PREVIEW_REVIEW_LENGTH && "..."}
         {review.review.length > MAX_PREVIEW_REVIEW_LENGTH &&
@@ -102,7 +112,7 @@ const Review = ({ review }) => {
             Read {readMore ? "less" : "more"}
           </span>
         )}
-      </div>
+      </p>
       <div className="font-14 grey-font mt-15">{review.user_name}</div>
     </div>
   );

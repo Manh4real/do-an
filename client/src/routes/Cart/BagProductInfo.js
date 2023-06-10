@@ -106,10 +106,12 @@ function BagProductInfo({ product }) {
                     label="size"
                     value={product.added.size.size_id}
                     product={product}
-                    options={product.stock[colorId].map((s) => ({
-                      size_id: s.size_id,
-                      size: s.size,
-                    }))}
+                    options={product.stock[colorId]
+                      .filter((s) => s.quantity > 0)
+                      .map((s) => ({
+                        size_id: s.size_id,
+                        size: s.size,
+                      }))}
                     handleChange={handleChange}
                   />
                   <BagSelect

@@ -105,7 +105,9 @@ function OrderDetails() {
 
         <div className="relative col-span-3 flex flex-col gap-2 text-right">
           <p className="absolute -top-5 right-0 -translate-y-full mb-2">
-            <span className="font-medium mr-3">Payment</span>
+            <span className="font-medium mr-3">
+              {orderInfo.payment_method_name}
+            </span>
             <span
               className={
                 paymentStatusColorClass.toString() +

@@ -151,6 +151,7 @@ export interface IOrder {
     order_status_id: string,
     order_status_name: OrderStatus,
     payment_status_name: PaymentStatus,
+    payment_method_name: string,
     address: string,
     phone: string,
     receiver: string,
@@ -207,6 +208,7 @@ export interface IInventoryProduct {
     type_id: string,
     type_name: string,
     size_type_id: string,
+    sales: number;
 
     colors: { [color_id: string]: IColor },
     images: {

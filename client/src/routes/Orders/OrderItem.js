@@ -2,15 +2,14 @@ import { getDownloadImage } from "features/firebase";
 import { formatCurrency } from "helpers";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { stringifyDate } from "script";
+// import { stringifyDate } from "script";
 
-const ORDER_STATUS = {
-  processing: "processing",
-  ready: "ready",
-  canceled: "canceled",
-  delivering: "delivering",
-  delivered: "delivered",
-  done: "done",
+export const ORDER_STATUS = {
+  processing: "1",
+  ready: "2",
+  canceled: "3",
+  delivering: "4",
+  done: "6",
 };
 
 function OrderItem({ orderItem }) {
@@ -33,22 +32,18 @@ function OrderItem({ orderItem }) {
 
   let statusColor = "green-font";
 
-  if (ORDER_STATUS.canceled === orderItem.order_status_name) {
+  if (ORDER_STATUS.canceled === orderItem.order_status_id) {
     statusColor = "red-font";
-  } else if (ORDER_STATUS.processing === orderItem.order_status_name) {
+  } else if (ORDER_STATUS.processing === orderItem.order_status_id) {
     statusColor = "orange-font";
-  } else if (ORDER_STATUS.ready === orderItem.order_status_name) {
+  } else if (ORDER_STATUS.ready === orderItem.order_status_id) {
     statusColor = "blue-font";
-  } else if (ORDER_STATUS.delivering === orderItem.order_status_name) {
+  } else if (ORDER_STATUS.delivering === orderItem.order_status_id) {
     statusColor = "orange-font";
   }
 
   return (
     <div className="grid-item">
-      <p className="ml-auto mb-10 w-max">
-        <strong>Est. Arrived Date:</strong>{" "}
-        {stringifyDate(new Date(orderItem.est_arrived_date), true, false, true)}
-      </p>
       <div className="container flex-spbw">
         <div className="left flex-start flex-1">
           <Link to={productLink} className="image grey-bg">
@@ -70,8 +65,8 @@ function OrderItem({ orderItem }) {
                 {orderItem.product.product_name}
               </div>
             </div>
-            <div className="product-color grey-font capitalized-text mb-25">
-              {orderItem.color_name}
+            <div className="product-color grey-font capitalized-text">
+              Color: {orderItem.color_name}
             </div>
             <div className="product-size grey-font">Size: {orderItem.size}</div>
             <div className="product-quantity mt-10">
@@ -84,13 +79,11 @@ function OrderItem({ orderItem }) {
         </div>
         <div className="right flex-column">
           <Link to={productLink} className="btn medium-button cta">
-            {orderItem.status === ORDER_STATUS.done
-              ? "Re-order"
-              : "View product"}
+            View product
           </Link>
-          <Link to="/" className="btn medium-button grey-border">
+          {/* <Link to="/" className="btn medium-button grey-border">
             Manage
-          </Link>
+          </Link> */}
           <Link to="/shop" className="btn medium-button grey-border">
             See related products
           </Link>

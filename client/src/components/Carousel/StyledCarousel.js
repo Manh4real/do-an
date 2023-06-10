@@ -38,7 +38,7 @@ const StyledCarousel = styled.div`
     }
   }
   .pd-cover img {
-    width: 465px;
+    width: 400px;
     aspect-ratio: 1;
     object-fit: contain;
   }

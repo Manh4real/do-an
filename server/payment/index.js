@@ -42,6 +42,7 @@ const calculateOrderAmount = async (items) => {
   );
 };
 
+// STRIPE
 app.post("/payment/create-payment-intent", async (req, res) => {
   try {
     const { items } = req.body;
@@ -69,6 +70,7 @@ app.post("/payment/create-payment-intent", async (req, res) => {
   }
 });
 
+// VNPAY
 app.options("/payment/vnp/create_payment_url/", cors());
 
 app.post(
@@ -84,16 +86,18 @@ app.post(
       req.connection.socket.remoteAddress;
 
     let config = require("config");
-    let dateFormat = require("dateformat");
+    // let dateFormat = require("dateformat");
+    let moment = require("moment");
 
     let tmnCode = config.get("vnp_TmnCode");
     let secretKey = config.get("vnp_HashSecret");
     let vnpUrl = config.get("vnp_Url");
     let returnUrl = config.get("vnp_ReturnUrl");
 
-    let date = new Date();
+    // let date = new Date();
 
-    let createDate = dateFormat(date, "yyyymmddHHmmss");
+    // let createDate = dateFormat(date, "yyyymmddHHmmss");
+    let createDate = moment().format("yyyyMMDDHHmmss");
     // let orderId = Date.now(); // dateFormat(date, "HHmmss")
     const orderId = req.body.orderId;
     const items = req.body.items;
@@ -261,7 +265,7 @@ app.get("/payment/vnp/vnpay_ipn", async function (req, res, next) {
               },
             });
 
-            res.status(200).json({ RspCode: "00", Message: "Success" });
+            res.status(200).json({ RspCode: rspCode, Message: "Success" });
           }
         } else {
           res.status(200).json({

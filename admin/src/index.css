@@ -99,6 +99,10 @@ a {
 }
 
 /* custom scrollbar */
+body {
+  overflow: overlay;
+}
+
 *::-webkit-scrollbar {
   width: 10px;
 }

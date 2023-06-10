@@ -130,7 +130,7 @@ function Form({ product, handleClose }: Props) {
               <ProductNameInput />
               <ManufacturerInput />
               <ProductTypeInput />
-              <CategoryInput />
+              {/* <CategoryInput /> */}
               <GenderInput />
 
               <TargetInput />

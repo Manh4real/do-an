@@ -339,12 +339,17 @@ class ChartOne extends Component<Props, State> {
         let n = 0;
         const sales = (salesInfo as WeeklyFieldProps[]).find(
           ({ week_start }) => {
-            var compareDate = moment(new Date(week_start));
+            var compareDate = new Date(week_start);
             var startDate = moment(weekStart).toDate();
             var endDate = moment(weekEnd).toDate();
-
+            // console.log(compareDate, startDate, endDate);
             // omitting the optional third parameter, 'units'
-            return compareDate.isBetween(startDate, endDate, undefined, "[]"); //false in this case
+            return moment(compareDate).isBetween(
+              startDate,
+              endDate,
+              undefined,
+              "[]"
+            ); //false in this case
           }
         );
         if (sales !== undefined) {

@@ -87,7 +87,7 @@ function Sidebar() {
               <NavLink className={getNavLinkClasses} to="/inventory">
                 <InventoryIcon />
                 <span className="hidden text-ellipsis overflow-hidden xl:block">
-                  Inventorie
+                  Inventory
                 </span>
               </NavLink>
             </li>

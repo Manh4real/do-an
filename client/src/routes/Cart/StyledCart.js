@@ -93,7 +93,7 @@ const StyledCart = styled.div`
     min-width: max-content;
 
     .bag__summary-row {
-      padding: 10px 0;
+      padding-block: 8px 8px;
       line-height: 1;
       background: #fff;
       position: relative;

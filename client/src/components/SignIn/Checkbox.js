@@ -28,11 +28,11 @@ function Checkbox({ checked, validateKeepSignIn }) {
           Keep me signed in
         </label>
       </div>
-      <div>
+      {/* <div>
         <Link to="/" className="grey-font fg-pw">
           Forgot your password?
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 }

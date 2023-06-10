@@ -1,4 +1,4 @@
-const { deleteObjectFromAlgoliaIndex } = require("../algolia_search");
+const { deleteObjectsFromAlgoliaIndex } = require("../algolia_search");
 const db = require("../db");
 const { updateManufacturerByID } = require("../helpers");
 
@@ -178,10 +178,12 @@ module.exports = {
         [manufacturer_id]
       );
 
-      productsResult.rows.forEach(({ product_id }) => {
-        // delete from Algolia Index
-        deleteObjectFromAlgoliaIndex(product_id);
-      });
+      // productsResult.rows.forEach(({ product_id }) => {
+      // delete from Algolia Index
+      deleteObjectsFromAlgoliaIndex(
+        productsResult.rows.map((p) => p.product_id)
+      );
+      // });
 
       // end - delete product related
 

@@ -22,7 +22,7 @@ function Steps() {
   useEffect(() => {
     if (step === LAST_STEP) {
       console.log(checkoutInfo);
-      orderProducts(checkoutInfo)
+      orderProducts(checkoutInfo, checkoutInfo.payment_method)
         .then((data) => {
           dispatch(clearBag());
           navigate("/place-order-success", {

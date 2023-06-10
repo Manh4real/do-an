@@ -285,12 +285,12 @@ const userSlice = createSlice({
         );
 
         if (c) {
-          alert("Product have been saved to Favorites. (Redux)");
+          alert("Product have been saved to Favorites.");
           return state;
         }
 
         state.data.favorites = [addedFavorite, ...state.data.favorites];
-        alert("Added to Favorites. (Redux)");
+        alert("Added to Favorites.");
       },
       // prepare: (payload) => {
       //   // payload.added.favoriteId = nanoid();
@@ -307,7 +307,7 @@ const userSlice = createSlice({
       // },
     },
     removeFavorites: (state, action) => {
-      alert("Removed favorites. (Redux)");
+      alert("Removed favorites.");
 
       const removedItems = action.payload;
 

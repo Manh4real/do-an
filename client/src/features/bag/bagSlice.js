@@ -93,7 +93,7 @@ const bagSlice = createSlice({
           if (addedProduct.added.quantity < remainingQty)
             addedProduct.added.quantity++;
           else {
-            alert(`Exceeded required quantity!\n(Max: ${remainingQty})`);
+            alert(`Exceeded available quantity!\n(Max: ${remainingQty})`);
           }
         } else {
           alert("Added to your Bag.");

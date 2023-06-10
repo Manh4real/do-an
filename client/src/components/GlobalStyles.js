@@ -152,6 +152,10 @@ const GlobalStyles = styled.div`
     font-weight: 400;
     letter-spacing: 0.5px;
   }
+  .fw-medium {
+    font-family: var(--font-text-medium);
+    font-weight: 400;
+  }
   .bold {
     font-weight: bold;
   }
@@ -195,6 +199,9 @@ const GlobalStyles = styled.div`
     margin: 12px 0;
     border-top: 1px solid #e5e5e5;
     border-bottom: 1px solid #e5e5e5;
+  }
+  .rounded {
+    border-radius: 4px;
   }
   .flex {
     display: flex;
@@ -296,7 +303,7 @@ const GlobalStyles = styled.div`
     position: absolute;
     left: 0;
     bottom: -2px;
-    border-bottom: 1px solid #111;
+    border-bottom: 1px solid currentColor;
     width: 100%;
   }
   .hover-w-fade:hover,
@@ -329,14 +336,23 @@ const GlobalStyles = styled.div`
   .mb-25 {
     margin-bottom: 25px;
   }
+  .mb-30 {
+    margin-bottom: 30px;
+  }
   .mb-50 {
     margin-bottom: 50px;
+  }
+  .ml-5 {
+    margin-left: 5px;
   }
   .ml-10 {
     margin-left: 10px;
   }
   .ml-20 {
     margin-left: 20px;
+  }
+  .ml-50 {
+    margin-left: 50px;
   }
   .ml-auto {
     margin-left: auto;
@@ -350,11 +366,26 @@ const GlobalStyles = styled.div`
   .p-10 {
     padding: 10px !important;
   }
+  .p-15 {
+    padding: 15px !important;
+  }
   .p-3 {
     padding: 3px;
   }
   .px-5 {
-    padding: 5px;
+    padding-inline: 5px;
+  }
+  .px-20 {
+    padding-inline: 20px !important;
+  }
+  .px-30 {
+    padding-inline: 30px !important;
+  }
+  .px-50 {
+    padding-inline: 50px !important;
+  }
+  .py-15 {
+    padding-block: 15px !important;
   }
   .overflow-hidden {
     overflow: hidden;
@@ -372,6 +403,12 @@ const GlobalStyles = styled.div`
   .position-relative:hover .hidden {
     visibility: visible;
     opacity: 1;
+  }
+  .pointer-events-none {
+    pointer-events: none;
+  }
+  .disabled {
+    opacity: 0.5;
   }
 
   @media (max-width: 1200px) {

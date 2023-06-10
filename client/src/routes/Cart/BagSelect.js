@@ -21,7 +21,7 @@ const BagSelect = ({ product, label, value: val, options, handleChange }) => {
         )?.quantity || 0;
 
       if (v > availableQty) {
-        alert(`Exceeded required quantity!\n(Max: ${availableQty})`);
+        alert(`Exceeded available quantity!\n(Max: ${availableQty})`);
         return;
       }
     }
@@ -33,7 +33,12 @@ const BagSelect = ({ product, label, value: val, options, handleChange }) => {
   return (
     <div className="bag__select">
       <label htmlFor={label + "-input"}>{label}: </label>
-      <select value={value} onChange={handleSelect} id={label + "-input"}>
+      <select
+        value={value}
+        onChange={handleSelect}
+        id={label + "-input"}
+        className="px-5"
+      >
         {options.map((v) => (
           <option key={v} value={v.value || v}>
             {v.text || v}

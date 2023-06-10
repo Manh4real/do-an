@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 const initialState = {
   orderId: null,
+  payment_method: undefined,
   products: null,
   delivery: null,
   payment: null,
@@ -24,6 +25,9 @@ const checkoutSlice = createSlice({
     updateOrderId(state, action) {
       if (action.payload) state.orderId = action.payload;
     },
+    updatePaymentMethod(state, action) {
+      if (action.payload) state.payment_method = action.payload;
+    },
   },
 });
 
@@ -33,6 +37,7 @@ export const useCheckoutInfo = () => {
 
 export const {
   updateOrderId,
+  updatePaymentMethod,
   updateDeliveryInfo,
   updatePaymentInfo,
   updateProductsInfo,

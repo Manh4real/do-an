@@ -11,7 +11,6 @@ function Sizes({ remainingProducts, error, ...props }) {
         className={clsx("mt-15", "grey-font", {
           "red-font": remainingProducts <= 0,
         })}
-        style={{ display: "block" }}
       >
         {remainingProducts !== undefined &&
           (remainingProducts > 0

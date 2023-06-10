@@ -123,6 +123,9 @@ function InventoryTableRow({ nth, product }: Props) {
           </div>
         </td>
         <td className="px-4 py-4 text-lg text-gray-500 whitespace-nowrap">
+          <span className="block text-center">{product.sales}</span>
+        </td>
+        <td className="px-4 py-4 text-lg text-gray-500 whitespace-nowrap">
           <span className="block text-center">
             {Object.entries(product.colors).reduce(
               (acc, [, color]) =>

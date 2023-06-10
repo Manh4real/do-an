@@ -34,7 +34,10 @@ const initialValue = {
 //   .toISOString()
 //   .slice(0, 10);
 const initialData: IProductAddFormData = {
-  category: initialValue,
+  category: {
+    isValid: true,
+    value: "",
+  },
   product_name: initialValue,
   type: {
     value: "",

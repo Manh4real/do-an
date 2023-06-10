@@ -62,6 +62,8 @@ const StockInput = ({ initialQuantity, stock_id }: StockInputProps) => {
   const [quantity, setQuantity] = useState(initialQuantity);
 
   const handleUpdate = () => {
+    if (quantity < 0) return;
+
     updateStock(quantity, stock_id).then((result) => {
       alert(
         result
@@ -71,14 +73,21 @@ const StockInput = ({ initialQuantity, stock_id }: StockInputProps) => {
     });
   };
 
+  const isQuantityNagitive = quantity < 0;
+
   return (
     <>
-      <td className="px-4 py-3.5 text-sm font-medium text-left rtl:text-right text-gray-500">
+      <td className="relative px-4 py-3.5 text-sm font-medium text-left rtl:text-right text-gray-500">
         <input
           type="number"
           name="quantity"
           id="quantity"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          className={
+            (isQuantityNagitive
+              ? "ring-red-500 ring-1 focus:ring-primary-600 focus:border-primary-600"
+              : "focus:ring-primary-600 focus:border-primary-600") +
+            " bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          }
           placeholder="0"
           required
           value={quantity}
@@ -86,12 +95,18 @@ const StockInput = ({ initialQuantity, stock_id }: StockInputProps) => {
             setQuantity(Number(e.target.value) || 0);
           }}
         />
+        {isQuantityNagitive && (
+          <p className="absolute bottom-3 translate-y-full text-red-500 text-xs">
+            Quantity must be positive number
+          </p>
+        )}
       </td>
       <td className="px-4 py-3.5 text-sm font-medium text-left rtl:text-right text-gray-500">
         <button
           onClick={handleUpdate}
           type="button"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-xs px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          disabled={isQuantityNagitive}
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-xs px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 disabled:opacity-40 disabled:pointer-events-none"
         >
           Update stock
         </button>

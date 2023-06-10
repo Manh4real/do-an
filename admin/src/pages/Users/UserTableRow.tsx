@@ -5,6 +5,7 @@ import { IUser } from "../../types";
 import DeleteButton from "./DeleteButton";
 import EditUserButton from "./EditUserButton";
 import moment from "moment";
+import { useUserStore } from "../../store/user";
 
 interface Props {
   user: IUser;
@@ -13,6 +14,7 @@ interface Props {
 
 function UserTableRow({ user, nth }: Props) {
   const [avatar, setAvatar] = useState("");
+  const currentUser = useUserStore();
 
   useEffect(() => {
     let ignore = false;
@@ -86,7 +88,9 @@ function UserTableRow({ user, nth }: Props) {
       </td>
       <td className="px-4 py-4 text-sm whitespace-nowrap">
         <div className="flex items-center gap-x-6">
-          <DeleteButton userId={user.user_id} />
+          {user.user_id !== currentUser.data?.user_id && (
+            <DeleteButton userId={user.user_id} />
+          )}
           <EditUserButton user={_user} />
         </div>
       </td>

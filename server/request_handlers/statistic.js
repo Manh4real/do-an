@@ -52,15 +52,16 @@ module.exports = {
       const salesLastweekResult = await db.query(`
             SELECT SUM(orders.total_price) as last_week_sales from orders
             WHERE created_at BETWEEN
-                NOW()::DATE - 14
-                AND NOW()::DATE - 8
+              NOW()::DATE - EXTRACT(DOW from NOW())::INTEGER - 6
+              AND NOW()::DATE - EXTRACT(DOW from NOW())::INTEGER
         `);
       const salesThisweekResult = await db.query(`
             SELECT SUM(orders.total_price) as this_week_sales from orders
             WHERE created_at BETWEEN
-                NOW()::DATE - 7
-                AND NOW()
+              NOW()::DATE - EXTRACT(DOW from NOW())::INTEGER + 1
+              AND NOW()
         `);
+
       const salesLast12MonthsResult = await db.query(`
         SELECT 
           EXTRACT(YEAR FROM created_at)::integer as year,
@@ -104,31 +105,37 @@ module.exports = {
             SELECT COUNT(1)::integer as last_week_items from orders
             INNER JOIN order_items ON order_items.order_id = orders.order_id
             WHERE created_at BETWEEN
-                NOW()::DATE - 14
-                AND NOW()::DATE - 8
+              NOW()::DATE - EXTRACT(DOW from NOW())::INTEGER - 6
+              AND NOW()::DATE - EXTRACT(DOW from NOW())::INTEGER
         `);
       const itemsThisweekResult = await db.query(`
             SELECT COUNT(1)::integer as this_week_items from orders
             INNER JOIN order_items ON order_items.order_id = orders.order_id
             WHERE created_at BETWEEN
-                NOW()::DATE - 7
-                AND NOW()
+              NOW()::DATE - EXTRACT(DOW from NOW())::INTEGER + 1
+              AND NOW()
         `);
 
       // users
       const usersTotalResult = await db.query(`
             SELECT COUNT(1)::integer as total_users FROM users
+            INNER JOIN user_roles ON users.user_id = user_roles.user_id
+            WHERE role_id = 1
         `);
       const usersLastweekResult = await db.query(`
             SELECT COUNT(1)::integer as last_week_users from users
-            WHERE TO_TIMESTAMP(registration_time / 1000) BETWEEN
-                NOW()::DATE - 14
-                AND NOW()::DATE - 8
+            INNER JOIN user_roles ON users.user_id = user_roles.user_id
+            WHERE role_id = 1 AND 
+              TO_TIMESTAMP(registration_time / 1000) BETWEEN
+                NOW()::DATE - EXTRACT(DOW from NOW())::INTEGER - 6
+                AND NOW()::DATE - EXTRACT(DOW from NOW())::INTEGER
         `);
       const usersThisweekResult = await db.query(`
             SELECT COUNT(1)::integer as this_week_users from users
-            WHERE TO_TIMESTAMP(registration_time / 1000) BETWEEN
-                NOW()::DATE - 7
+            INNER JOIN user_roles ON users.user_id = user_roles.user_id
+            WHERE role_id = 1 AND 
+              TO_TIMESTAMP(registration_time / 1000) BETWEEN
+                NOW()::DATE - EXTRACT(DOW from NOW())::INTEGER + 1
                 AND NOW()
         `);
 

@@ -8,7 +8,7 @@ import Spinner from "components/Spinner";
 import StyledCart from "./StyledCart";
 import BagFavorites from "./BagFavorites";
 import BagProductInfo from "./BagProductInfo";
-import PromoCodeInput from "./PromoCodeInput";
+// import PromoCodeInput from "./PromoCodeInput";
 
 // Redux-related
 import { useBag } from "App";
@@ -51,9 +51,9 @@ function Cart() {
         </div>
       </div>
       <div className="bag__summary">
-        <div className="title medium-font">Summary</div>
+        <div className="title medium-font mb-25">Summary</div>
         <div className="bag__summary-content">
-          <PromoCodeInput />
+          {/* <PromoCodeInput /> */}
           <div className="flex-spbw bag__summary-row w-100">
             <div className=" title">Subtotal</div>
             <div className=" price">
@@ -81,8 +81,8 @@ function Cart() {
               )}
             </div>
           </div>
-          <div className="flex-spbw bag__summary-row w-100 bordered-top-bottom">
-            <div className=" title ">Total</div>
+          <div className="flex-spbw bag__summary-row w-100 bordered-top-bottom py-15">
+            <div className="title">Total</div>
             <div className=" price bold-font">
               {formatCurrency(total)}
               <span className="small-font bold-font"> VND</span>
@@ -99,14 +99,14 @@ function Cart() {
               Checkout
             </button>
           </div>
-          <div className="paypal-btn flex-center w-100">
+          {/* <div className="paypal-btn flex-center w-100">
             <button
               disabled={isEmpty}
               className="big-button w-100 regular-font grey-bg"
             >
               <img src="/images/paypal@2x.png" width="50" alt="" />
             </button>
-          </div>
+          </div> */}
           {/* <div className="w-100">
             <PaypalButton />
           </div> */}

@@ -222,6 +222,12 @@ function Inventory() {
                         scope="col"
                         className="px-4 py-3.5 text-sm font-medium text-left rtl:text-right text-gray-500"
                       >
+                        Sales
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-4 py-3.5 text-sm font-medium text-center rtl:text-right text-gray-500"
+                      >
                         Total Stock
                       </th>
                       <th scope="col" className="relative py-3.5 px-4">

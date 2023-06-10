@@ -11,13 +11,13 @@ interface Props {
 
 function RecentSales({ recentSales }: Props) {
   return (
-    <div className="col-span-12 rounded-sm border border-gray-300 bg-white px-5 pt-7 pb-5 shadow-gray-200 shadow-md sm:px-7 xl:col-span-4">
-      <h3 className="font-semibold uppercase mb-3">
+    <div className="max-h-[500px] overflow-auto col-span-12 rounded-sm border border-gray-300 bg-white px-5 pb-5 shadow-gray-200 shadow-md sm:px-7 xl:col-span-4">
+      <h3 className="sticky top-0 pt-7 pb-3 bg-white font-semibold uppercase mb-3">
         Recent sales{" "}
         <span className="lowercase text-sm ml-1">(last 7 days)</span>
       </h3>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <thead className="sticky top-16 shadow-md shadow-gray-100 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-6 py-3">
               User

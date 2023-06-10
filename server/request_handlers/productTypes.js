@@ -1,6 +1,6 @@
-const { deleteObjectFromAlgoliaIndex } = require("../algolia_search");
+const { deleteObjectsFromAlgoliaIndex } = require("../algolia_search");
 const db = require("../db");
-const { deleteProductHandler } = require("./products");
+// const { deleteProductHandler } = require("./products");
 
 module.exports = {
   async getAllProductTypesHandler(req, res) {
@@ -110,10 +110,12 @@ module.exports = {
         [type_id]
       );
 
-      productsResult.rows.forEach(({ product_id }) => {
-        // delete from Algolia Index
-        deleteObjectFromAlgoliaIndex(product_id);
-      });
+      // productsResult.rows.forEach(({ product_id }) => {
+      // delete from Algolia Index
+      deleteObjectsFromAlgoliaIndex(
+        productsResult.rows.map((p) => p.product_id)
+      );
+      // });
 
       // end - delete product related
 

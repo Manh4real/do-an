@@ -46,7 +46,7 @@ module.exports = {
           stock_id, stock.product_id, stock.color_id, stock.size_id, stock.quantity, 
           product_name, type, gender, price, created_at,
           products.manufacturer_id, manufacturer_name, 
-          style_id, products.type_id, type_name, sizes.size_type_id, color_name, size 
+          style_id, products.type_id, type_name, sizes.size_type_id, color_name, size, sales 
         FROM stock
         INNER JOIN products ON products.product_id = stock.product_id
         INNER JOIN colors ON colors.color_id = stock.color_id
@@ -97,6 +97,7 @@ module.exports = {
             type_id: product.type_id,
             type_name: product.type_name,
             size_type_id: product.size_type_id,
+            sales: product.sales,
 
             colors: {},
           };

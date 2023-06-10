@@ -32,7 +32,7 @@ const WriteReview = ({ productId }) => {
   return (
     <React.Fragment>
       <span
-        className="inline-block underlined hover-w-fade medium-font mb-25"
+        className="inline-block underlined hover-w-fade regular-font fw-medium mb-30"
         onClick={handleOpen}
       >
         Write a review

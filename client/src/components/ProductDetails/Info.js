@@ -18,7 +18,7 @@ import {
 import { addToBag } from "features/bag/bagSlice";
 import StyledInfo from "./StyledInfo";
 import useRedirect from "hooks/useRedirect";
-import { formatCurrency } from "helpers";
+import { formatCompactNumber, formatCurrency } from "helpers";
 
 function Info({ colors, product, handleChangeSelectedColorId }) {
   const dispatch = useDispatch();
@@ -115,9 +115,16 @@ function Info({ colors, product, handleChangeSelectedColorId }) {
     <StyledInfo>
       {/* <h4>{product.category}</h4> */}
       <h4>{product.categories.map((c) => c.category_name).join(" / ")}</h4>
-      <h1 className="large-font capitalized-text">{product.product_name}</h1>
+      <h1 className="large-font capitalized-text fw-medium">
+        {product.product_name}
+      </h1>
       <p className="regular-font">{product.target}</p>
       <div className="medium-font">{product.brand_name}</div>
+
+      <div className="regular-font mt-25">
+        {formatCompactNumber(product.sales)}
+        <span className="grey-font ml-5">sold</span>
+      </div>
 
       <div className="price">
         {formatCurrency(product.price)}
@@ -132,7 +139,11 @@ function Info({ colors, product, handleChangeSelectedColorId }) {
         )}
       </div>
 
-      <Colors imageColors={colors} handleColorChange={handleColorChange} />
+      <Colors
+        isSoldOut={remainingCount <= 0}
+        imageColors={colors}
+        handleColorChange={handleColorChange}
+      />
 
       <div
         className={clsx("mt-15", "grey-font", {
@@ -140,7 +151,11 @@ function Info({ colors, product, handleChangeSelectedColorId }) {
         })}
         style={{ display: "block" }}
       >
-        {remainingCount > 0 ? remainingCount + " remaining" : "Sold Out"}
+        {remainingCount > 0 ? (
+          remainingCount + " remaining"
+        ) : (
+          <SoldOutMessage />
+        )}
       </div>
 
       {remainingCount > 0 && (
@@ -169,7 +184,7 @@ function Info({ colors, product, handleChangeSelectedColorId }) {
         </React.Fragment>
       )}
 
-      <div className="shipping sb">
+      {/* <div className="shipping sb">
         <div className="small-title regular-font">Shipping*</div>
         <p className="regular-font">
           To get accurate shipping information
@@ -193,7 +208,7 @@ function Info({ colors, product, handleChangeSelectedColorId }) {
         <p>
           <small>*Faster Shipping options may be available</small>
         </p>
-      </div>
+      </div> */}
 
       <div className="short-desc sb regular-font">
         <p>{product.description}</p>
@@ -259,6 +274,17 @@ function Info({ colors, product, handleChangeSelectedColorId }) {
   );
 }
 
+export const SoldOutMessage = () => {
+  return (
+    <div className="grey-bg p-15 text-center mt-25" style={{ color: "#111" }}>
+      <span className="bold" style={{ color: "#111" }}>
+        Sold Out:
+      </span>{" "}
+      This color is currently unavailable
+    </div>
+  );
+};
+
 export const DetailsTag = ({ summary, children, icon = "" }) => {
   const [open, setOpen] = useState(false);
 
@@ -270,7 +296,7 @@ export const DetailsTag = ({ summary, children, icon = "" }) => {
   return (
     <details open={open}>
       <summary className="medium-font flex-spbw" onClick={handleOpen}>
-        <span className="flex-1 flex-spbw">
+        <span className="flex-1 flex-spbw fw-medium">
           {summary}
           {icon}
         </span>

@@ -25,7 +25,7 @@ const StyledModalContainer = styled.div`
     ${"" /* min-width: 500px; */}
     max-width: 80%;
     min-height: 250px;
-    max-height: 80%;
+    max-height: 85%;
 
     margin-inline: 50px;
 

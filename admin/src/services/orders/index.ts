@@ -42,7 +42,7 @@ export const updateOrder = async ({ orderId, status, arrivedDate }: { orderId: s
     try {
         const token = getAccessTokenFromLocalStorage();
 
-        const response = await api.post("/orders/status/" + orderId, { status, arrivedDate }, {
+        const response = await api.post("/orders/" + orderId, { status, arrivedDate }, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

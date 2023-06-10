@@ -23,7 +23,7 @@ function HeaderTabs({ activeStatus, setActiveStatus }) {
               setActiveStatus(status);
             }}
             className={clsx("flex-1 p-10 regular-font capitalized-text", {
-              active: activeStatus.order_status_id === status.order_status_id,
+              active: activeStatus?.order_status_id === status.order_status_id,
             })}
           >
             {status.order_status_name}

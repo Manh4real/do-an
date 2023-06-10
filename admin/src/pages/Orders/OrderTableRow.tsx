@@ -10,6 +10,7 @@ import {
 } from "../../helpers";
 import DeleteButton from "./DeleteButton";
 import moment from "moment";
+import { CheckIcon, RadioIcon, XIcon } from "../../Icons";
 
 interface Props {
   order: IOrder;
@@ -25,10 +26,10 @@ function OrderTableRow({ order, orderItems, nth }: Props) {
 
   return (
     <tr>
-      <td className="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">
+      <td className="px-2 py-4 text-sm text-gray-700 whitespace-nowrap">
         {nth}
       </td>
-      <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+      <td className="px-2 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
         <div className="inline-flex items-center gap-x-3">
           <div className="flex items-center gap-x-2">
             <div>
@@ -37,42 +38,51 @@ function OrderTableRow({ order, orderItems, nth }: Props) {
           </div>
         </div>
       </td>
-      <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+      <td className="px-2 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
         <div className="inline-flex items-center py-1 rounded-full gap-x-2 ">
           <h2 className="font-medium text-gray-800">{order.customer_name}</h2>
         </div>
       </td>
-      <td className="px-4 py-4 text-sm text-gray-500">
+      <td className="px-2 py-4 text-sm text-gray-500">
         <OrderItemsNames orderItems={orderItems} />
       </td>
-      <td className="px-4 py-4 text-sm text-gray-500 capitalize">
-        <span
-          className={`${paymentStatusColorClass.toString()} font-medium px-3 py-2 rounded-full`}
-        >
-          {order.payment_status_name}
+      <td className="px-2 py-4 text-sm text-gray-500 capitalize w-max">
+        <span className="flex items-center gap-x-1 font-medium capitalize">
+          <span
+            className={`${paymentStatusColorClass.color}`}
+            title={order.payment_status_name}
+          >
+            {order.payment_status_name === "success" && <CheckIcon />}
+            {order.payment_status_name === "failed" && <XIcon />}
+            {order.payment_status_name === "initial" && <RadioIcon />}
+          </span>
+          {order.payment_method_name}
         </span>
       </td>
-      <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
+      <td className="px-2 py-4 text-sm text-gray-500 whitespace-nowrap">
         {/* {new Date(order.est_arrived_date).toLocaleDateString()} */}
         {moment(new Date(order.est_arrived_date)).format("ll")}
       </td>
-      <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
+      <td className="px-2 py-4 text-sm text-gray-500 whitespace-nowrap">
         {/* {new Date(order.created_at).toLocaleDateString()} */}
-        {moment(new Date(order.created_at)).format("YYYY-MM-DD HH:mm:ss")}
+        {moment(new Date(order.created_at)).format("YYYY-MM-DD")} <br />
+        <small className="text-sm">
+          {moment(new Date(order.created_at)).format("HH:mm:ss")}
+        </small>
       </td>
-      <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
+      <td className="px-2 py-4 text-sm text-gray-500 whitespace-nowrap">
         {formatCurrency(order.total_price)}
         <span className="text-xs font-medium mx-1">VND</span>
       </td>
-      <td className={"px-4 py-4 text-sm whitespace-nowrap capitalize"}>
+      <td className={"px-2 py-4 text-sm whitespace-nowrap capitalize"}>
         <span
           className={`${statusColorClass.toString()} font-medium px-3 py-2 rounded-full`}
         >
           {order.order_status_name}
         </span>
       </td>
-      <td className="px-4 py-4 text-sm whitespace-nowrap">
-        <div className="flex items-center justify-end gap-x-4">
+      <td className="px-2 py-4 text-sm whitespace-nowrap">
+        <div className="flex items-center justify-end gap-x-3 w-40 m-auto">
           <DeleteButton orderId={order.order_id} />
           {/* {order.order_status_name !== "done" &&
             order.order_status_name !== "canceled" && (
@@ -101,18 +111,12 @@ const OrderItemsNames = ({ orderItems }: { orderItems: IOrderItem[] }) => {
   return (
     <ol className="list-decimal">
       {orderItems
-        .map((orderItem, i) => (
-          <li key={i} className="mb-1">
-            {orderItem.product.product_name}
-          </li>
-        ))
+        .map((orderItem, i) => <OrderItemName key={i} orderItem={orderItem} />)
         .slice(0, 3)}
       {seeMore &&
         orderItems
           .map((orderItem, i) => (
-            <li key={i} className="mb-1">
-              {orderItem.product.product_name}
-            </li>
+            <OrderItemName key={i} orderItem={orderItem} />
           ))
           .slice(3)}
       {orderItems.length > 3 && (
@@ -124,6 +128,23 @@ const OrderItemsNames = ({ orderItems }: { orderItems: IOrderItem[] }) => {
         </div>
       )}
     </ol>
+  );
+};
+
+const OrderItemName = ({ orderItem }: { orderItem: IOrderItem }) => {
+  const {
+    quantity,
+    color_name,
+    size,
+    product: { product_name },
+  } = orderItem;
+
+  return (
+    <li className="mb-1">
+      {product_name}{" "}
+      <span className="font-medium text-black">&times;{quantity}</span> -{" "}
+      <span className="capitalize">{color_name}</span> - {size}
+    </li>
   );
 };
 

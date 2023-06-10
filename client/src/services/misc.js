@@ -1,4 +1,5 @@
 import api from "api";
+import { getAccessTokenFromLocalStorage } from "helpers";
 
 export const getSizes = async () => {
   try {
@@ -28,5 +29,27 @@ export const createProvinces = async () => {
   } catch (err) {
     console.log(err);
   }
+  return false;
+};
+
+export const updateOrder = async ({ orderId, status }) => {
+  try {
+    const token = getAccessTokenFromLocalStorage();
+
+    await api.post(
+      "/orders/status/" + orderId,
+      { status },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return true;
+  } catch (err) {
+    console.log(err);
+  }
+
   return false;
 };

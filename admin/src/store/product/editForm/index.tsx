@@ -63,7 +63,8 @@ const useEditFormStore = create<IStore>()(
               c = validation.validateProductName(_value).isValid;
               break;
             case "category":
-              c = validation.validateCategory(_value).isValid;
+              // c = validation.validateCategory(_value).isValid;
+              c = true;
               break;
             case "description":
               c = validation.validateDescription(_value.slice(0, 10)).isValid;

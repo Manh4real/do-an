@@ -152,7 +152,7 @@ function Orders() {
 
   return (
     <RefreshContextProvider value={refreshContextValue}>
-      <section className="container px-4 mx-auto mb-10">
+      <section className="container px-2 mx-auto mb-10">
         <div className="flex justify-between px-2">
           <div className="flex items-center gap-x-3">
             <h2 className="uppercase text-lg font-bold text-gray-800">
@@ -199,8 +199,8 @@ function Orders() {
             </ul>
           </div>
 
-          <div className="-mx-4 my-2 overflow-x-auto">
-            <div className="inline-block min-w-full py-2 align-middle md:px-4 lg:px-6">
+          <div className="my-2 overflow-x-auto">
+            <div className="inline-block min-w-full py-2 align-middle md:px-2 lg:px-0">
               <div
                 ref={container}
                 className="overflow-hidden border border-gray-200 md:rounded-lg"
@@ -210,13 +210,13 @@ function Orders() {
                     <tr>
                       <th
                         scope="col"
-                        className="py-3.5 px-4 text-sm font-medium text-left rtl:text-right text-gray-500"
+                        className="py-3.5 px-2 text-sm font-medium text-left rtl:text-right text-gray-500"
                       >
                         #
                       </th>
                       <th
                         scope="col"
-                        className="py-3.5 px-4 text-sm font-medium text-left rtl:text-right text-gray-500"
+                        className="py-3.5 px-2 text-sm font-medium text-left rtl:text-right text-gray-500"
                       >
                         <div className="flex items-center gap-x-3">
                           Order ID
@@ -224,7 +224,7 @@ function Orders() {
                       </th>
                       <th
                         scope="col"
-                        className="px-4 py-3.5 text-sm font-medium text-left rtl:text-right text-gray-500"
+                        className="px-2 py-3.5 text-sm font-medium text-left rtl:text-right text-gray-500"
                       >
                         <button className="flex items-center gap-x-2">
                           <span>Customer</span>
@@ -232,7 +232,7 @@ function Orders() {
                       </th>
                       <th
                         scope="col"
-                        className="py-3.5 px-4 text-sm font-medium text-left rtl:text-right text-gray-500"
+                        className="py-3.5 px-2 text-sm font-medium text-left rtl:text-right text-gray-500"
                       >
                         <div className="flex items-center gap-x-3">
                           <span>Order Items</span>
@@ -240,37 +240,37 @@ function Orders() {
                       </th>
                       <th
                         scope="col"
-                        className="py-3.5 px-4 text-sm font-medium text-left rtl:text-right text-gray-500"
+                        className="py-3.5 px-2 text-sm font-medium text-left rtl:text-right text-gray-500 w-max"
                       >
-                        <div className="flex items-center gap-x-3">Payment</div>
+                        Payment
                       </th>
                       <th
                         scope="col"
-                        className="px-4 py-3.5 text-sm font-medium text-left rtl:text-right text-gray-500"
+                        className="px-2 py-3.5 text-sm font-medium text-left rtl:text-right text-gray-500"
                       >
                         Est. Arrived date
                       </th>
                       <th
                         scope="col"
-                        className="px-4 py-3.5 text-sm font-medium text-left rtl:text-right text-gray-500"
+                        className="px-2 py-3.5 text-sm font-medium text-left rtl:text-right text-gray-500"
                       >
                         Created at
                       </th>
                       <th
                         scope="col"
-                        className="px-4 py-3.5 text-sm font-medium text-left rtl:text-right text-gray-500"
+                        className="px-2 py-3.5 text-sm font-medium text-left rtl:text-right text-gray-500"
                       >
                         Total price
                       </th>
                       <th
                         scope="col"
-                        className="px-4 py-3.5 text-sm font-medium text-left rtl:text-right text-gray-500"
+                        className="px-2 py-3.5 text-sm font-medium text-left rtl:text-right text-gray-500"
                       >
                         <button className="flex items-center gap-x-2">
                           <span>Status</span>
                         </button>
                       </th>
-                      <th scope="col" className="relative py-3.5 px-4">
+                      <th scope="col" className="relative py-3.5 px-2">
                         <span className="sr-only">Edit</span>
                       </th>
                     </tr>
@@ -289,7 +289,7 @@ function Orders() {
                       <tr>
                         <td
                           colSpan={8}
-                          className="px-4 py-4 text-sm text-gray-700 whitespace-nowrap"
+                          className="px-2 py-4 text-sm text-gray-700 whitespace-nowrap"
                         >
                           <div className="py-3 text-center">
                             No orders found
@@ -321,6 +321,8 @@ function Orders() {
                               user_id: orderItems[0].user_id,
                               payment_status_name:
                                 orderItems[0].payment_status_name,
+                              payment_method_name:
+                                orderItems[0].payment_method_name,
                             }}
                             orderItems={orderItems.map((item) => ({
                               order_item_id: item.order_item_id,

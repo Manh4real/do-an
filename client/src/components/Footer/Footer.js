@@ -124,24 +124,44 @@ function Footer() {
       <div className="socials-col col-5">
         <ul className="social-links flex-end">
           <li>
-            <Link to="/" className="social">
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://twitter.com/manh_haui"
+              className="social"
+            >
               <TwitterIcon />
-            </Link>
+            </a>
           </li>
           <li>
-            <Link to="/" className="social">
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://www.facebook.com/manh4L"
+              className="social"
+            >
               <FacebookIcon />
-            </Link>
+            </a>
           </li>
           <li>
-            <Link to="/" className="social">
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://www.youtube.com/channel/UCdLNDo7Ml-A2_qUehzeOyAQ"
+              className="social"
+            >
               <YoutubeIcon />
-            </Link>
+            </a>
           </li>
           <li>
-            <Link to="/" className="social">
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://www.instagram.com/iamnvmanh"
+              className="social"
+            >
               <InstagramIcon />
-            </Link>
+            </a>
           </li>
         </ul>
       </div>

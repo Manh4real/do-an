@@ -7,7 +7,7 @@ const StyledFavorite = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 30px;
-  padding: 30px 15px 150px 15px;
+  padding: 30px 50px 150px 50px;
 
   .favorites-edit {
     display: flex;

@@ -12,8 +12,6 @@ const CardSales = ({ sales }: Props) => {
       ? +sales.this_week
       : ((+sales.this_week - +sales.last_week) / +sales.last_week) * 100;
 
-  console.log(sales.this_week, sales.last_week);
-
   const styleClasses = growthRate >= 0 ? "text-green-400" : "text-red-400";
   const displayGrowRate =
     +sales.last_week === 0
@@ -50,27 +48,25 @@ const CardSales = ({ sales }: Props) => {
           <span className="text-sm font-medium">Total sales</span>
         </div>
 
-        <span
-          className={
-            styleClasses + " flex items-center gap-1 text-sm font-medium"
-          }
-        >
+        <span className={styleClasses + " text-right text-sm font-medium"}>
           {displayGrowRate}
           {+sales.last_week !== 0 && "%"}
-          <svg
-            // className="fill-green-400"
-            width="10"
-            height="11"
-            viewBox="0 0 10 11"
-            fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M4.35716 2.47737L0.908974 5.82987L5.0443e-07 4.94612L5 0.0848689L10 4.94612L9.09103 5.82987L5.64284 2.47737L5.64284 10.0849L4.35716 10.0849L4.35716 2.47737Z"
-              fill=""
-            />
-          </svg>
-          <small className="text-black text-inherit">this week</small>
+          <span className="flex items-center justify-end gap-1 ml-auto">
+            <svg
+              // className="fill-green-400"
+              width="10"
+              height="11"
+              viewBox="0 0 10 11"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4.35716 2.47737L0.908974 5.82987L5.0443e-07 4.94612L5 0.0848689L10 4.94612L9.09103 5.82987L5.64284 2.47737L5.64284 10.0849L4.35716 10.0849L4.35716 2.47737Z"
+                fill=""
+              />
+            </svg>
+            <small className="text-black text-inherit">this week</small>
+          </span>
         </span>
       </div>
     </div>

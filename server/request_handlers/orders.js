@@ -28,11 +28,14 @@ module.exports = {
         orders.order_id, status, orders.order_status_id, order_status_name, address, phone, 
         receiver, email, est_arrived_date, created_at, 
         orders.total_price, order_item_id, product_id, 
-        order_items.color_id, quantity, size, color_name
+        order_items.color_id, quantity, size, color_name,
+        orders.payment_status_id, payment_status_name, payment_method_name
         FROM orders 
         INNER JOIN order_items ON orders.order_id = order_items.order_id
         INNER JOIN order_statuses ON orders.order_status_id = order_statuses.order_status_id
         INNER JOIN colors ON order_items.color_id = colors.color_id
+        INNER JOIN payment_statuses ON payment_statuses.payment_status_id = orders.payment_status_id
+        INNER JOIN payment_methods ON payment_methods.payment_method_id = orders.payment_method_id
         WHERE orders.user_id = $1
         ORDER BY orders.created_at DESC
         `,
@@ -183,11 +186,12 @@ module.exports = {
         orders.total_price, order_item_id, product_id, 
         order_items.color_id, quantity, size, color_name,
         (coalesce(users.first_name, '') || ' ' || coalesce(users.last_name, '')) as customer_name,
-        orders.payment_status_id, payment_status_name
+        orders.payment_status_id, payment_status_name, payment_method_name
         FROM orders 
         INNER JOIN order_items ON orders.order_id = order_items.order_id
         INNER JOIN order_statuses ON orders.order_status_id = order_statuses.order_status_id
         INNER JOIN payment_statuses ON payment_statuses.payment_status_id = orders.payment_status_id
+        INNER JOIN payment_methods ON payment_methods.payment_method_id = orders.payment_method_id
         INNER JOIN colors ON order_items.color_id = colors.color_id
         INNER JOIN users ON orders.user_id = users.user_id
         WHERE orders.order_status_id = $1
@@ -288,11 +292,12 @@ module.exports = {
         receiver, orders.email, est_arrived_date, created_at, 
         orders.total_price, order_item_id, product_id, 
         order_items.color_id, quantity, size, order_items.size_id, color_name, (coalesce(users.first_name, '') || ' ' || coalesce(users.last_name, '')) as customer_name,
-        orders.payment_status_id, payment_status_name
+        orders.payment_status_id, payment_status_name, payment_method_name
         FROM orders 
         INNER JOIN order_items ON orders.order_id = order_items.order_id
         INNER JOIN order_statuses ON orders.order_status_id = order_statuses.order_status_id
         INNER JOIN payment_statuses ON payment_statuses.payment_status_id = orders.payment_status_id
+        INNER JOIN payment_methods ON payment_methods.payment_method_id = orders.payment_method_id
         INNER JOIN colors ON order_items.color_id = colors.color_id
 		    INNER JOIN users ON orders.user_id = users.user_id
         WHERE orders.order_id = $1
@@ -359,9 +364,18 @@ module.exports = {
     }
   },
   async createOrderReserveStockHandler(req, res) {
+    // for credit card only
     try {
       const { user_id } = req.user;
-      const { products, receiver, address, email = "", phone } = req.body;
+      const {
+        payment_status_id = "0",
+        payment_method_id = "2", // credit card
+        products,
+        receiver,
+        address,
+        email = "",
+        phone,
+      } = req.body;
       const estArrivedDate = new Date(Date.now() + THREE_DAYS_TIME);
       const created_at = new Date(Date.now());
 
@@ -384,8 +398,8 @@ module.exports = {
       const total_price = subtotal + shipping + tax;
 
       const response = await db.query(
-        `INSERT INTO orders (user_id, receiver, address, phone, email, total_price, est_arrived_date, created_at)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning *`,
+        `INSERT INTO orders (user_id, receiver, address, phone, email, total_price, est_arrived_date, created_at, payment_status_id, payment_method_id)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning *`,
         [
           user_id,
           receiver,
@@ -395,6 +409,8 @@ module.exports = {
           total_price,
           estArrivedDate,
           created_at,
+          payment_status_id,
+          payment_method_id,
         ]
       );
 
@@ -520,6 +536,7 @@ module.exports = {
       const { user_id } = req.user;
       const {
         payment_status_id = "0",
+        payment_method_id = "2", // Cash on delivery
         products,
         receiver,
         address,
@@ -548,8 +565,8 @@ module.exports = {
       const total_price = subtotal + shipping + tax;
 
       const response = await db.query(
-        `INSERT INTO orders (user_id, receiver, address, phone, email, total_price, est_arrived_date, created_at, payment_status_id)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *`,
+        `INSERT INTO orders (user_id, receiver, address, phone, email, total_price, est_arrived_date, created_at, payment_status_id, payment_method_id)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning *`,
         [
           user_id,
           receiver,
@@ -560,6 +577,7 @@ module.exports = {
           estArrivedDate,
           created_at,
           payment_status_id,
+          payment_method_id,
         ]
       );
 
@@ -817,6 +835,134 @@ module.exports = {
         res.status(409).json({
           status: "error",
           error: "Order status and arrived date id is required",
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      res.sendStatus(500);
+    }
+  },
+  async updateOrderStatusHandler(req, res) {
+    try {
+      const { status } = req.body;
+      const { orderId } = req.params;
+
+      if (status) {
+        // update stock
+        // status: normal => canceled (id = 3)        return (increase) stock
+        if (status.toString() === "3") {
+          const productsFromOrderResult = await productsFromOrderQuery(orderId);
+          const productsFromOrder = productsFromOrderResult.rows;
+
+          if (productsFromOrder.length > 0) {
+            const promises = [];
+
+            productsFromOrder.forEach(
+              ({ product_id, color_id, size_id, quantity }) => {
+                const query = db.query(
+                  `
+                UPDATE stock
+                SET quantity = quantity + $1
+                WHERE stock.product_id = $2 AND stock.color_id = $3 AND stock.size_id = $4
+              `,
+                  [quantity, product_id, color_id, size_id]
+                );
+
+                promises.push(query);
+              }
+            );
+
+            await Promise.all(promises)
+              .then(() => {
+                console.log(
+                  "Updated (increased) stock from updateOrderHandler"
+                );
+              })
+              .catch((err) => {
+                console.log(
+                  "Failed to update (increase) stock from updateOrderHandler"
+                );
+              });
+          }
+        } else {
+          //         canceld => normal:        decrease stock
+          //             select order status -> check status === canceled
+          const orderStatusFromOrderResult = await db.query(
+            `
+              SELECT order_status_id FROM orders
+              WHERE orders.order_id = $1
+            `,
+            [orderId]
+          );
+          const orderStatusFromOrder =
+            orderStatusFromOrderResult.rows[0].order_status_id;
+
+          if (orderStatusFromOrder.toString() === "3") {
+            const productsFromOrderResult = await productsFromOrderQuery(
+              orderId
+            );
+            const productsFromOrder = productsFromOrderResult.rows;
+
+            if (productsFromOrder.length > 0) {
+              const promises = [];
+
+              productsFromOrder.forEach(
+                ({ product_id, color_id, size_id, quantity }) => {
+                  const query = db.query(
+                    `
+                  UPDATE stock
+                  SET quantity = quantity - $1
+                  WHERE stock.product_id = $2 AND stock.color_id = $3 AND stock.size_id = $4
+                `,
+                    [quantity, product_id, color_id, size_id]
+                  );
+
+                  promises.push(query);
+                }
+              );
+
+              await Promise.all(promises)
+                .then(() => {
+                  console.log(
+                    "Updated (decreased) stock from updateOrderHandler"
+                  );
+                })
+                .catch((err) => {
+                  console.log(
+                    "Failed to update (decrease) stock from updateOrderHandler"
+                  );
+                });
+            }
+          }
+        }
+        // end - update stock
+
+        function productsFromOrderQuery(orderId) {
+          return db.query(
+            `
+              SELECT order_items.product_id, order_items.color_id, order_items.size_id, quantity
+              FROM orders
+              INNER JOIN order_items on order_items.order_id = orders.order_id
+              WHERE orders.order_id = $1
+            `,
+            [orderId]
+          );
+        }
+
+        // eventually update order status
+        const result = await db.query(
+          `
+          UPDATE orders SET order_status_id = $1
+          WHERE orders.order_id = $2
+        `,
+          [status, orderId]
+        );
+
+        res.sendStatus(204);
+      } else {
+        res.status(409).json({
+          status: "error",
+          error: "Order status is required",
         });
       }
     } catch (err) {

@@ -7,9 +7,14 @@ import { useDownloadImage } from "hooks";
 import { useDispatch } from "react-redux";
 import { addToBag } from "features/bag/bagSlice";
 import { formatCurrency } from "helpers";
+import clsx from "clsx";
 
 const BagFavoritesItem = ({ product }) => {
   const dispatch = useDispatch();
+
+  const remainingProducts = product.stock[product.added.colorId].find(
+    (stock) => stock.size_id === product.added.size.size_id
+  )?.quantity;
 
   const imageName = product.images[product.added.colorId][0].url;
   const { url } = useDownloadImage(imageName);
@@ -44,29 +49,45 @@ const BagFavoritesItem = ({ product }) => {
               style={{
                 maxWidth: 180,
               }}
+              title={product.product_name}
             >
               {product.product_name}
             </Link>
             <div className="grey-font">{product.target}</div>
             <div className="grey-font">Size: {product.added.size.size}</div>
-            <Link
+            <div
+              className={clsx("mt-15", "grey-font", {
+                "red-font":
+                  remainingProducts <= 0 || remainingProducts === undefined,
+              })}
+            >
+              {remainingProducts === undefined && "Size not available"}
+              {remainingProducts !== undefined &&
+                (remainingProducts > 0
+                  ? remainingProducts + " remaining"
+                  : "Sold out")}
+            </div>
+
+            {/* <Link
               to={`/products/${product.product_id}/${product.added.colorId}`}
               className="select-size-btn hover-w-fade underlined regular-font grey-font"
             >
               Select Size
-            </Link>
+            </Link> */}
           </div>
           <div className="price regular-font">
             {formatCurrency(product.price)}
             <span className="small-font"> VND</span>
           </div>
         </div>
-        <button
-          className="addToBag-btn big-button regular-font mt-25"
-          onClick={handleClick}
-        >
-          Add to bag
-        </button>
+        {remainingProducts > 0 && remainingProducts !== undefined && (
+          <button
+            className="addToBag-btn big-button regular-font mt-25"
+            onClick={handleClick}
+          >
+            Add to bag
+          </button>
+        )}
       </div>
     </div>
   );

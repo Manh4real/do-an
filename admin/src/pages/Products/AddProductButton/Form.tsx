@@ -74,7 +74,7 @@ function Form({ handleClose }: Props) {
               <ProductNameInput />
               <ManufacturerInput />
               <ProductTypeInput />
-              <CategoryInput />
+              {/* <CategoryInput /> */}
               <GenderInput />
 
               <TargetInput />

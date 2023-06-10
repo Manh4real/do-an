@@ -25,9 +25,9 @@ export const CarouselProduct = ({ item: p }) => {
     <div className="product-container">
       <div className="pd-cover">
         <Link to={`/products/${p.product_id}/${colorId}`}>
-          <div className="pd-cover flex grey-bg mb-10">
+          <div className="pd-cover flex grey-bg mb-10 rounded">
             {url ? (
-              <img src={url} alt={p.product_name} />
+              <img src={url} alt={p.product_name} className="rounded" />
             ) : (
               <SimpleImageSkeleton />
             )}
@@ -43,10 +43,13 @@ export const CarouselProduct = ({ item: p }) => {
             <div className="pd-type">{p.target}</div>
             <div className="pd-type regular-font mt-15 flex-spbw">
               {p.brand_name}
-              <span className="black-border flex-inline-center w-40px h-40px">
-                {Math.floor(p.average_rating)}
-                <Star width={12} height={12} />
-              </span>
+              <p>
+                <span className="flex-inline-center w-40px h-40px">
+                  {Math.floor(p.average_rating)}
+                  <Star width={12} height={12} />
+                </span>
+                <small className="grey-font">({p.total_reviews} reviews)</small>
+              </p>
             </div>
           </div>
         </Link>

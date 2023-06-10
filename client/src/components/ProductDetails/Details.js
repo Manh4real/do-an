@@ -2,7 +2,7 @@ import React, { useState, useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import ProductDetailsFooter from "./Footer";
-import Description from "./Description";
+// import Description from "./Description";
 import Images from "./Images";
 import Info from "./Info";
 
@@ -44,7 +44,7 @@ function Details({ product }) {
         handleChangeSelectedColorId={handleChangeSelectedColorId}
         product={product}
       />
-      <Description />
+      {/* <Description /> */}
       <ProductDetailsFooter currentproductID={product.product_id} />
     </StyledDetails>
   );

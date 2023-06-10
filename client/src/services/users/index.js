@@ -83,7 +83,7 @@ export const addReview = async (info, options = {}) => {
  * }
  * }} info
  */
-export const orderProducts = async (info) => {
+export const orderProducts = async (info, payment_method = "2") => {
   const token = getAccessTokenFromLocalStorage();
 
   const a = info.delivery.address;
@@ -101,6 +101,7 @@ export const orderProducts = async (info) => {
       phone: info.delivery.phone,
       products: info.products.products,
       payment_status_id: "1",
+      payment_method_id: !payment_method ? "2" : payment_method,
     },
     {
       headers: {
@@ -128,6 +129,7 @@ export const createOrderReserveStock = async (info) => {
       email: info.delivery.email,
       phone: info.delivery.phone,
       products: info.products.products,
+      payment_method_id: "2", // credit card
     },
     {
       headers: {

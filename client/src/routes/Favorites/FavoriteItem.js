@@ -5,11 +5,16 @@ import FavoriteButton from "./FavoriteButton";
 import { useDownloadImage } from "hooks";
 import { formatCurrency } from "helpers";
 import { Link } from "react-router-dom";
+import clsx from "clsx";
 
 const FavoriteItem = ({ item }) => {
   const imageName = item.images[item.added.colorId][0].url;
 
   const { url } = useDownloadImage(imageName);
+
+  const remainingProducts = item.stock[item.added.colorId].find(
+    (stock) => stock.size_id === item.added.size.size_id
+  )?.quantity;
 
   return (
     <div className="favorite-item">
@@ -39,8 +44,20 @@ const FavoriteItem = ({ item }) => {
           <div className="favorite-item__type grey-font font-14">
             Size: {item.added.size.size}
           </div>
+          <div
+            className={clsx("mt-15", "grey-font", {
+              "red-font":
+                remainingProducts <= 0 || remainingProducts === undefined,
+            })}
+          >
+            {remainingProducts === undefined && "Size not available"}
+            {remainingProducts !== undefined &&
+              (remainingProducts > 0
+                ? remainingProducts + " remaining"
+                : "Sold out")}
+          </div>
         </div>
-        <div className="favorite-item__price medium-font">
+        <div className="favorite-item__price regular-font">
           {formatCurrency(item.price)}
           <span className="small-font"> &nbsp;VND</span>
         </div>

@@ -38,8 +38,6 @@ const StyledJoinUsPage = styled.div`
     border-radius: 3px;
     color: #8d8d8d;
     font-size: 14px;
-    border: none;
-    outline: none;
 
     &:focus::placeholder {
       color: #ddd;

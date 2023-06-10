@@ -18,7 +18,12 @@ function BagSelectSize({ label, value: val, options, handleChange }) {
   return (
     <div className="bag__select">
       <label htmlFor={label + "-input"}>{label}: </label>
-      <select value={value} onChange={handleSelect} id={label + "-input"}>
+      <select
+        value={value}
+        onChange={handleSelect}
+        id={label + "-input"}
+        className="px-5"
+      >
         {options
           .sort((a, b) => (a.size_id > b.size_id ? 1 : -1))
           .map((v, i) => (

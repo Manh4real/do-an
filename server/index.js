@@ -80,6 +80,7 @@ const {
   deleteOrderHandler,
   createOrderReserveStockHandler,
   updateStockAndSaleHandler,
+  updateOrderStatusHandler,
 } = require("./request_handlers/orders");
 const {
   getStockByProductIdHandler,
@@ -300,10 +301,11 @@ app.get("/api/v1/payment_statuses", async (req, res) => {
   }
 });
 // update order statuses
+app.post("/api/v1/orders/:orderId", authenticateToken, updateOrderHandler);
 app.post(
   "/api/v1/orders/status/:orderId",
   authenticateToken,
-  updateOrderHandler
+  updateOrderStatusHandler
 );
 
 // STOCK

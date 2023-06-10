@@ -1,6 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
+@font-face {
+  font-family: "Helvetica Now Display Medium";
+  src: url("./fonts/HelveticaNowDisplayMedium.woff2");
+}
+@font-face {
+  font-family: "Helvetica Now Text";
+  src: url("./fonts/HelveticaNowText.woff2");
+}
+@font-face {
+  font-family: "Helvetica Now Text Medium";
+  src: url("./fonts/HelveticaNowTextMedium.woff2");
+}
+
 :root {
   --white: #fff;
   --pri-black: #111;
@@ -13,7 +26,9 @@
   --shadow-cl: rgb(204, 204, 204);
 
   --pri-font: "Barlow Condensed", sans-serif;
-  --normal-font: "Helvetica Neue", Helvetica, sans-serif;
+  --normal-font: "Helvetica Now Text", "Helvetica Neue", Helvetica, sans-serif;
+  --font-text-medium: "Helvetica Now Text Medium", "Helvetica Neue", Helvetica,
+    sans-serif;
 
   --grey-shadow: var(--shadow-cl) 0px 1px 0px 0px inset,
     var(--shadow-cl) -1px 0px 0px 0px inset,
@@ -36,7 +51,7 @@ html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-family: "Helvetica Now Text", "Helvetica Neue", Helvetica, sans-serif;
   color: #111;
   line-height: 1.6;
 }
@@ -122,9 +137,9 @@ input {
 }
 input[type="checkbox"],
 input[type="radio"] {
-  width: 1.25rem;
-  height: 1.25rem;
-  margin-right: 0.25rem;
+  min-width: 1.25rem;
+  min-height: 1.25rem;
+  border: 1px solid #d5d5d5;
 
   appearance: none;
 }

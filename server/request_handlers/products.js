@@ -529,9 +529,10 @@ module.exports = {
 
       // average rating products
       const avgRatingResult = await db.query(
-        `SELECT reviews.product_id, AVG(reviews.rating) as average_rating FROM products 
-        INNER JOIN reviews ON reviews.product_id = products.product_id
-          AND products.product_status_id = 1
+        `SELECT reviews.product_id, AVG(reviews.rating) as average_rating, COUNT(reviews.rating) as total_reviews
+          FROM products 
+          INNER JOIN reviews ON reviews.product_id = products.product_id
+          WHERE products.product_status_id = 1
         GROUP BY products.product_id, reviews.product_id`
       );
       let avgRatingProducts = avgRatingResult.rows;
@@ -544,6 +545,7 @@ module.exports = {
         return {
           ...p,
           average_rating: r?.average_rating || 0,
+          total_reviews: r?.total_reviews || 0,
         };
       });
 
@@ -716,10 +718,11 @@ module.exports = {
 
         // average rating products
         const avgRatingResult = await db.query(
-          `SELECT reviews.product_id, AVG(reviews.rating) as average_rating FROM products 
-        INNER JOIN reviews ON reviews.product_id = products.product_id
-          AND products.product_status_id = 1
-        GROUP BY products.product_id, reviews.product_id`
+          `SELECT reviews.product_id, AVG(reviews.rating) as average_rating, COUNT(reviews.rating) as total_reviews
+            FROM products 
+            INNER JOIN reviews ON reviews.product_id = products.product_id
+            WHERE products.product_status_id = 1
+            GROUP BY products.product_id, reviews.product_id`
         );
         let avgRatingProducts = avgRatingResult.rows;
 
@@ -731,6 +734,7 @@ module.exports = {
           return {
             ...p,
             average_rating: r?.average_rating || 0,
+            total_reviews: r?.total_reviews || 0,
           };
         });
 

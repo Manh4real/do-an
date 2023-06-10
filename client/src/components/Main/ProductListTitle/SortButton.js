@@ -58,7 +58,7 @@ function SortButton() {
 
 const Content = (props) => {
   return (
-    <div className="sort__content-dropdown">
+    <div className="sort__content-dropdown grey-border">
       {/* <SubContent content="Featured" sort="featured" {...props} /> */}
       <SubContent content="Newest" sort="newest" {...props} />
       <SubContent content="Price: High-Low" sort="priceDesc" {...props} />

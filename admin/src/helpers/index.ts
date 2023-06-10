@@ -125,12 +125,12 @@ export const getPaymentStatusClasses = (status: PaymentStatus) => {
     if (status === "failed")
         statusColorClass = {
             background: "bg-red-400",
-            color: "text-red-800"
+            color: "text-red-500"
         };
     else if (status === "success")
         statusColorClass = {
             background: "bg-green-200",
-            color: "text-green-800"
+            color: "text-green-400"
         };
     else if (status === "initial")
         statusColorClass = {
@@ -139,7 +139,8 @@ export const getPaymentStatusClasses = (status: PaymentStatus) => {
         };
 
     return {
-        ...statusColorClass, toString() {
+        ...statusColorClass,
+        toString() {
             return `${statusColorClass.background} ${statusColorClass.color}`
         }
     };
@@ -209,9 +210,14 @@ export function lastNMonth(n: number = 12) {
 export function lastNWeeks(n: number = 6) {
     const weeks = [];
 
+    const now = new Date();
+
     for (let i = n - 1; i >= 0; i--) {
-        const weekStart = moment().subtract((i + 1) * 7 - 1, 'days').startOf('day').toDate();
-        const weekEnd = moment().subtract(7 * i, 'days').startOf('day').toDate();
+        // const dow = moment().day();
+        // const weekStart = moment().subtract((i + 1) * 7 - dow, 'days').startOf('day').toDate();
+        // const weekEnd = moment().subtract(7 * i - dow + 1, 'days').endOf('day').toDate();
+        const weekStart = moment(now).subtract((i + 1) * 7, "days").weekday(8).startOf('day').toDate();
+        const weekEnd = moment(now).subtract(7 * (i - 1), 'days').weekday(0).endOf('day').toDate();
 
         weeks.push({
             weekStart, weekEnd
