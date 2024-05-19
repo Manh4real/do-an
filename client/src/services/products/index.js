@@ -121,7 +121,7 @@ export const getProductsByIds = async (
 export const getLatestProducts = async (page = 1, options = {}) => {
   const response = await api({
     method: "get",
-    url: "/latest",
+    url: "/products/latest",
     params: {
       page: page,
     },

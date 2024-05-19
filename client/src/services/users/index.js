@@ -121,7 +121,7 @@ export const createOrderReserveStock = async (info) => {
   }, ${a.province?.text || a.province}`;
 
   const response = await api.post(
-    "/create-order-reserve-stock",
+    "/orders/create-and-reserve-stock",
     {
       receiver:
         info.delivery.name.firstName + " " + info.delivery.name.lastName,

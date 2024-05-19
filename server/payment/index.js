@@ -228,7 +228,7 @@ app.get("/payment/vnp/vnpay_ipn", async function (req, res, next) {
             //thanh cong
             //paymentStatus = '1'
             // Ở đây cập nhật trạng thái giao dịch thanh toán thành công vào CSDL của bạn
-            await fetch(process.env.API_URL + "/update-payment-status", {
+            await fetch(process.env.API_URL + "/orders/update-payment-status", {
               method: "PUT",
               body: JSON.stringify({
                 order_id: orderId,
@@ -254,7 +254,7 @@ app.get("/payment/vnp/vnpay_ipn", async function (req, res, next) {
             //that bai
             //paymentStatus = '2'
             // Ở đây cập nhật trạng thái giao dịch thanh toán thất bại vào CSDL của bạn
-            await fetch(process.env.API_URL + "/update-payment-status", {
+            await fetch(process.env.API_URL + "/orders/update-payment-status", {
               method: "PUT",
               body: JSON.stringify({
                 order_id: orderId,

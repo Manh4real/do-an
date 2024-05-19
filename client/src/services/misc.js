@@ -13,7 +13,7 @@ export const getSizes = async () => {
 
 export const getOrderStatuses = async () => {
   try {
-    const response = await api.get("/order_statuses");
+    const response = await api.get("/order-statuses");
 
     return response.data.data.order_statuses;
   } catch (err) {
