@@ -8,6 +8,7 @@ const {
   updateOrderHandler,
   updateOrderStatusHandler,
 } = require("../request_handlers/orders");
+const db = require("../db");
 
 const express = require("express");
 const { authenticateToken } = require("../middlewares");

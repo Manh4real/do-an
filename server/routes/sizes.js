@@ -1,4 +1,6 @@
 const express = require("express");
+const db = require("../db");
+const _ = require("lodash");
 
 const routes = express.Router();
 
