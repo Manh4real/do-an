@@ -35,7 +35,7 @@
   },
   "scripts": {
     "serve": "npx json-server -p 3500 -w data/db.json",
-    "start": "react-scripts start",
+    "start": "SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
