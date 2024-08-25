@@ -4,7 +4,7 @@ const db = require("../db");
 
 const routes = express.Router();
 
-routes.get("/order-statuses", async (req, res) => {
+routes.get("/", async (req, res) => {
   try {
     const response = await db.query(`
         SELECT * FROM order_statuses

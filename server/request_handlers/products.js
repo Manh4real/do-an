@@ -340,17 +340,38 @@ module.exports = {
         });
       }
 
+      // average rating products
+      const avgRatingResult = await db.query(
+        `SELECT reviews.product_id, AVG(reviews.rating) as average_rating, COUNT(reviews.rating) as total_reviews FROM products 
+        INNER JOIN reviews ON reviews.product_id = products.product_id
+        GROUP BY products.product_id, reviews.product_id`
+      );
+      let avgRatingProducts = avgRatingResult.rows;
+
+      avgRatingProducts = products.map((p) => {
+        const r = avgRatingProducts.find(
+          (a) => a.product_id.trim() === p.product_id.trim()
+        );
+
+        return {
+          ...p,
+          average_rating: r?.average_rating || 0,
+          total_reviews: r?.total_reviews || 0,
+        };
+      });
+
       res.status(200).json({
         status: "success",
-        results: products.length,
+        results: avgRatingProducts.length,
         data: {
-          products: products,
+          products: avgRatingProducts,
         },
         meta: {
           pagination: {
             current_page: page,
             previous_page: page <= 1 ? 1 : page - 1,
-            next_page: products.length < products_per_page ? page : page + 1,
+            next_page:
+              avgRatingProducts.length < products_per_page ? page : page + 1,
           },
         },
       });
@@ -646,7 +667,7 @@ module.exports = {
       const avgRatingResult = await db.query(
         `SELECT reviews.product_id, AVG(reviews.rating) as average_rating FROM products 
         INNER JOIN reviews ON reviews.product_id = products.product_id
-          AND products.product_status_id = 1
+        WHERE products.product_status_id = 1
         GROUP BY products.product_id, reviews.product_id`
       );
       let avgRatingProducts = avgRatingResult.rows;
@@ -691,7 +712,7 @@ module.exports = {
         INNER JOIN manufacturers ON products.manufacturer_id = manufacturers.manufacturer_id
         INNER JOIN styles ON products.style_id = styles.style_id
         INNER JOIN types ON types.type_id = products.type_id
-          AND products.product_status_id = 1
+        WHERE products.product_status_id = 1
         ORDER BY created_at desc limit 10`
       );
 

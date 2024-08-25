@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { useDownloadImage } from "hooks";
 import { formatCurrency } from "helpers";
 import { Star } from "components/Icons";
 import { Link } from "react-router-dom";
+import { getProductsByIds } from "services/products";
 
-const CarouselProducts = React.forwardRef((products, ref) => {
+const CarouselProducts = React.forwardRef((_products, ref) => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    getProductsByIds(_products.map((i) => i.product_id).join(",")).then(
+      (results) => {
+        console.log(results);
+        setProducts(results);
+      }
+    );
+  }, [_products]);
+
   return (
     <div ref={ref} className="carousel" id="carousel">
       {products.map((p, i) => {

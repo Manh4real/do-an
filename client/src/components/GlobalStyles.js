@@ -239,6 +239,9 @@ const GlobalStyles = styled.div`
   .items-start {
     align-items: start;
   }
+  .align-middle {
+    align-self: center;
+  }
   .flex-center {
     display: flex;
     justify-content: center;

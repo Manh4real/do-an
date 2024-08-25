@@ -94,6 +94,7 @@ export const getProducts = async (page = 1, options = {}) => {
 };
 
 export const getProductsByIds = async (
+  /** id joined with "," */
   productsIds = "",
   page = 1,
   options = {}

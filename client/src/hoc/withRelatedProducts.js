@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { useRelatedProducts } from "@algolia/recommend-react";
 // import { HorizontalSlider } from '@algolia/ui-components-horizontal-slider-react';
 import algoliarecommend from "@algolia/recommend";
+import { getProductsByIds } from "services/products";
 
 const withRelatedProducts = (Component, container) => {
   const recommendClient = algoliarecommend(
@@ -19,12 +20,25 @@ const withRelatedProducts = (Component, container) => {
       maxRecommendations: 5,
     });
 
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+      getProductsByIds(recommendations.map((i) => i.product_id).join(",")).then(
+        (results) => {
+          console.log(results);
+          if (Array.isArray(results)) {
+            setProducts(results);
+          }
+        }
+      );
+    }, [recommendations]);
+
     return (
       <React.Fragment>
-        {recommendations.length === 0 ? (
+        {products.length === 0 ? (
           <Message />
         ) : (
-          recommendations.map((recommendation) => {
+          products.map((recommendation) => {
             return (
               <Component
                 key={recommendation.product_id}

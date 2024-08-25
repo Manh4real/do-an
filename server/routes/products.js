@@ -24,6 +24,9 @@ routes.post("/", authenticateToken, createProductHandler);
 // get products by ids
 routes.get("/ids", getProductsByIdsHandler);
 
+// get latest products
+routes.get("/latest", getLatestProductsHandler);
+
 // get a product
 routes.get("/:id", getProductByIdHandler);
 
@@ -35,8 +38,5 @@ routes.put("/status/:id", authenticateToken, updateProductStatusHandler);
 
 // delete a product
 routes.post("/delete/:id", authenticateToken, deleteProductHandler);
-
-// get latest products
-routes.get("/latest", getLatestProductsHandler);
 
 module.exports = routes;

@@ -4,7 +4,6 @@ import { TailSpin } from "react-loader-spinner";
 import { QuestionMessage } from "../Cart/BagFavorites";
 import StyledFavorites from "./StyledFavorites";
 import FavoriteItems from "./FavoriteItems";
-import EditButton from "./EditButton";
 
 // Redux-related
 import { useIsLoggedIn } from "features/user/userSlice";
@@ -73,12 +72,7 @@ function Favorites() {
         {(!isLoggedIn && (
           <QuestionMessage className="grid-col-span-3 text-center flex-center regular-font" />
         )) ||
-          (loading && <Spinner />) || (
-            <React.Fragment>
-              <EditButton />
-              <FavoriteItems />
-            </React.Fragment>
-          )}
+          (loading && <Spinner />) || <FavoriteItems />}
       </StyledFavorites>
     </EditContext.Provider>
   );

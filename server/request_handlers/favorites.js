@@ -127,6 +127,22 @@ module.exports = {
       const images = imageResult.rows;
       const groupedImages = _.groupBy(images, "product_color_id");
 
+      const stockResult = await db.query(
+        `
+          SELECT * FROM stock
+          INNER JOIN sizes ON stock.size_id = sizes.size_id
+          INNER JOIN colors ON colors.color_id = stock.color_id
+          INNER JOIN size_types ON size_types.size_type_id = sizes.size_type_id
+          WHERE stock.product_id = $1
+        `,
+        [product.product_id]
+      );
+
+      const filteredStock = stockResult.rows.filter(
+        (s) => s.product_id.trim() === product.product_id.trim()
+      );
+      const stock = _.groupBy(filteredStock, "color_id");
+
       res.status(200).json({
         status: "success",
         data: {
@@ -140,6 +156,7 @@ module.exports = {
                 size_id: addedFavorite.size_id.trim(),
               },
             },
+            stock,
           },
         },
       });

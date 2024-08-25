@@ -1,1 +1,14 @@
-{}
+{
+    "scripts": {
+        "frontend:client:start": "cd client && npm run start",
+        "frontend:admin:start": "cd admin && npm run start",
+        "backend:api:start": "cd server && npm run start",
+        "backend:auth:start": "cd server && npm run auth",
+        "backend:payment:start": "cd server && npm run payment",
+        "frontend:start": "concurrently --kill-others \"npm run frontend:client:start\" \"npm run frontend:admin:start\"",
+        "backend:start": "concurrently --kill-others \"npm run backend:api:start\" \"npm run backend:auth:start\" \"npm run backend:payment:start\""
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2"
+    }
+}
