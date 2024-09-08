@@ -28,15 +28,17 @@ const calculateOrderAmount = async (items) => {
     process.env.API_URL + "/products/ids?" + searchParams.toString()
   );
   const data = await response.json();
+  const products = data?.data?.products || [];
   // Replace this constant with a calculation of the order's amount
   // Calculate the order total on the server to prevent
   // people from directly manipulating the amount on the client
+
   return (
-    (data?.data?.products?.reduce(
+    (items.reduce(
       (acc, item) =>
         acc +
-        item.price *
-          items.find((p) => p.product_id === item.product_id).added.quantity,
+        (products.find((p) => p.product_id === item.product_id)?.price || 0) *
+          item.added.quantity,
       0
     ) || 1) + SHIPPING_FEE
   );
